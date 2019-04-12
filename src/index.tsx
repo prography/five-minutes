@@ -1,16 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import { myTheme } from './styles/theme';
 import configureStore from './store/configureStore';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+import './styles/normalize.css';
+import './index.css';
 
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ThemeProvider theme={myTheme}>
+      <App />
+    </ThemeProvider>
   </Provider>,
   document.getElementById('root'),
 );

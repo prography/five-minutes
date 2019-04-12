@@ -1,0 +1,22 @@
+.CodeMirror {
+  height: auto;
+  padding: 15px 0;
+}
+.CodeMirror-linenumbers {
+  background-color: white;
+}
+.CodeMirror-linenumber {
+  padding: 0 !important;
+}
+.CodeMirror-gutters {
+  border: none;
+}
+.CodeMirror-lines {
+  padding: 4px 0;
+}
+.CodeMirror-line {
+  padding: 5px 0;
+}
+.CodeMirror pre {
+  padding: 0 16px !important;
+}
