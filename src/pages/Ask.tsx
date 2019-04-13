@@ -26,7 +26,7 @@ const Ask: React.SFC<IAskProps> = ({ initAction }) => {
   }, []);
   return (
     <>
-      <Header withSearch />
+      <Header />
       <PageLayout>
         <Title>코드 질문 올리기</Title>
         <Question
