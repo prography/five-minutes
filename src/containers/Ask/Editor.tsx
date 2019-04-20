@@ -5,10 +5,11 @@ import useMarkdown from '../../hooks/useMarkdown';
 
 const TextContainer = styled.div`
   margin-top: 1rem;
-`
+`;
 const Preview = styled.div`
   padding: 0 14px;
-`
+`;
+const TABS = [{ text: 'Editor', href: '#' }, { text: 'Preview', href: '#' }];
 interface IEditorProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   value: string;
@@ -19,20 +20,19 @@ const Editor: React.SFC<IEditorProps> = ({ value, handleChange }) => {
   const onChange = ({ value }: { value: string }) => {
     handleChange(value);
   };
-  const handleTabChange = ({ activeTabIndex }: { activeTabIndex: number}) => {
+  const handleTabChange = ({ activeTabIndex }: { activeTabIndex: number }) => {
     setTabIndex(activeTabIndex);
-  }
+  };
   const markdownValue = useMarkdown(value);
   return (
     <>
-      <Tabs activeTabIndex={tabIndex} tabs={[{ text: 'Editor', href: "#"}, { text: 'Preview', href: "#"}]} onChange={handleTabChange} />
+      <Tabs activeTabIndex={tabIndex} tabs={TABS} onChange={handleTabChange} />
       <TextContainer>
-      {
-        tabIndex === 1 ? (
-          <Preview dangerouslySetInnerHTML={{__html: markdownValue}} />
-        ) : 
-        <TextArea id="editor" value={value} onChange={onChange} />
-      }
+        {tabIndex === 1 ? (
+          <Preview dangerouslySetInnerHTML={{ __html: markdownValue }} />
+        ) : (
+          <TextArea id="editor" value={value} onChange={onChange} />
+        )}
       </TextContainer>
     </>
   );

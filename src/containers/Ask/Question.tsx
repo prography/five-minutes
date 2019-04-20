@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { ShadowBox } from '../../styles/common';
 
@@ -32,4 +32,4 @@ const Question: React.SFC<IQuestionProps> = ({ title, subTitle, children }) => {
   );
 };
 
-export default Question;
+export default memo(Question);
