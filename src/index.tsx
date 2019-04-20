@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker';
 
 import './styles/normalize.css';
 import './index.css';
+import 'gestalt/dist/gestalt.css';
 
 const store = configureStore();
 
