@@ -6,12 +6,9 @@ import { useInput } from '../hooks';
 import { PageLayout, Title } from '../styles/common';
 import { CodeEditor, Editor, Question, TagSelect } from '../containers/Ask';
 import { Header } from '../containers';
-import { init } from '../actions/auth';
 
-export interface IAskProps {
-  initAction: typeof init;
-}
-const Ask: React.SFC<IAskProps> = ({ initAction }) => {
+export interface IAskProps {}
+const Ask: React.SFC<IAskProps> = ({}) => {
   const codeEditor = useRef<EditorFromTextArea | null>(null);
   const setCodeEditor = useCallback((editor: EditorFromTextArea) => {
     codeEditor.current = editor;
@@ -63,7 +60,5 @@ const Ask: React.SFC<IAskProps> = ({ initAction }) => {
 
 export default connect(
   null,
-  {
-    initAction: init,
-  },
+  null,
 )(Ask);

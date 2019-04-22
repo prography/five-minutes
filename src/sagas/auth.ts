@@ -1,6 +1,7 @@
 import { all, fork, call, put, take } from 'redux-saga/effects';
 import * as ActionTypes from '../constants/ActionTypes';
 import { IInitAction } from '../actions/auth';
+import tagRoot from './tag';
 
 function init(action: IInitAction) {
   console.log(`${action.type} dispatched!`);
@@ -12,5 +13,5 @@ function* watchInit() {
   }
 }
 export default function* root() {
-  yield all([fork(watchInit)]);
+  yield all([fork(watchInit), fork(tagRoot)]);
 }
