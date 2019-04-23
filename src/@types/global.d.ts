@@ -1,6 +1,7 @@
 // api status
 declare type Status = 'INIT' | 'FETCHING' | 'SUCCESS' | 'FAILURE';
 
+declare type ApiCall<T, R> = (args: T) => Promise<R>;
 // Get 일반 조회
 declare interface ApiGetResponse<T> {
   result: T;

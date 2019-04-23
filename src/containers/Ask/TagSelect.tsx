@@ -2,26 +2,15 @@ import React, { useCallback, useMemo, useRef, useEffect } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { ValueType } from 'react-select/lib/types';
 import { SelectComponentsProps } from 'react-select/lib/Select';
-import { connect } from 'react-redux';
+import debounce from 'lodash/debounce';
 import { IOptionValue } from '../../models/select';
 import { makeSelectable } from '../../utils/select';
-
-import * as tagAction from '../../actions/tag';
-import { IRootState } from '../../reducers';
-import { IGetTagsState } from '../../reducers/tag';
+import { searchTags } from '../../api/tag';
 export interface ITagSelectProps extends SelectComponentsProps {
   tags: string[];
   setTags: (tags: string[]) => void;
-  getTags: typeof tagAction.getTags;
-  getTagsState: IGetTagsState;
 }
-const TagSelect: React.SFC<ITagSelectProps> = ({
-  tags,
-  setTags,
-  getTags,
-  getTagsState,
-  ...props
-}) => {
+const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
   const handleCreate = useCallback((newValue: ValueType<IOptionValue>) => {
     if (!newValue || !Array.isArray(newValue)) {
       return;
@@ -31,37 +20,41 @@ const TagSelect: React.SFC<ITagSelectProps> = ({
     );
     setTags(newTags);
   }, []);
-  const handleInputChange = useCallback((newValue: string) => {
-    if (!newValue || newValue.length < 2) {
-      return;
-    }
-    //TODO: tag 검색어에 따라 태그 가져오기
-    getTags({ page: 1, perPage: 10 });
-  }, []);
-
-  const options = useMemo(() => {
-    return makeSelectable(getTagsState.tags, 'name');
-  }, [getTagsState.tags]);
-
-  /* Tag 로딩 api 직접 호출해야하나 ? */
-  const resolveRef = useRef<typeof Promise.resolve | null>(null);
-  const loadOptions = useCallback((inputValue: string) => {
-    return new Promise<void>(res => {
-      resolveRef.current = res as typeof Promise.resolve;
-      getTags({ page: 1, perPage: 10 });
-    });
-  }, []);
-  useEffect(() => {
-    if (resolveRef.current && getTagsState.status === 'SUCCESS') {
-      resolveRef.current(makeSelectable(getTagsState.tags, 'name'));
-      resolveRef.current = null;
-    }
-  }, [getTagsState.status]);
+  // tag 찾는 api를 호출하는 함수
+  const searchOptions = useCallback(
+    async (inputValue: string, callback: (options: IOptionValue[]) => void) => {
+      try {
+        if (inputValue.length > 1) {
+          const { items } = await searchTags({
+            page: 1,
+            perPage: 100,
+            name: inputValue,
+          });
+          callback(makeSelectable(items, 'name'));
+        }
+      } catch (err) {
+        callback([]);
+      }
+    },
+    [],
+  );
+  // 함수형에서 debounce를 걸때는 유의하자.
+  const debouncedSearch = useMemo(() => debounce(searchOptions, 500), []);
+  // 이런식으로 이 함수를 따로 빼줘야 되는데 왜그럴까?
+  const loadOptions = useCallback(
+    (inputValue: string, callback: (options: IOptionValue[]) => void) => {
+      if (inputValue.length <= 1) {
+        return callback([]);
+      }
+      debouncedSearch(inputValue, callback);
+    },
+    [],
+  );
   return (
     <AsyncCreatableSelect
       isMulti
       cacheOptions
-      defaultOptions
+      defaultOptions={[]}
       onChange={handleCreate}
       loadOptions={loadOptions}
       {...props}
@@ -69,12 +62,4 @@ const TagSelect: React.SFC<ITagSelectProps> = ({
   );
 };
 
-const mapStateToProps = (state: IRootState) => ({
-  getTagsState: state.tag.getTags,
-});
-export default connect(
-  mapStateToProps,
-  {
-    getTags: tagAction.getTags,
-  },
-)(TagSelect);
+export default TagSelect;
