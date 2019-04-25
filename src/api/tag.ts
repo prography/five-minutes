@@ -7,10 +7,11 @@ const instance = axios.create({
   baseURL: '/api/tags',
 });
 
-export const getTags = async ({ page, perPage }: IBaseListQuery) => {
-  const { data } = await instance.get<ApiGetListResponse<ITag>>(
-    `?${qs.stringify({ page, perPage })}`,
-  );
+export const getTags: ApiCall<
+  IBaseListQuery,
+  ApiGetListResponse<ITag>
+> = async ({ page, perPage }) => {
+  const { data } = await instance.get(`?${qs.stringify({ page, perPage })}`);
   return data;
 };
 
@@ -19,8 +20,11 @@ interface ISearchTagsQuery extends IBaseListQuery {
   name: string;
 }
 
-export const searchTags = async ({ page, perPage, name }: ISearchTagsQuery) => {
-  const { data } = await instance.get<ApiGetListResponse<ITag>>(
+export const searchTags: ApiCall<
+  ISearchTagsQuery,
+  ApiGetListResponse<ITag>
+> = async ({ page, perPage, name }) => {
+  const { data } = await instance.get(
     `/search?${qs.stringify({ page, perPage, name })}`,
   );
   return data;

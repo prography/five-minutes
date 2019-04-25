@@ -24,7 +24,7 @@ const InvertButton = styled(DefaultButton)`
   color: ${props => props.theme.colors[props.color || 'primary']};
   background-color: white;
 `;
-interface IButtonProps {
+interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: string;
   invert?: boolean;
   children: React.ReactNode;

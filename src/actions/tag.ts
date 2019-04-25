@@ -17,5 +17,6 @@ const getTagsActions = createAsyncActionCreator(
 )<{ page: number; perPage: number }, ITag[], string>();
 
 export const getTags = getTagsActions.request;
+export type GetTags = ReturnType<typeof getTags>;
 
 export type TagAction = ActionTypes<typeof getTagsActions>;

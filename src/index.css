@@ -1,8 +1,3 @@
 body {
   width: 100%;
-  min-height: 100vh;
-  background: url(./assets/background.png);
-  background-size: 110% 80%;
-  background-position: -5px -5px;
-  background-repeat: no-repeat;
 }

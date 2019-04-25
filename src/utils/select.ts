@@ -2,12 +2,20 @@ import { IOptionValue } from '../models/select';
 
 export const makeSelectable = (
   items: any[],
-  value: string,
+  value?: string,
   label = value,
 ): IOptionValue[] => {
-  const selectable = items.map(items => ({
-    value: items[value],
-    label: items[label],
-  }));
+  const selectable = items.map(item => {
+    if (value && label) {
+      return {
+        value: item[value],
+        label: item[label],
+      };
+    }
+    return {
+      value: item,
+      label: item,
+    };
+  });
   return selectable;
 };

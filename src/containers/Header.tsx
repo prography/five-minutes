@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { CustomLink, Input, Button } from '../components';
+import { CustomLink, Input, Button, Logo } from '../components';
 
-const Container = styled.div<{ withSearch: boolean }>`
+const Container = styled.div`
   display: flex;
   align-items: center;
 
@@ -12,16 +12,22 @@ const Container = styled.div<{ withSearch: boolean }>`
   box-sizing: border-box;
   padding: 0 5%;
 
-  color: ${props => (props.withSearch ? 'black' : 'white')};
-  background-color: ${props => (props.withSearch ? 'white' : 'inherit')};
+  background-color: white;
+
+  border-bottom: 5px solid ${props => props.theme.colors.primary};
 `;
 
-const Logo = styled.div<{ withSearch: boolean }>`
-  ${props => !props.withSearch && `flex: 1 1;`}
-  font-size: 20px;
+const LogoWrapper = styled.div`
+  position: relative;
+  flex-basis: 200px;
 `;
-const WithSearch = styled.div`
-  flex: 0 1 60%;
+const LogoAdjust = styled.div`
+  position: absolute;
+  top: -10px;
+  left: 0px;
+`;
+const SearchBox = styled.div`
+  flex: 0 1 50%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -46,18 +52,23 @@ interface IHeaderProps {
 }
 const Header: React.SFC<IHeaderProps> = ({ withSearch = false }) => {
   return (
-    <Container withSearch={withSearch}>
-      <Logo withSearch={withSearch}>
-        <CustomLink to="/">
-          <h2>CorrectCode</h2>
-        </CustomLink>
-      </Logo>
-      {withSearch && (
-        <WithSearch>
-          <Input />
-          <MiniButton invert>검색</MiniButton>
-        </WithSearch>
-      )}
+    <Container>
+      <LogoWrapper>
+        <LogoAdjust>
+          <CustomLink to="/">
+            <Logo />
+          </CustomLink>
+        </LogoAdjust>
+      </LogoWrapper>
+      <SearchBox>
+        {withSearch && (
+          <>
+            <Input />
+            <MiniButton invert>상세 검색</MiniButton>
+            <MiniButton>코드 올리기</MiniButton>
+          </>
+        )}
+      </SearchBox>
       <Actions>
         <Menu>로그인</Menu>
         <Menu>회원가입</Menu>

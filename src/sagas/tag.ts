@@ -10,7 +10,7 @@ import * as tagApi from '../api/tag';
 function* getTags(action: GetTags) {
   try {
     const data: SagaEffect<typeof tagApi.getTags> = yield call(tagApi.getTags, {
-      ...action,
+      ...action.payload,
     });
     yield put({
       type: GET_TAGS_SUCCESS,

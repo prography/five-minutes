@@ -33,12 +33,12 @@ const reducer = (state: ITagState = intialState, action: TagAction) => {
       }
       case GET_TAGS_SUCCESS: {
         draft.getTags.status = 'SUCCESS';
-        draft.getTags.tags = action.tags;
+        draft.getTags.tags = action.payload;
         return draft;
       }
       case GET_TAGS_FAILURE: {
         draft.getTags.status = 'FAILURE';
-        draft.getTags.error = action.error;
+        draft.getTags.error = action.payload;
         return draft;
       }
     }

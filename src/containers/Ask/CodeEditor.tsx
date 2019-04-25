@@ -5,6 +5,7 @@ import { MODES } from '../../constants/codemirror';
 import Codemirror, { ICodemirrorProps } from '../../components/Codemirror';
 import { ValueType } from 'react-select/lib/types';
 import { IOptionValue } from '../../models/select';
+import { makeSelectable } from '../../utils/select';
 
 const SelectWrapper = styled.div`
   width: 100%;
@@ -17,30 +18,28 @@ const SelectMode = styled.div`
   text-align: center;
 `;
 
-const makeOption = (option: string): IOptionValue => {
-  return {
-    label: option,
-    value: option,
-  };
-};
-const OPTIONS = MODES.map(makeOption);
+const OPTIONS = makeSelectable(MODES);
 const CodeEditor: React.SFC<ICodemirrorProps> = ({
   mode: modeInit = 'javascript',
   setCodeEditor,
 }) => {
-  const [mode, setMode] = useState(modeInit);
+  const [mode, setMode] = useState<IOptionValue>({
+    value: modeInit,
+    label: modeInit,
+  });
 
   const handleModeChange = useCallback((option: ValueType<IOptionValue>) => {
     if (option && !Array.isArray(option)) {
-      setMode(option.value);
+      setMode(option);
     }
   }, []);
   return (
     <>
-      <Codemirror mode={mode} setCodeEditor={setCodeEditor} />
+      <Codemirror mode={mode.value} setCodeEditor={setCodeEditor} />
       <SelectWrapper>
         <SelectMode>
           <Select
+            defaultValue={mode}
             placeholder="Select language"
             options={OPTIONS}
             onChange={handleModeChange}
