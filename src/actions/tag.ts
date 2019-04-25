@@ -4,17 +4,18 @@ import {
   GET_TAGS_SUCCESS,
 } from '../constants/ActionTypes';
 import { ITag } from '../models/tag';
+import {
+  ActionTypes,
+  createAsyncActionCreator,
+  mapActionCreator,
+} from '../utils/redux';
 
-export const getTags = ({ page = 1, perPage = 10 }) => {
-  return {
-    type: GET_TAGS,
-    page,
-    perPage,
-  } as const;
-};
+const getTagsActions = createAsyncActionCreator(
+  GET_TAGS,
+  GET_TAGS_SUCCESS,
+  GET_TAGS_FAILURE,
+)<{ page: number; perPage: number }, ITag[], string>();
 
-export type GetTagsSuccess = { type: typeof GET_TAGS_SUCCESS; tags: ITag[] };
-export type GetTagsFailure = { type: typeof GET_TAGS_FAILURE; error: string };
-export type GetTags = ReturnType<typeof getTags>;
+export const getTags = getTagsActions.request;
 
-export type TagAction = GetTags | GetTagsSuccess | GetTagsFailure;
+export type TagAction = ActionTypes<typeof getTagsActions>;
