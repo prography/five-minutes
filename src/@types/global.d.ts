@@ -12,6 +12,8 @@ declare interface ApiGetListResponse<T> {
   totalCount: number;
   count: number;
   perPage: number;
+  prevPage: string;
+  nextPage: string;
   items: T[];
 }
 

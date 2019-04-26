@@ -32,8 +32,7 @@
     "react-select": "^2.4.3",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
-    "styled-components": "^4.2.0",
-    "typescript": "^3.4.4"
+    "styled-components": "^4.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -50,5 +49,8 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://api.geusan.com"
+  "proxy": "http://api.geusan.com",
+  "devDependencies": {
+    "typescript": "^3.4.5"
+  }
 }

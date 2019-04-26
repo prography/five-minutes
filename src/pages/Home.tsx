@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header, FeedSearch } from '../containers';
+import { QuestionList } from '../containers/Home';
 import { PageLayout } from '../styles/common';
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
       <Header />
       <PageLayout>
         <FeedSearch />
+        <QuestionList />
       </PageLayout>
     </>
   );

@@ -7,6 +7,13 @@ const instance = axios.create({
   baseURL: '/api/questions',
 });
 
+export const getQuestions: ApiCall<
+  IBaseListQuery,
+  ApiGetListResponse<IQuestion>
+> = async ({ page, perPage }) => {
+  const { data } = await instance.get(`?${qs.stringify({ page, perPage })}`);
+  return data;
+};
 export const postQuestion: ApiCall<
   IPostQuestion,
   ApiResponse<IQuestion>
