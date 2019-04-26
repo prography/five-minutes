@@ -7,19 +7,19 @@ export const WithBackground = styled.div`
 export const PageLayout = styled.div`
   width: 50%;
   min-width: 800px;
-
   margin: 3rem auto;
 `;
 
 export const ShadowBox = styled.div`
   margin: auto;
-  padding: 1.5rem;
+  padding: 1.4rem;
 
-  background-color: white;
   box-sizing: border-box;
-  box-shadow: 1px 1px 10px 0px;
+  background: #FFFFFF;
+  box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.20);
   width: 100%;
 `;
+
 
 export const Title = styled.h1`
   font-size: 24px;
