@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { myTheme } from './styles/theme';
-import configureStore from './store/configureStore';
+import configureStore, { history } from './store/configureStore';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
@@ -16,7 +16,7 @@ const store = configureStore();
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={myTheme}>
-      <App />
+      <App history={history} />
     </ThemeProvider>
   </Provider>,
   document.getElementById('root'),

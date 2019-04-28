@@ -1,8 +1,11 @@
 import { applyMiddleware, compose, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import 'regenerator-runtime/runtime'; // generator를 es2015로 runtime에 바꿔줌.
-import rootReducer from '../reducers';
+import createRootReducer from '../reducers';
 import rootSaga from '../sagas';
+import { createBrowserHistory } from 'history';
+
+export const history = createBrowserHistory();
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,7 +20,7 @@ const configureStoreDev = (initialState?: object): Store => {
   // !는 typescript보다 내가 type을 더 잘할 때,
   // 있다고 확신할 때 쓰면 됨.
   const store: Store = createStore(
-    rootReducer,
+    createRootReducer(history),
     initialState!,
     composeEnhancers(applyMiddleware(...middlewares)),
   );
@@ -34,7 +37,7 @@ const configureStoreProd = (initialState?: object): Store => {
   // !는 typescript보다 내가 type을 더 잘할 때,
   // 있다고 확신할 때 쓰면 됨.
   const store: Store = createStore(
-    rootReducer,
+    createRootReducer(history),
     initialState!,
     applyMiddleware(...middlewares),
   );
