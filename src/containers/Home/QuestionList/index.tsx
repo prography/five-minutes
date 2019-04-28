@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Spinner } from 'gestalt';
 import QuestionListItem from './QuestionListItem';
@@ -28,20 +28,35 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
     // TODO: cache 확인
     getQuestionsAction({ page: 1, perPage: 10 });
   }, []);
+  // 현재 페이지 저장
+  const currentList = useRef({
+    page,
+    status,
+  });
+  // currentList Ref 업데이트
+  useEffect(() => {
+    currentList.current = {
+      ...currentList.current,
+      page,
+      status,
+    };
+  }, [page, status]);
   // 다음 페이지 없을 경우 observer 해제
-  const onIntersect: OnIntersect = useCallback(
-    (entry, observer) => {
-      if (!hasNext) {
-        observer.unobserve(entry.target);
-        return;
-      }
-      if (status !== 'FETCHING') {
-        getQuestionsAction({ page: page + 1, perPage: 10 });
-      }
-    },
-    [page, status],
-  );
+  const onIntersect: OnIntersect = useCallback((entry, observer) => {
+    observer.unobserve(entry.target);
+    if (currentList.current.status !== 'FETCHING') {
+      getQuestionsAction({ page: currentList.current.page + 1, perPage: 10 });
+    }
+  }, []);
+
   const [ref, setRef, observer] = useIntersect(onIntersect);
+
+  useEffect(() => {
+    if (hasNext && status === 'SUCCESS') {
+      ref && observer && observer.observe(ref);
+    }
+  }, [hasNext, status]);
+
   return (
     <>
       {questions.map((question, i) => (
