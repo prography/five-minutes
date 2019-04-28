@@ -1,7 +1,25 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import styled from 'styled-components';
+import { Spinner } from 'gestalt';
+
+export const LoadingWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  border-radius: 5px;
+`;
 
 const DefaultButton = styled.button`
+  position: relative;
   min-width: 120px;
   height: 100%;
   min-height: 60px;
@@ -27,24 +45,37 @@ const InvertButton = styled(DefaultButton)`
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: string;
   invert?: boolean;
+  loading?: boolean;
   children: React.ReactNode;
 }
 const Button: React.SFC<IButtonProps> = ({
   color = 'primary',
   invert = false,
+  loading = false,
   children,
   ...props
 }) => {
+  const LoadingComponent = useMemo(
+    () =>
+      loading ? (
+        <LoadingWrapper>
+          <Spinner show accessibilityLabel="loading..." />
+        </LoadingWrapper>
+      ) : null,
+    [loading],
+  );
   if (invert) {
     return (
-      <InvertButton color={color} {...props}>
+      <InvertButton disabled={loading} color={color} {...props}>
         {children}
+        {LoadingComponent}
       </InvertButton>
     );
   }
   return (
-    <DefaultButton color={color} {...props}>
+    <DefaultButton disabled={loading} color={color} {...props}>
       {children}
+      {LoadingComponent}
     </DefaultButton>
   );
 };

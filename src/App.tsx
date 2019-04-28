@@ -5,6 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 const Home = lazy(() => import('./pages/Home'));
 const Ask = lazy(() => import('./pages/Ask'));
+const Question = lazy(() => import('./pages/Question'));
 
 export interface IAppProps {
   history: History;
@@ -18,6 +19,7 @@ class App extends Component<IAppProps> {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/ask" component={Ask} />
+            <Route exact path="/question/:questionId" component={Question} />
           </Switch>
         </Suspense>
       </ConnectedRouter>

@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from 'redux';
+import { combineReducers } from 'redux';
 import { connectRouter, RouterState } from 'connected-react-router';
 import authReducer, { IAuthState } from './auth';
 import tagReducer, { ITagState } from './tag';

@@ -1,4 +1,5 @@
 import useApi from './useApi';
+import useInitialFetch from './useInitialFetch';
 import useInput from './useInput';
 import useIntersect from './useIntersect';
 import useIObserver from './useIObserver';
@@ -7,6 +8,7 @@ import useSetState from './useSetState';
 
 export {
   useApi,
+  useInitialFetch,
   useInput,
   useIntersect,
   useIObserver,

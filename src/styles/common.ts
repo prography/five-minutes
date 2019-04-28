@@ -15,11 +15,10 @@ export const ShadowBox = styled.div`
   padding: 1.4rem;
 
   box-sizing: border-box;
-  background: #FFFFFF;
-  box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.20);
+  background: #ffffff;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
   width: 100%;
 `;
-
 
 export const Title = styled.h1`
   font-size: 24px;

@@ -21,3 +21,6 @@ declare interface ApiGetListResponse<T> {
 declare type SagaEffect<T> = T extends (...args: any[]) => Promise<infer R>
   ? R
   : ReturnType<T>;
+
+// promise 언패킹
+declare type UnpackPromise<T> = T extends Promise<infer U> ? U : any;

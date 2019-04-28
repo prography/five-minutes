@@ -1,16 +1,20 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { connect } from 'react-redux';
 import { EditorFromTextArea } from 'codemirror';
 import { TextField } from 'gestalt';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import { useApi, useInput } from '../../../hooks';
 import { Title } from '../../../styles/common';
 import { ButtonWrapper } from './styles';
 import { Button } from '../../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
 import * as questionApi from '../../../api/question';
+import { Dispatch } from 'redux';
 
-export interface QuestionForm {}
-const QuestionForm: React.SFC<QuestionForm> = () => {
+export interface QuestionForm {
+  dispatch: Dispatch;
+}
+const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   const codeEditor = useRef<EditorFromTextArea | null>(null);
   const setCodeEditor = useCallback((editor: EditorFromTextArea) => {
     codeEditor.current = editor;
@@ -43,10 +47,11 @@ const QuestionForm: React.SFC<QuestionForm> = () => {
       user: 1, // 임시
     };
     const { result } = await api(newQuestion);
-    console.log(result);
-    // status에 따라 분기.
+    if (result) {
+      dispatch(push(`/question/${result.id}`, { new: true }));
+    }
   };
-
+  const isLoading = status === 'FETCHING';
   return (
     <>
       <Title>코드 질문 올리기</Title>
@@ -81,7 +86,11 @@ const QuestionForm: React.SFC<QuestionForm> = () => {
         />
       </Question>
       <ButtonWrapper>
-        <Button onClick={handlePostQuestion} style={{ width: 200 }}>
+        <Button
+          onClick={handlePostQuestion}
+          style={{ width: 200 }}
+          loading={isLoading}
+        >
           질문 올리기
         </Button>
       </ButtonWrapper>
@@ -89,4 +98,4 @@ const QuestionForm: React.SFC<QuestionForm> = () => {
   );
 };
 
-export default QuestionForm;
+export default connect()(QuestionForm);

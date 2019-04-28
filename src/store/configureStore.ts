@@ -1,9 +1,10 @@
 import { applyMiddleware, compose, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import 'regenerator-runtime/runtime'; // generator를 es2015로 runtime에 바꿔줌.
 import createRootReducer from '../reducers';
 import rootSaga from '../sagas';
-import { createBrowserHistory } from 'history';
 
 export const history = createBrowserHistory();
 
@@ -12,6 +13,7 @@ const sagaMiddleware = createSagaMiddleware();
 const configureStoreDev = (initialState?: object): Store => {
   const middlewares = [
     /* redux-logger 같은거 넣어주면 될듯 */
+    routerMiddleware(history),
     sagaMiddleware,
   ];
   // redux devtool과 middleware를 compose
@@ -32,6 +34,7 @@ const configureStoreDev = (initialState?: object): Store => {
 const configureStoreProd = (initialState?: object): Store => {
   const middlewares = [
     /* redux-logger 같은거 넣어주면 될듯 */
+    routerMiddleware(history),
     sagaMiddleware,
   ];
   // !는 typescript보다 내가 type을 더 잘할 때,
