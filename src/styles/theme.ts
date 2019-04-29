@@ -6,6 +6,8 @@ const myTheme: DefaultTheme = {
     secondary: '#54b2ce',
     tertiary: '#213c4d',
     main: '#2e2e2e',
+    sub: '#fefefe',
+    gray: '#7e7e7e',
   },
 };
 
