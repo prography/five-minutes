@@ -10,7 +10,7 @@ export interface IQuestion extends ISchemaBase {
   user: IUser;
   likedUsers: IQuestionLike[];
   comments: IComment[];
-  tags: IQuestionTag[];
+  tags: ITag[];
 }
 
 export interface IQuestionLike extends ISchemaBase {

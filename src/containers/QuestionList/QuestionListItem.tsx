@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import styled from 'styled-components';
 import { Divider } from 'gestalt';
+import { format } from 'date-fns';
+import { TagList } from '../../components';
 import { useMarkdown } from '../../hooks';
 import { ShadowBox } from '../../styles/common';
 import { IQuestion } from '../../models/question';
@@ -13,7 +15,13 @@ const Header = styled.div`
   display: flex;
   align-items: center;
 `;
-const Footer = styled.div``;
+const Footer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  margin: 1rem 0;
+`;
 const Subject = styled.h3`
   flex: 1 1;
 `;
@@ -25,27 +33,35 @@ const Info = styled.div`
 `;
 const Date = styled.span`
   font-size: 0.85em;
-  color: ${props => props.theme.colors.sub};
+  color: ${props => props.theme.colors.gray};
 `;
 export interface IQuestionListItemProps extends IQuestion {}
 const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   subject,
   content,
   createdAt,
+  tags,
 }) => {
   const parsedHTML = useMarkdown(content);
+  const formattedDate = useMemo(
+    () => createdAt && format(createdAt, 'YYYY-MM-DD'),
+    [createdAt],
+  );
   return (
     <Question>
       <Header>
         <Subject>{subject}</Subject>
         <Info>
-          <Date>{createdAt}</Date>
+          <Date>{formattedDate}</Date>
         </Info>
       </Header>
       <Divider />
       <div dangerouslySetInnerHTML={{ __html: parsedHTML }} />
+      <Footer>
+        <TagList tags={tags} />
+      </Footer>
     </Question>
   );
 };
 
-export default QuestionListItem;
+export default memo(QuestionListItem);

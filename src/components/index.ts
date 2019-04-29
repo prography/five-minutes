@@ -5,5 +5,6 @@ import Dimmer from './Dimmer';
 import Input from './Input';
 import Logo from './Logo';
 import Tag from './Tag';
+import TagList from './TagList';
 
-export { Button, Codemirror, CustomLink, Dimmer, Input, Logo, Tag };
+export { Button, Codemirror, CustomLink, Dimmer, Input, Logo, Tag, TagList };
