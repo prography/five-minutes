@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { ShadowBox } from '../../styles/common';
+import { ShadowBox } from '../styles/common';
 
 const Wrapper = styled.div`
   margin-top: 16px;
@@ -20,7 +20,6 @@ const SubTitle = styled.h2`
 const Content = styled.div`
   margin-top: 28px;
   font-weight: 200;
-
 `;
 interface IQuestionProps {
   title: string;

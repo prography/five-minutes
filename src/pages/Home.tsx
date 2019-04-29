@@ -1,12 +1,11 @@
 import React from 'react';
-import { Header, FeedSearch } from '../containers';
-import { QuestionList } from '../containers/Home';
+import { FeedSearch } from '../containers';
+import { QuestionList } from '../containers';
 import { PageLayout } from '../styles/common';
 
 const Home = () => {
   return (
     <>
-      <Header />
       <PageLayout>
         <FeedSearch />
         <QuestionList />

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Divider } from 'gestalt';
-import { useMarkdown } from '../../../hooks';
-import { ShadowBox } from '../../../styles/common';
-import { IQuestion } from '../../../models/question';
+import { useMarkdown } from '../../hooks';
+import { ShadowBox } from '../../styles/common';
+import { IQuestion } from '../../models/question';
 
 const Question = styled(ShadowBox)`
   margin-top: 1.5rem;

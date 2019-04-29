@@ -3,9 +3,9 @@ import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { ValueType } from 'react-select/lib/types';
 import { SelectComponentsProps } from 'react-select/lib/Select';
 import debounce from 'lodash/debounce';
-import { IOptionValue } from '../../models/select';
-import { makeSelectable } from '../../utils/select';
-import { searchTags } from '../../api/tag';
+import { IOptionValue } from '../models/select';
+import { makeSelectable } from '../utils/select';
+import { searchTags } from '../api/tag';
 export interface ITagSelectProps extends SelectComponentsProps {
   tags: string[];
   setTags: (tags: string[]) => void;

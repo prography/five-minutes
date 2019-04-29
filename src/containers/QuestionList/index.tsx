@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Spinner } from 'gestalt';
 import QuestionListItem from './QuestionListItem';
 import { Observer } from './style';
-import useIntersect, { OnIntersect } from '../../../hooks/useIntersect';
-import { getQuestions } from '../../../actions/question';
-import { IRootState } from '../../../reducers';
-import { IQuestion } from '../../../models/question';
+import useIntersect, { OnIntersect } from '../../hooks/useIntersect';
+import { getQuestions } from '../../actions/question';
+import { IRootState } from '../../reducers';
+import { IQuestion } from '../../models/question';
 
 export interface IQuestionListProps {
   status: Status;

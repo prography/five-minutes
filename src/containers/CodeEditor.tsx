@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import { MODES } from '../../constants/codemirror';
-import Codemirror, { ICodemirrorProps } from '../../components/Codemirror';
+import { MODES } from '../constants/codemirror';
+import Codemirror, { ICodemirrorProps } from '../components/Codemirror';
 import { ValueType } from 'react-select/lib/types';
-import { IOptionValue } from '../../models/select';
-import { makeSelectable } from '../../utils/select';
+import { IOptionValue } from '../models/select';
+import { makeSelectable } from '../utils/select';
 
 const SelectWrapper = styled.div`
   width: 100%;

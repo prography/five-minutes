@@ -3,12 +3,12 @@ import { EditorFromTextArea } from 'codemirror';
 import { TextField } from 'gestalt';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { useApi, useInput } from '../../../hooks';
-import { Title } from '../../../styles/common';
+import { useApi, useInput } from '../../hooks';
+import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
-import { Button } from '../../../components';
+import { Button } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
-import * as questionApi from '../../../api/question';
+import * as questionApi from '../../api/question';
 import { Dispatch } from 'redux';
 
 export interface QuestionForm {
