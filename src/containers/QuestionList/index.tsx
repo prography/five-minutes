@@ -26,7 +26,9 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
 }) => {
   useEffect(() => {
     // TODO: cache 확인
-    getQuestionsAction({ page: 1, perPage: 10 });
+    if (questions.length === 0) {
+      getQuestionsAction({ page: 1, perPage: 10 });
+    }
   }, []);
   // 현재 페이지 저장
   const currentList = useRef({
@@ -56,7 +58,6 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
       ref && observer && observer.observe(ref);
     }
   }, [hasNext, status]);
-
   return (
     <>
       {questions.map((question, i) => (

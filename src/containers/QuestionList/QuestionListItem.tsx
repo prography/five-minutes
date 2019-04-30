@@ -2,7 +2,7 @@ import React, { memo, useMemo } from 'react';
 import styled from 'styled-components';
 import { Divider } from 'gestalt';
 import { format } from 'date-fns';
-import { TagList } from '../../components';
+import { CustomLink, TagList } from '../../components';
 import { useMarkdown } from '../../hooks';
 import { ShadowBox } from '../../styles/common';
 import { IQuestion } from '../../models/question';
@@ -37,6 +37,7 @@ const Date = styled.span`
 `;
 export interface IQuestionListItemProps extends IQuestion {}
 const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
+  id,
   subject,
   content,
   createdAt,
@@ -50,7 +51,9 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   return (
     <Question>
       <Header>
-        <Subject>{subject}</Subject>
+        <Subject>
+          <CustomLink to={`/question/${id}`}>{subject}</CustomLink>
+        </Subject>
         <Info>
           <Date>{formattedDate}</Date>
         </Info>

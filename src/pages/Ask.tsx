@@ -5,9 +5,7 @@ import { QuestionForm } from '../containers';
 const Ask = () => {
   return (
     <>
-      <PageLayout>
-        <QuestionForm />
-      </PageLayout>
+      <QuestionForm />
     </>
   );
 };

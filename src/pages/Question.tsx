@@ -11,7 +11,6 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   const { questionId } = match.params;
   const [fetchState] = useInitialFetch(getQuestion, questionId);
   const { data, status, error } = fetchState;
-  console.log(fetchState);
   if (!data) return null;
   const { result } = data;
   return <h1>{result.subject}</h1>;
