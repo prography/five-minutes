@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Spinner } from 'gestalt';
-import QuestionListItem from './QuestionListItem';
 import { Observer } from './style';
+import { QuestionListItem } from '..';
 import useIntersect, { OnIntersect } from '../../hooks/useIntersect';
 import { getQuestions } from '../../actions/question';
 import { IRootState } from '../../reducers';

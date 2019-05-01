@@ -46,9 +46,13 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       language,
       user: 1, // 임시
     };
-    const { result } = await api(newQuestion);
-    if (result) {
-      dispatch(push(`/question/${result.id}`, { new: true }));
+    try {
+      const { result } = await api(newQuestion);
+      if (result) {
+        dispatch(push(`/question/${result.id}`, { new: true }));
+      }
+    } catch (err) {
+      console.error(err.message);
     }
   };
   const isLoading = status === 'FETCHING';

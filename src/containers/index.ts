@@ -5,6 +5,8 @@ import Header from './Header';
 import Question from './Question';
 import QuestionForm from './QuestionForm';
 import QuestionList from './QuestionList';
+import QuestionListItem from './QuestionListItem';
+import QuestionView from './QuestionView';
 import TagSelect from './TagSelect';
 
 export {
@@ -15,5 +17,7 @@ export {
   Question,
   QuestionForm,
   QuestionList,
+  QuestionListItem,
+  QuestionView,
   TagSelect,
 };

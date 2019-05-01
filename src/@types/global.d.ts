@@ -1,8 +1,10 @@
 // api status
 declare type Status = 'INIT' | 'FETCHING' | 'SUCCESS' | 'FAILURE';
 
+// 일반적인 promise 형태 api
 declare type ApiCall<T, R> = (args: T) => Promise<R>;
-// Get 일반 조회
+
+// 일반적인 api response type
 declare interface ApiResponse<T> {
   result: T;
 }

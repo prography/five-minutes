@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { QuestionView } from '../containers';
 import { useInitialFetch } from '../hooks';
 import { getQuestion } from '../api/question';
 
@@ -11,10 +12,13 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   const { questionId } = match.params;
   const [fetchState] = useInitialFetch(getQuestion, questionId);
   const { data, status, error } = fetchState;
-  console.log(window.history.state);
   if (!data) return null;
   const { result } = data;
-  return <h1>{result.subject}</h1>;
+  return (
+    <>
+      <QuestionView {...result} />
+    </>
+  );
 };
 
 export default Question;
