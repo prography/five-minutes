@@ -9,7 +9,7 @@ import {
   Date,
   Footer,
 } from '../../containers/QuestionListItem/style';
-import { Container, Subject, Body, Content } from './style';
+import { Container, Subject, Body, Content, Code } from './style';
 import { EditorFromTextArea } from 'codemirror';
 
 export interface IQuestionViewProps extends IQuestion {}
@@ -25,6 +25,8 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
   const [codeRef, setCodeRef] = useState<EditorFromTextArea>();
   const fmContent = useMarkdown(content);
   const fmDate = useDateFormat(createdAt, 'YYYY-MM-DD');
+
+  // Test
   useEffect(() => {
     if (codeRef) {
       codeRef.on('gutterClick', (_, line) => console.log(line));
@@ -41,12 +43,14 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
       <Divider />
       <Body>
         <Content dangerouslySetInnerHTML={{ __html: fmContent }} />
-        <Codemirror
-          readOnly
-          value={code}
-          mode={language}
-          setCodeEditor={setCodeRef}
-        />
+        <Code>
+          <Codemirror
+            readOnly
+            value={code}
+            mode={language}
+            setCodeEditor={setCodeRef}
+          />
+        </Code>
       </Body>
       <Footer>
         <TagList tags={tags} />

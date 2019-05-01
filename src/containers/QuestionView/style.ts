@@ -12,3 +12,6 @@ export const Body = styled.div`
 export const Content = styled.div`
   word-break: break-all;
 `;
+export const Code = styled.div`
+  font-size: 0.95em;
+`;

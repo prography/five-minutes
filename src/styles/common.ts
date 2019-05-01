@@ -8,6 +8,12 @@ export const PageLayout = styled.div`
   width: 50%;
   min-width: 800px;
   margin: 3rem auto;
+
+  @media screen and (max-width: 800px) {
+    width: 95%;
+    min-width: 300px;
+    margin: 3rem auto;
+  }
 `;
 
 export const ShadowBox = styled.div`
