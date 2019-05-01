@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { History } from 'history';
+import debounce from 'lodash/debounce';
 import { useWindowEvent } from '../hooks';
 export interface IScrollCheckerProps {
   history: History;
@@ -32,23 +33,24 @@ const ScrollChecker: React.SFC<IScrollCheckerProps> = ({
   useWindowEvent('scroll', onScroll);
   // scroll Sync를 requestAnimationFrame 단위로 시도.
   // y가 전체 height보다 작고 x와 y가 다르면 재귀적으로 계속 시도해봄.
-  const syncScroll = useCallback((x: number, y: number, attempt: number) => {
-    requestAnimationFrame(() => {
-      if (attempt < 1) {
-        return;
-      }
-      const { pageXOffset, pageYOffset } = window;
-      if (
-        y < window.document.body.scrollHeight &&
-        (x !== pageXOffset || y !== pageYOffset)
-      ) {
-        window.scrollTo(x, y);
-        syncScroll(x, y, attempt - 1);
-      }
-    });
-  }, []);
+  // debounce로 async를 조금 피한다.
+  const syncScroll = useCallback(
+    debounce((x: number, y: number, attempt: number) => {
+      requestAnimationFrame(() => {
+        if (attempt < 1) {
+          return;
+        }
+        const { pageXOffset, pageYOffset } = window;
+        if (x !== pageXOffset || y !== pageYOffset) {
+          window.scrollTo(x, y);
+          syncScroll(x, y, attempt - 1);
+        }
+      });
+    }, 500),
+    [],
+  );
   // PUSH일 때는 top으로, POP일 때는 scrollSync를 시도.
-  // 기본 attempt는 일단 5로 지정.
+  // 기본 attempt는 일단 20으로 지정.
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
       const { state } = window.history;
