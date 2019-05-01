@@ -26,10 +26,12 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   const [tags, setTags] = useState<string[]>([]);
 
   // 질문 올리는 Api
-  const { status, api } = useApi(questionApi.postQuestion);
+  const { status, api, error } = useApi(questionApi.postQuestion);
+
+  const isLoading = status === 'FETCHING';
 
   const handlePostQuestion = async () => {
-    if (status !== 'INIT') {
+    if (isLoading) {
       return;
     }
     let code = '';
@@ -46,16 +48,11 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       language,
       user: 1, // 임시
     };
-    try {
-      const { result } = await api(newQuestion);
-      if (result) {
-        dispatch(push(`/question/${result.id}`, { new: true }));
-      }
-    } catch (err) {
-      console.error(err.message);
+    const { result } = await api(newQuestion);
+    if (result) {
+      dispatch(push(`/question/${result.id}`, { new: true }));
     }
   };
-  const isLoading = status === 'FETCHING';
   return (
     <>
       <Title>코드 질문 올리기</Title>

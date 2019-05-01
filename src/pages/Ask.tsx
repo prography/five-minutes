@@ -1,10 +1,13 @@
 import React from 'react';
 import { QuestionForm } from '../containers';
+import { ErrorBoundary } from '../components';
 
 const Ask = () => {
   return (
     <>
-      <QuestionForm />
+      <ErrorBoundary>
+        <QuestionForm />
+      </ErrorBoundary>
     </>
   );
 };
