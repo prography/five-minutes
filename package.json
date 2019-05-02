@@ -36,6 +36,7 @@
     "react-select": "^2.4.3",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
+    "renoti": "^1.2.0",
     "styled-components": "^4.2.0"
   },
   "scripts": {

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
 import { connect } from 'react-redux';
 import { CustomLink, Input, Logo } from '../../components';
 import {
@@ -10,17 +10,16 @@ import {
   Actions,
   Menu,
 } from './style';
-import { IRootState } from '../../reducers';
+import { history } from '../../utils/history';
 
 // searchbox가 필요한 route
 const withSearchPath: { [key: string]: boolean } = {
   '/ask': true,
 };
 
-interface IHeaderProps {
-  pathname: string;
-}
-const Header: React.SFC<IHeaderProps> = ({ pathname }) => {
+interface IHeaderProps {}
+const Header: React.SFC<IHeaderProps> = () => {
+  const { pathname } = history.location;
   const withSearch = useMemo(() => {
     return withSearchPath[pathname];
   }, [pathname]);
@@ -50,8 +49,4 @@ const Header: React.SFC<IHeaderProps> = ({ pathname }) => {
   );
 };
 
-const mapStateToProps = (state: IRootState) => ({
-  pathname: state.router.location.pathname,
-});
-
-export default connect(mapStateToProps)(Header);
+export default memo(Header);

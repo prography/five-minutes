@@ -1,20 +1,17 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, memo } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import { TextField } from 'gestalt';
-import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
+import { Dispatch } from 'redux';
+import { history } from '../../utils/history';
 import { useApi, useInput } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
 import { Button } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
 import * as questionApi from '../../api/question';
-import { Dispatch } from 'redux';
 
-export interface QuestionForm {
-  dispatch: Dispatch;
-}
-const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
+export interface QuestionForm {}
+const QuestionForm: React.SFC<QuestionForm> = () => {
   const codeEditor = useRef<EditorFromTextArea | null>(null);
   const setCodeEditor = useCallback((editor: EditorFromTextArea) => {
     codeEditor.current = editor;
@@ -50,7 +47,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
     };
     const { result } = await api(newQuestion);
     if (result) {
-      dispatch(push(`/question/${result.id}`, { new: true }));
+      history.push(`/question/${result.id}`, { new: true });
     }
   };
   return (
@@ -99,4 +96,4 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   );
 };
 
-export default connect()(QuestionForm);
+export default memo(QuestionForm);

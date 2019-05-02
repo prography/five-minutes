@@ -2,14 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
+import configureStore from './store/configureStore';
 import { myTheme } from './styles/theme';
-import configureStore, { history } from './store/configureStore';
+import { history } from './utils/history';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import './styles/normalize.css';
 import './index.css';
 import 'gestalt/dist/gestalt.css';
+import 'renoti/dist/Renoti.css';
 
 const store = configureStore();
 
