@@ -12,7 +12,7 @@ import {
 
 export interface IPostQuestionState {
   status: Status;
-  post?: IQuestion;
+  question?: IQuestion;
   error: string;
 }
 export interface IGetQuestionsState {
@@ -29,7 +29,7 @@ export interface IQuestionState {
 const initialState: IQuestionState = {
   post: {
     status: 'INIT',
-    post: undefined,
+    question: undefined,
     error: '',
   },
   getList: {
@@ -53,7 +53,11 @@ export default function reducer(
       }
       case POST_QUESTION_SUCCESS: {
         draft.post.status = 'SUCCESS';
-        draft.post.post = action.payload;
+        draft.post.question = action.payload;
+        // 새 question 추가시 리스트에도 추가. empty 아닐때만
+        if (draft.getList.questions.length > 0) {
+          draft.getList.questions.unshift(action.payload);
+        }
         return draft;
       }
       case POST_QUESTION_FAILURE: {

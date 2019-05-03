@@ -1,8 +1,9 @@
-import React, { useCallback, useRef, useState, memo } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import { TextField } from 'gestalt';
 import { Dispatch } from 'redux';
-import { history } from '../../utils/history';
+import { connect } from 'react-redux';
+import { postQuestion } from '../../actions/question';
 import { useApi, useInput } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
@@ -10,8 +11,10 @@ import { Button } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
 import * as questionApi from '../../api/question';
 
-export interface QuestionForm {}
-const QuestionForm: React.SFC<QuestionForm> = () => {
+export interface QuestionForm {
+  dispatch: Dispatch;
+}
+const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   const codeEditor = useRef<EditorFromTextArea | null>(null);
   const setCodeEditor = useCallback((editor: EditorFromTextArea) => {
     codeEditor.current = editor;
@@ -27,7 +30,7 @@ const QuestionForm: React.SFC<QuestionForm> = () => {
 
   const isLoading = status === 'FETCHING';
 
-  const handlePostQuestion = async () => {
+  const handlePostQuestion = () => {
     if (isLoading) {
       return;
     }
@@ -45,10 +48,7 @@ const QuestionForm: React.SFC<QuestionForm> = () => {
       language,
       user: 1, // 임시
     };
-    const { result } = await api(newQuestion);
-    if (result) {
-      history.push(`/question/${result.id}`, { new: true });
-    }
+    dispatch(postQuestion(newQuestion));
   };
   return (
     <>
@@ -96,4 +96,4 @@ const QuestionForm: React.SFC<QuestionForm> = () => {
   );
 };
 
-export default memo(QuestionForm);
+export default connect()(QuestionForm);
