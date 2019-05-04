@@ -5,7 +5,6 @@ import { QuestionList } from '../containers';
 const Home = () => {
   return (
     <>
-      <FeedSearch />
       <QuestionList />
     </>
   );

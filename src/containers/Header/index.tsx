@@ -1,5 +1,5 @@
 import React, { useMemo, memo } from 'react';
-import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { CustomLink, Input, Logo } from '../../components';
 import {
   Container,
@@ -13,16 +13,12 @@ import {
 import { history } from '../../utils/history';
 
 // searchbox가 필요한 route
-const withSearchPath: { [key: string]: boolean } = {
-  '/ask': true,
-};
+// const withSearchPath: { [key: string]: boolean } = {
+//   '/ask': true,
+// };
 
-interface IHeaderProps {}
-const Header: React.SFC<IHeaderProps> = () => {
-  const { pathname } = history.location;
-  const withSearch = useMemo(() => {
-    return withSearchPath[pathname];
-  }, [pathname]);
+const Header: React.SFC<RouteComponentProps> = ({ location }) => {
+  const { pathname } = location;
   return (
     <Container>
       <LogoWrapper>
@@ -33,13 +29,11 @@ const Header: React.SFC<IHeaderProps> = () => {
         </LogoAdjust>
       </LogoWrapper>
       <SearchBox>
-        {withSearch && (
-          <>
-            <Input />
-            <MiniButton invert>상세 검색</MiniButton>
-            <MiniButton>코드 올리기</MiniButton>
-          </>
-        )}
+        <Input />
+        <MiniButton invert>상세 검색</MiniButton>
+        <CustomLink to="/ask">
+          <MiniButton>코드 올리기</MiniButton>
+        </CustomLink>
       </SearchBox>
       <Actions>
         <Menu>로그인</Menu>
@@ -49,4 +43,4 @@ const Header: React.SFC<IHeaderProps> = () => {
   );
 };
 
-export default memo(Header);
+export default withRouter(Header);

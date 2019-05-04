@@ -30,7 +30,6 @@ export const SearchBox = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  height: 40px;
   margin: 0 auto;
 `;
 export const MiniButton = styled(Button)`
