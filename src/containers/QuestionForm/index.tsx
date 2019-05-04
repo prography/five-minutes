@@ -23,6 +23,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   // Form field
   const [subject, _, handleSubjectChange] = useInput('');
   const [content, __, handleContentChange] = useInput('');
+  const [mode, setMode] = useState('javascript');
   const [tags, setTags] = useState<string[]>([]);
 
   // 질문 올리는 Api
@@ -35,17 +36,15 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       return;
     }
     let code = '';
-    let language = '';
     if (codeEditor.current) {
       code = codeEditor.current.getValue();
-      language = codeEditor.current.getOption('mode');
     }
     const newQuestion = {
       subject,
       content,
       tags,
       code,
-      language,
+      language: mode,
       user: 1, // 임시
     };
     dispatch(postQuestion(newQuestion));
@@ -71,7 +70,11 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
         />
       </Question>
       <Question title="2. 코드를 올려주세요">
-        <CodeEditor setCodeEditor={setCodeEditor} />
+        <CodeEditor
+          mode={mode}
+          setMode={setMode}
+          setCodeEditor={setCodeEditor}
+        />
       </Question>
       <Question
         title="3. 태그를 입력해주세요."
