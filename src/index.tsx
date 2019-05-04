@@ -12,6 +12,7 @@ import * as serviceWorker from './serviceWorker';
 import './styles/normalize.css';
 import './index.css';
 import 'renoti/dist/Renoti.css';
+import './styles/renoti.css'; // overriding
 
 const store = configureStore();
 

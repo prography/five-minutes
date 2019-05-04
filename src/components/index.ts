@@ -5,6 +5,7 @@ import ErrorBoundary from './ErrorBoundary';
 import Dimmer from './Dimmer';
 import Input from './Input';
 import Logo from './Logo';
+import NoResult from './NoResult';
 import ScrollChecker from './ScrollChecker';
 import Tag from './Tag';
 import TagList from './TagList';
@@ -17,6 +18,7 @@ export {
   Dimmer,
   Input,
   Logo,
+  NoResult,
   ScrollChecker,
   Tag,
   TagList,

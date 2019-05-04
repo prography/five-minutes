@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Observer } from './style';
 import { QuestionListItem } from '..';
+import { NoResult } from '../../components';
 import useIntersect, { OnIntersect } from '../../hooks/useIntersect';
 import { getQuestions } from '../../actions/question';
 import { IRootState } from '../../reducers';
@@ -58,6 +59,9 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
       ref && observer && observer.observe(ref);
     }
   }, [hasNext, status]);
+  if (status !== 'INIT' && questions.length === 0) {
+    return <NoResult />;
+  }
   return (
     <>
       {questions.map((question, i) => (
