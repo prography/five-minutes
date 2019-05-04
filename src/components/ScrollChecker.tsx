@@ -46,7 +46,7 @@ const ScrollChecker: React.SFC<IScrollCheckerProps> = ({
           syncScroll(x, y, attempt - 1);
         }
       });
-    }, 500),
+    }, 100),
     [],
   );
   // PUSH일 때는 top으로, POP일 때는 scrollSync를 시도.

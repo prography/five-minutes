@@ -14,6 +14,7 @@ import {
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
+import { history } from '../utils/history';
 
 const selectQuestionList = (state: IRootState) =>
   state.question.getList.questions;
@@ -59,6 +60,7 @@ function* post(action: PostQuestion) {
       type: POST_QUESTION_SUCCESS,
       payload: result,
     });
+    history.push(`/question/${result.id}`, { new: true });
   } catch (err) {
     yield put<QuestionAction>({
       type: POST_QUESTION_FAILURE,

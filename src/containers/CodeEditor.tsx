@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { MODES } from '../constants/codemirror';
@@ -19,27 +19,27 @@ const SelectMode = styled.div`
 `;
 
 const OPTIONS = makeSelectable(MODES);
-const CodeEditor: React.SFC<ICodemirrorProps> = ({
-  mode: modeInit = 'javascript',
+interface ICodeEditorProps extends ICodemirrorProps {
+  setMode: (value: string) => void;
+}
+const CodeEditor: React.SFC<ICodeEditorProps> = ({
+  mode = 'javascript',
+  setMode,
   setCodeEditor,
 }) => {
-  const [mode, setMode] = useState<IOptionValue>({
-    value: modeInit,
-    label: modeInit,
-  });
-
+  const defaultValue = useMemo(() => ({ label: mode, value: mode }), []);
   const handleModeChange = useCallback((option: ValueType<IOptionValue>) => {
     if (option && !Array.isArray(option)) {
-      setMode(option);
+      setMode(option.value);
     }
   }, []);
   return (
     <>
-      <Codemirror mode={mode.value} setCodeEditor={setCodeEditor} />
+      <Codemirror mode={mode} setCodeEditor={setCodeEditor} />
       <SelectWrapper>
         <SelectMode>
           <Select
-            defaultValue={mode}
+            defaultValue={defaultValue}
             placeholder="Select language"
             options={OPTIONS}
             onChange={handleModeChange}

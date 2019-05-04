@@ -15,7 +15,6 @@ const useInput = (
     },
     [],
   );
-
   return [value, onChange, setValue];
 };
 

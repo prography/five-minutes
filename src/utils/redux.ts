@@ -8,17 +8,18 @@ export type ActionTypes<
 /*
   일반적인 action creator
 */
-
-export const createActionCreator = <T, F extends (...args: any[]) => any>(
-  type: T,
-  payloadFunc: F,
-) => {
-  return (...payload: Parameters<F>): { type: T; payload: ReturnType<F> } =>
-    ({
-      type,
-      payload: payloadFunc(payload),
-    } as const);
-};
+export const createActionCreator = <T>(type: T) => <TP>() => (args: TP) =>
+  ({ type, payload: args } as const);
+// export const createActionCreator = <T, F extends (...args: any[]) => any>(
+//   type: T,
+//   payloadFunc: F,
+// ) => {
+//   return (...payload: Parameters<F>): { type: T; payload: ReturnType<F> } =>
+//     ({
+//       type,
+//       payload: payloadFunc(payload),
+//     } as const);
+// };
 
 /*
    일반적인 async action creator

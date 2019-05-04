@@ -1,11 +1,12 @@
-import React, { Component, lazy, Suspense, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component, lazy, Suspense } from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
 import { History } from 'history';
-import { ConnectedRouter } from 'connected-react-router';
+import { NotiPortal } from 'renoti';
+import { Spinner } from 'gestalt';
 import { Header } from './containers';
 import { PageLayout } from './styles/common';
 import { ScrollChecker } from './components';
-import { Spinner } from 'gestalt';
+import { notifier } from './utils/renoti';
 
 const Home = lazy(() => import('./pages/Home'));
 const Ask = lazy(() => import('./pages/Ask'));
@@ -18,7 +19,7 @@ class App extends Component<IAppProps> {
   render() {
     const { history } = this.props;
     return (
-      <ConnectedRouter history={history}>
+      <Router history={history}>
         <Header />
         <ScrollChecker history={history}>
           <PageLayout>
@@ -35,7 +36,8 @@ class App extends Component<IAppProps> {
             </Suspense>
           </PageLayout>
         </ScrollChecker>
-      </ConnectedRouter>
+        <NotiPortal notifier={notifier} />
+      </Router>
     );
   }
 }

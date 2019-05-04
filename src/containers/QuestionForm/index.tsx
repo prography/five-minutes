@@ -1,15 +1,15 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import { TextField } from 'gestalt';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
+import { postQuestion } from '../../actions/question';
 import { useApi, useInput } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
 import { Button } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
 import * as questionApi from '../../api/question';
-import { Dispatch } from 'redux';
 
 export interface QuestionForm {
   dispatch: Dispatch;
@@ -23,6 +23,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   // Form field
   const [subject, _, handleSubjectChange] = useInput('');
   const [content, __, handleContentChange] = useInput('');
+  const [mode, setMode] = useState('javascript');
   const [tags, setTags] = useState<string[]>([]);
 
   // 질문 올리는 Api
@@ -30,28 +31,23 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
 
   const isLoading = status === 'FETCHING';
 
-  const handlePostQuestion = async () => {
+  const handlePostQuestion = () => {
     if (isLoading) {
       return;
     }
     let code = '';
-    let language = '';
     if (codeEditor.current) {
       code = codeEditor.current.getValue();
-      language = codeEditor.current.getOption('mode');
     }
     const newQuestion = {
       subject,
       content,
       tags,
       code,
-      language,
+      language: mode,
       user: 1, // 임시
     };
-    const { result } = await api(newQuestion);
-    if (result) {
-      dispatch(push(`/question/${result.id}`, { new: true }));
-    }
+    dispatch(postQuestion(newQuestion));
   };
   return (
     <>
@@ -74,7 +70,11 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
         />
       </Question>
       <Question title="2. 코드를 올려주세요">
-        <CodeEditor setCodeEditor={setCodeEditor} />
+        <CodeEditor
+          mode={mode}
+          setMode={setMode}
+          setCodeEditor={setCodeEditor}
+        />
       </Question>
       <Question
         title="3. 태그를 입력해주세요."

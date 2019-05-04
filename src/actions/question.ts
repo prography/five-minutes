@@ -11,6 +11,7 @@ import { IPostQuestion, IQuestion } from '../models/question';
 import { IBaseListQuery } from '../models/api';
 import {
   ActionTypes,
+  createActionCreator,
   createAsyncActionCreator,
   mapActionCreator,
 } from '../utils/redux';
