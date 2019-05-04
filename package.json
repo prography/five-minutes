@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
     "@types/codemirror": "0.0.74",
-    "@types/gestalt": "^0.75.5",
     "@types/history": "^4.7.2",
     "@types/jest": "^24.0.11",
     "@types/lodash": "^4.14.123",
@@ -20,7 +20,6 @@
     "axios": "^0.18.0",
     "codemirror": "^5.45.0",
     "date-fns": "^1.30.1",
-    "gestalt": "^0.95.0",
     "history": "^4.9.0",
     "immer": "^3.1.1",
     "lodash": "^4.17.11",

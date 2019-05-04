@@ -1,5 +1,6 @@
 import React, { useState, memo } from 'react';
-import { Divider, TextArea } from 'gestalt';
+import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import useMarkdown from '../hooks/useMarkdown';
 
@@ -16,20 +17,25 @@ const Preview = styled.div`
 interface IEditorProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   value: string;
-  handleChange: (value: string) => void;
+  handleChange: React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 const Editor: React.SFC<IEditorProps> = ({ value, handleChange }) => {
-  const onChange = ({ value }: { value: string }) => {
-    handleChange(value);
-  };
   const markdownValue = useMarkdown(value);
   return (
     <>
       <TextContainer>
-        <TextArea id="editor" value={value} onChange={onChange} />
+        <TextField
+          id="contents"
+          label="내용"
+          multiline
+          margin="dense"
+          fullWidth
+          value={value}
+          onChange={handleChange}
+        />
       </TextContainer>
       <TextContainer>
-        <Divider />
+        <Divider light />
         <Preview dangerouslySetInnerHTML={{ __html: markdownValue }} />
       </TextContainer>
     </>

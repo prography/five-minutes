@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { EditorFromTextArea } from 'codemirror';
-import { TextField } from 'gestalt';
+import TextField from '@material-ui/core/TextField';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { postQuestion } from '../../actions/question';
@@ -21,8 +21,8 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   }, []);
 
   // Form field
-  const [subject, _, handleSubjectChange] = useInput('');
-  const [content, __, handleContentChange] = useInput('');
+  const [subject, handleSubjectChange] = useInput('');
+  const [content, handleContentChange] = useInput('');
   const [mode, setMode] = useState('javascript');
   const [tags, setTags] = useState<string[]>([]);
 
@@ -55,19 +55,16 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       <Question title="제목">
         <TextField
           id="subject"
+          fullWidth
           value={subject}
-          onChange={({ value }) => handleSubjectChange(value)}
+          onChange={handleSubjectChange}
         />
       </Question>
       <Question
         title="1. 질문에 대해 적어주세요."
         subTitle="(요약하면 어떤 문제인가요? 해결하기 위해 시도했던 것들을 말해주세요. 결과물이 어떻게 나오면 좋겠나요?)"
       >
-        <Editor
-          placeholder="내용을 입력해주세요."
-          value={content}
-          handleChange={handleContentChange}
-        />
+        <Editor value={content} handleChange={handleContentChange} />
       </Question>
       <Question title="2. 코드를 올려주세요">
         <CodeEditor

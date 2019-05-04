@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Divider } from 'gestalt';
+import Divider from '@material-ui/core/Divider';
 import { Question, Header, Subject, Info, Date, Footer } from './style';
 import { CustomLink, TagList } from '../../components';
 import { useDateFormat, useMarkdown } from '../../hooks';
@@ -25,7 +25,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
           <Date>{formattedDate}</Date>
         </Info>
       </Header>
-      <Divider />
+      <Divider light />
       <div dangerouslySetInnerHTML={{ __html: parsedHTML }} />
       <Footer>
         <TagList tags={tags} />

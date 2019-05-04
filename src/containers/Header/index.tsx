@@ -1,4 +1,4 @@
-import React, { useMemo, memo } from 'react';
+import React, { memo } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { CustomLink, Input, Logo } from '../../components';
 import {
@@ -10,7 +10,6 @@ import {
   Actions,
   Menu,
 } from './style';
-import { history } from '../../utils/history';
 
 // searchbox가 필요한 route
 // const withSearchPath: { [key: string]: boolean } = {
@@ -43,4 +42,4 @@ const Header: React.SFC<RouteComponentProps> = ({ location }) => {
   );
 };
 
-export default withRouter(Header);
+export default withRouter(memo(Header));

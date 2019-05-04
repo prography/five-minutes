@@ -1,7 +1,8 @@
 import React, { memo, useMemo } from 'react';
 import styled from 'styled-components';
-import { Spinner } from 'gestalt';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
+type ColorType = 'primary' | 'secondary' | 'tertiary';
 export const LoadingWrapper = styled.div`
   position: absolute;
   display: flex;
@@ -18,7 +19,7 @@ export const LoadingWrapper = styled.div`
   border-radius: 5px;
 `;
 
-const DefaultButton = styled.button`
+const DefaultButton = styled.button<{ color?: ColorType }>`
   position: relative;
   min-width: 120px;
   height: 100%;
@@ -32,18 +33,28 @@ const DefaultButton = styled.button`
 
   cursor: pointer;
   font-size: 16px;
-  color: white;
-  background-color: ${props => props.theme.colors[props.color || 'primary']};
+  color: ${props => props.theme.palette.primary.contrastText};
+  background-color: ${props =>
+    props.color
+      ? props.theme.palette[props.color].main
+      : props.theme.palette.primary.main};
   text-align: center;
 `;
 
 const InvertButton = styled(DefaultButton)`
-  border: 1px solid ${props => props.theme.colors[props.color || 'primary']};
-  color: ${props => props.theme.colors[props.color || 'primary']};
+  border: 1px solid
+    ${props =>
+      props.color
+        ? props.theme.palette[props.color].main
+        : props.theme.palette.primary.main};
+  color: ${props =>
+    props.color
+      ? props.theme.palette[props.color].main
+      : props.theme.palette.primary.main};
   background-color: white;
 `;
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: string;
+  color?: ColorType;
   invert?: boolean;
   loading?: boolean;
   children: React.ReactNode;
@@ -59,7 +70,7 @@ const Button: React.SFC<IButtonProps> = ({
     () =>
       loading ? (
         <LoadingWrapper>
-          <Spinner show accessibilityLabel="loading..." />
+          <CircularProgress />
         </LoadingWrapper>
       ) : null,
     [loading],

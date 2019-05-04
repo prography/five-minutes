@@ -12,7 +12,7 @@ export const Container = styled.div`
 
   background-color: white;
 
-  border-bottom: 5px solid ${props => props.theme.colors.primary};
+  border-bottom: 5px solid ${props => props.theme.palette.primary.main};
 `;
 
 export const LogoWrapper = styled.div`

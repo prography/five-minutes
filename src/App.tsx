@@ -2,7 +2,7 @@ import React, { Component, lazy, Suspense } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { History } from 'history';
 import { NotiPortal } from 'renoti';
-import { Spinner } from 'gestalt';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Header } from './containers';
 import { PageLayout } from './styles/common';
 import { ScrollChecker } from './components';
@@ -23,7 +23,7 @@ class App extends Component<IAppProps> {
         <Header />
         <ScrollChecker history={history}>
           <PageLayout>
-            <Suspense fallback={<Spinner show accessibilityLabel="loading" />}>
+            <Suspense fallback={<CircularProgress />}>
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/ask" component={Ask} />

@@ -4,8 +4,8 @@ import { CustomLink } from '.';
 import { ITag } from '../models/tag';
 
 const Wrapper = styled.span`
-  color: ${props => props.theme.colors.sub};
-  background-color: ${props => props.theme.colors.secondary};
+  color: ${props => props.theme.palette.secondary.contrastText};
+  background-color: ${props => props.theme.palette.secondary.main};
   font-size: 12px;
 
   margin-right: 0.3rem;

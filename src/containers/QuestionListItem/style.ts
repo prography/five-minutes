@@ -27,5 +27,5 @@ export const Info = styled.div`
 `;
 export const Date = styled.span`
   font-size: 0.85em;
-  color: ${props => props.theme.colors.gray};
+  color: ${props => props.theme.palette.gray};
 `;

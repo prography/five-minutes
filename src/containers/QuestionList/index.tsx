@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import { Spinner } from 'gestalt';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Observer } from './style';
 import { QuestionListItem } from '..';
 import useIntersect, { OnIntersect } from '../../hooks/useIntersect';
@@ -66,7 +66,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
         </div>
       ))}
       <Observer ref={setRef}>
-        <Spinner accessibilityLabel="loading" show={status === 'FETCHING'} />
+        {status === 'FETCHING' && <CircularProgress />}
       </Observer>
     </>
   );

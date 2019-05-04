@@ -2,24 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import configureStore from './store/configureStore';
-import { myTheme } from './styles/theme';
+import { materialTheme, styledTheme } from './styles/theme';
 import { history } from './utils/history';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import './styles/normalize.css';
 import './index.css';
-import 'gestalt/dist/gestalt.css';
 import 'renoti/dist/Renoti.css';
 
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={myTheme}>
-      <App history={history} />
-    </ThemeProvider>
+    <MuiThemeProvider theme={materialTheme}>
+      <ThemeProvider theme={styledTheme}>
+        <App history={history} />
+      </ThemeProvider>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root'),
 );

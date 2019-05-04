@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Divider } from 'gestalt';
+import Divider from '@material-ui/core/Divider';
 import { EditorFromTextArea } from 'codemirror';
 import { Codemirror, TagList } from '../../components';
 import { IQuestion } from '../../models/question';
@@ -51,7 +51,7 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
           <Date>{fmDate}</Date>
         </Info>
       </Header>
-      <Divider />
+      <Divider light />
       <Body>
         <Content dangerouslySetInnerHTML={{ __html: fmContent }} />
         <Code>
