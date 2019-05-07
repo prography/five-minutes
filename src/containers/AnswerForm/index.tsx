@@ -1,106 +1,143 @@
-import React, { useState, useEffect } from 'react';
-import { EditorFromTextArea, Editor as EditorType } from 'codemirror';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Popper from '@material-ui/core/Popper';
+import { EditorFromTextArea } from 'codemirror';
 import { useInput, useSetState } from '../../hooks';
-import { CommandMenu, Editor } from '../';
+import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror } from '../../components';
 import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
-import { Commands } from './styles';
+import { KEYMAP } from '../../utils/keyboard';
 
 interface IAnswerFormProps extends IQuestion {}
+
+const initialCommand = {
+  command: '',
+  slashPos: -1,
+  show: false,
+  top: 0,
+  left: 0,
+};
+type CodelineState = {
+  codelineRef: EditorFromTextArea | undefined;
+  codeline: string;
+  show: boolean;
+};
+// 일단 하나만.
+const COMMANDS = [{ type: 'codeline', description: '코드 라인을 정합니다.' }];
+
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
-  const [codeRef, setCodeRef] = useState<EditorFromTextArea>();
-  const [previewRef, setPreviewRef] = useState<EditorFromTextArea>();
-  const [answer, setAnswer, setAnswerValue] = useInput('');
-  const [open, setOpen] = useState(false);
-  const [codeline, setCodeline] = useState('');
+  // 코드 라인 커맨드
+  const [codelineState, setCodelineState] = useSetState<CodelineState>({
+    codelineRef: undefined,
+    codeline: '',
+    show: false,
+  });
+  const showCodeline = useCallback((show: boolean) => {
+    setCodelineState({ show });
+  }, []);
+  const setCodelineRef = useCallback(
+    (editor: EditorFromTextArea) => setCodelineState({ codelineRef: editor }),
+    [],
+  );
+  const onCodeSelect = useCallback(code => {
+    setCodelineState({ codeline: code, show: false });
+  }, []);
   useEffect(() => {
-    if (codeRef) {
-      const selectCodeline = (line: number) => {
-        setCodeline(codeRef.getDoc().getLine(line));
-        setOpen(false);
-      };
-      codeRef.on('dblclick', editor =>
-        selectCodeline(editor.getDoc().getCursor().line),
-      );
-      codeRef.on('keydown', (editor: EditorType, e: Event) => {
-        if ((e as KeyboardEvent).keyCode === 13) {
-          selectCodeline(editor.getDoc().getCursor().line);
+    const { codeline, codelineRef } = codelineState;
+    if (codelineRef) {
+      codelineRef.getDoc().setValue(codeline);
+    }
+  }, [codelineState.codeline]);
+
+  // Answer 폼
+  const [answer, setAnswer, setAnswerValue] = useInput('');
+
+  // Command 관리
+  const [editorRef, setEditorRef] = useState<HTMLTextAreaElement>();
+  const [commands, setCommands] = useSetState(initialCommand);
+  // command 정리
+  const clearCommand = useCallback(
+    (removeCommand: boolean = false) => {
+      // removeCommand true일 시 slash 뒤 삭제
+      if (removeCommand) {
+        setAnswerValue(prev => {
+          const lastCommandIndex = commands.slashPos;
+          return lastCommandIndex === -1
+            ? prev
+            : prev.substring(0, lastCommandIndex);
+        });
+      }
+      // command init
+      setCommands(initialCommand);
+    },
+    [commands.slashPos],
+  );
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      switch (KEYMAP[e.keyCode]) {
+        case 'ESCAPE': {
+          !commands.command && clearCommand();
+          return;
         }
+        case 'ESC': {
+          clearCommand();
+          return;
+        }
+        case 'SLASH': {
+          if (editorRef) {
+            const { top, left, height } = getCursorXY(
+              editorRef,
+              editorRef.selectionEnd,
+            );
+            setCommands({
+              slashPos: (e.target as HTMLTextAreaElement).value.length, // mui 타입 오류
+              show: true,
+              top: Math.min(top, editorRef.clientHeight - height) - 5,
+              left: left + 5,
+            });
+          }
+          return;
+        }
+      }
+    },
+    [commands.command, editorRef],
+  );
+  // slash 시작부터 command 업데이트. answer이 업데이트할 때만 실행하도록하는 이유는 show가 true일 때 answer이 아직 업데이트 안되어있을 때
+  // 나오는 에러 방지
+  useEffect(() => {
+    if (commands.show) {
+      if (answer.length <= commands.slashPos) {
+        setCommands(initialCommand);
+        return;
+      }
+      setCommands({
+        command: answer.substring(commands.slashPos + 1),
       });
     }
-  }, [codeRef]);
-  useEffect(() => {
-    if (previewRef) {
-      previewRef.getDoc().setValue(codeline);
-    }
-  }, [previewRef, codeline]);
-  useEffect(() => {
-    if (open && codeRef) {
-      codeRef.focus();
-      codeRef.getDoc().setCursor({ line: 0, ch: 0 });
-    }
-  }, [codeRef, open]);
-  const [editorRef, setEditorRef] = useState<HTMLTextAreaElement>();
-  const [commands, setCommands] = useSetState({
-    command: '',
-    show: false,
-    top: 0,
-    left: 0,
-  });
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.keyCode === 191) {
-      // slash
-      if (editorRef) {
-        const caretPos = getCursorXY(editorRef, editorRef.selectionEnd);
-        setCommands({
-          show: true,
-          top: Math.min(caretPos.top, editorRef.clientHeight - caretPos.height) - 5,
-          left: caretPos.left + 5,
-        });
+  }, [answer]);
+  const execCommand = useCallback(
+    (command: string) => {
+      switch (command) {
+        case 'codeline': {
+          setCodelineState({ show: true });
+        }
       }
-    }
-    if (e.keyCode === 27) {
-      // esc
-      setCommands({ show: false, top: 0, left: 0, command: '' });
-    }
-    if (e.keyCode === 8) {
-      if (!commands.command) {
-        setCommands({
-          show: false,
-          top: 0,
-          left: 0,
-          command: '',
-        });
-      }
-    }
-  };
-  useEffect(() => {
-    if (commands.show && answer) {
-      setCommands(prev => ({
-        ...prev,
-        command: answer.substring(answer.lastIndexOf("/") + 1),
-      }));
-    }
-  }, [answer, commands.show]);
-  const execCommand = (command: string) => {
-    setCommands({
-      show: false,
-      command: '',
-    });
-    setOpen(true);
-    setAnswerValue(prev => prev.slice(0, -(commands.command.length + 1)));
-  }
+      clearCommand(true);
+    },
+    [clearCommand],
+  );
+  const { show, codeline } = codelineState;
   return (
     <>
-      <button onClick={() => setOpen(true)}>open</button>
-      {codeline && <Codemirror setCodeEditor={setPreviewRef} readOnly value={codeline} mode={language} />}
+      <button onClick={() => showCodeline(true)}>open</button>
+      {codeline && (
+        <Codemirror
+          setCodeEditor={setCodelineRef}
+          readOnly
+          value={codeline}
+          mode={language}
+        />
+      )}
       <Editor
         inputRef={setEditorRef}
         value={answer}
@@ -110,9 +147,9 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
         variant="outlined"
       />
       <Popper
-        placement="top-start"
         anchorEl={editorRef}
         open={commands.show}
+        placement="top-start"
         modifiers={{
           flip: {
             enabled: false,
@@ -125,23 +162,22 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
             boundariesElement: 'viewport',
           },
         }}
+        disablePortal={false}
       >
-        <CommandMenu command={commands.command} execCommand={execCommand} />
+        <CommandMenu
+          commands={COMMANDS}
+          command={commands.command}
+          execCommand={execCommand}
+          clearCommand={clearCommand}
+        />
       </Popper>
-      <Dialog open={open} scroll="paper" onClose={() => setOpen(false)}>
-        <DialogTitle>라인을 선택해주세요.</DialogTitle>
-        <DialogContent>
-          {code && (
-            <Codemirror
-              readOnly
-              value={code}
-              mode={language}
-              setCodeEditor={setCodeRef}
-              styleActiveLine
-            />
-          )}
-        </DialogContent>
-      </Dialog>
+      <CodeSelect
+        open={show}
+        code={code}
+        language={language}
+        onCodeSelect={onCodeSelect}
+        showCodeSelect={showCodeline}
+      />
     </>
   );
 };

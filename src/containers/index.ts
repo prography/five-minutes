@@ -1,5 +1,6 @@
 import AnswerForm from './AnswerForm';
 import CodeEditor from './CodeEditor';
+import CodeSelect from './CodeSelect';
 import CommandMenu from './CommandMenu';
 import Editor from './Editor';
 import FeedSearch from './FeedSearch';
@@ -14,6 +15,7 @@ import TagSelect from './TagSelect';
 export {
   AnswerForm,
   CodeEditor,
+  CodeSelect,
   CommandMenu,
   Editor,
   FeedSearch,

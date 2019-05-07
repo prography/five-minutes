@@ -5,6 +5,7 @@ import useInput from './useInput';
 import useIntersect from './useIntersect';
 import useIObserver from './useIObserver';
 import useMarkdown from './useMarkdown';
+import usePrevious from './usePrevious';
 import useSetState from './useSetState';
 import useWindowEvent from './useWindowEvent';
 
@@ -16,6 +17,7 @@ export {
   useIntersect,
   useIObserver,
   useMarkdown,
+  usePrevious,
   useSetState,
   useWindowEvent,
 };

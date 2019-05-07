@@ -14,12 +14,15 @@ type UseWindowEvent = <T extends keyof WindowEventMap>(
 const useWindowEvent: UseWindowEvent = (type, listener, option) => {
   const listenerRef = useRef(listener);
   useEffect(() => {
+    listenerRef.current = listener;
+  }, [listener]);
+  useEffect(() => {
     const memoListener = (event: any) => {
       listenerRef.current.call(window, event);
     };
     window.addEventListener(type, memoListener, option);
     return () => window.removeEventListener(type, memoListener);
-  }, [type]);
+  }, [type, listenerRef.current]);
 };
 
 export default useWindowEvent;
