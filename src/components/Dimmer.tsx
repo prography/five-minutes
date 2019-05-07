@@ -13,7 +13,7 @@ const Dimmer = styled.div`
   align-items: center;
   justify-content: center;
 
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(255, 255, 255, 0.3);
 `;
 
 export default Dimmer;

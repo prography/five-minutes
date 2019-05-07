@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { QuestionView } from '../containers';
+import { AnswerForm, QuestionView } from '../containers';
 import { useInitialFetch } from '../hooks';
 import { getQuestion } from '../api/question';
 
@@ -17,6 +17,7 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   return (
     <>
       <QuestionView {...result} />
+      <AnswerForm {...result} />
     </>
   );
 };

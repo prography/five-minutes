@@ -10,6 +10,7 @@ import { IRootState } from '../../reducers';
 import { IQuestion } from '../../models/question';
 
 export interface IQuestionListProps {
+  loadNew: boolean;
   status: Status;
   questions: IQuestion[];
   error: string;
@@ -18,6 +19,7 @@ export interface IQuestionListProps {
   getQuestionsAction: typeof getQuestions;
 }
 const QuestionList: React.SFC<IQuestionListProps> = ({
+  loadNew,
   status,
   questions,
   error,
@@ -27,7 +29,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
 }) => {
   useEffect(() => {
     // TODO: cache 확인
-    if (questions.length === 0) {
+    if (loadNew) {
       getQuestionsAction({ page: 1, perPage: 10 });
     }
   }, []);
@@ -35,6 +37,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
   const currentList = useRef({
     page,
     status,
+    hasNext,
   });
   // currentList Ref 업데이트
   useEffect(() => {
@@ -42,13 +45,15 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
       ...currentList.current,
       page,
       status,
+      hasNext,
     };
-  }, [page, status]);
+  }, [page, status, hasNext]);
   // 다음 페이지 없을 경우 observer 해제
   const onIntersect: OnIntersect = useCallback((entry, observer) => {
     observer.unobserve(entry.target);
-    if (currentList.current.status !== 'FETCHING') {
-      getQuestionsAction({ page: currentList.current.page + 1, perPage: 10 });
+    const { page, status, hasNext } = currentList.current;
+    if (hasNext && status !== 'FETCHING') {
+      getQuestionsAction({ page: page + 1, perPage: 10 });
     }
   }, []);
 
@@ -59,7 +64,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
       ref && observer && observer.observe(ref);
     }
   }, [hasNext, status]);
-  if (status !== 'INIT' && questions.length === 0) {
+  if (status === 'SUCCESS' && questions.length === 0) {
     return <NoResult />;
   }
   return (

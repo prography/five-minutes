@@ -1,11 +1,11 @@
 import React from 'react';
-import { FeedSearch } from '../containers';
 import { QuestionList } from '../containers';
+import { RouteComponentProps } from 'react-router';
 
-const Home = () => {
+const Home: React.SFC<RouteComponentProps> = ({ history }) => {
   return (
     <>
-      <QuestionList />
+      <QuestionList loadNew={history.action === 'PUSH'} />
     </>
   );
 };

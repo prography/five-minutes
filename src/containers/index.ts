@@ -1,4 +1,6 @@
+import AnswerForm from './AnswerForm';
 import CodeEditor from './CodeEditor';
+import CommandMenu from './CommandMenu';
 import Editor from './Editor';
 import FeedSearch from './FeedSearch';
 import Header from './Header';
@@ -10,7 +12,9 @@ import QuestionView from './QuestionView';
 import TagSelect from './TagSelect';
 
 export {
+  AnswerForm,
   CodeEditor,
+  CommandMenu,
   Editor,
   FeedSearch,
   Header,

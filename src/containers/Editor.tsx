@@ -1,6 +1,6 @@
 import React, { useState, memo } from 'react';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
+import TextField, { TextFieldProps } from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import useMarkdown from '../hooks/useMarkdown';
 
@@ -14,13 +14,9 @@ const Preview = styled.div`
   padding: 0 14px;
 `;
 
-interface IEditorProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  value: string;
-  handleChange: React.ChangeEventHandler<HTMLTextAreaElement>;
-}
-const Editor: React.SFC<IEditorProps> = ({ value, handleChange }) => {
-  const markdownValue = useMarkdown(value);
+type EditorProps = TextFieldProps;
+const Editor: React.SFC<EditorProps> = ({ value = '', variant, ...props }) => {
+  const markdownValue = useMarkdown(`${value}`);
   return (
     <>
       <TextContainer>
@@ -31,7 +27,8 @@ const Editor: React.SFC<IEditorProps> = ({ value, handleChange }) => {
           margin="dense"
           fullWidth
           value={value}
-          onChange={handleChange}
+          variant={variant as any}
+          {...props}
         />
       </TextContainer>
       <TextContainer>

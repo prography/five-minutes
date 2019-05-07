@@ -5,7 +5,7 @@ import { NotiPortal } from 'renoti';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Header } from './containers';
 import { PageLayout } from './styles/common';
-import { ScrollChecker } from './components';
+import { Dimmer, ScrollChecker } from './components';
 import { notifier } from './utils/renoti';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -23,7 +23,13 @@ class App extends Component<IAppProps> {
         <Header />
         <ScrollChecker history={history}>
           <PageLayout>
-            <Suspense fallback={<CircularProgress />}>
+            <Suspense
+              fallback={
+                <Dimmer>
+                  <CircularProgress />
+                </Dimmer>
+              }
+            >
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/ask" component={Ask} />

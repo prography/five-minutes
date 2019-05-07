@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
 import CodeMirror, {
   EditorFromTextArea,
   EditorConfiguration,
 } from 'codemirror';
 import styled from 'styled-components';
+import 'codemirror/addon/selection/active-line';
 import 'codemirror/lib/codemirror';
 import 'codemirror/lib/codemirror.css';
 import '../styles/codemirror.css';
@@ -63,4 +64,4 @@ const Codemirror: React.SFC<ICodemirrorProps> = ({
   );
 };
 
-export default Codemirror;
+export default memo(Codemirror);

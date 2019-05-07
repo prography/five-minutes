@@ -64,7 +64,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
         title="1. 질문에 대해 적어주세요."
         subTitle="(요약하면 어떤 문제인가요? 해결하기 위해 시도했던 것들을 말해주세요. 결과물이 어떻게 나오면 좋겠나요?)"
       >
-        <Editor value={content} handleChange={handleContentChange} />
+        <Editor value={content} onChange={handleContentChange} />
       </Question>
       <Question title="2. 코드를 올려주세요">
         <CodeEditor
