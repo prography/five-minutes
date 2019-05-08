@@ -7,6 +7,7 @@ import { Codemirror } from '../../components';
 import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
+import { ICommand, CommandType } from '../../models/command';
 
 interface IAnswerFormProps extends IQuestion {}
 
@@ -23,7 +24,9 @@ type CodelineState = {
   show: boolean;
 };
 // 일단 하나만.
-const COMMANDS = [{ type: 'codeline', description: '코드 라인을 정합니다.' }];
+const COMMANDS: ICommand[] = [
+  { type: 'codeline', description: '코드 라인을 정합니다.' },
+];
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
   // 코드 라인 커맨드
@@ -116,7 +119,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
     }
   }, [answer]);
   const execCommand = useCallback(
-    (command: string) => {
+    (command: CommandType) => {
       switch (command) {
         case 'codeline': {
           setCodelineState({ show: true });
@@ -139,11 +142,12 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
         />
       )}
       <Editor
-        inputRef={setEditorRef}
         value={answer}
+        inputRef={setEditorRef}
         onChange={setAnswer}
         onKeyDown={handleKeyDown}
         rows={4}
+        margin="none"
         variant="outlined"
       />
       <Popper

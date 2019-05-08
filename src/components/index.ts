@@ -1,6 +1,7 @@
 import Button from './Button';
 import Codemirror from './Codemirror';
 import CustomLink from './CustomLink';
+import Divider from './Divider';
 import ErrorBoundary from './ErrorBoundary';
 import Dimmer from './Dimmer';
 import Input from './Input';
@@ -14,6 +15,7 @@ export {
   Button,
   Codemirror,
   CustomLink,
+  Divider,
   ErrorBoundary,
   Dimmer,
   Input,
