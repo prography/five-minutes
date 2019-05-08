@@ -11,7 +11,6 @@ const Editor: React.SFC<EditorProps> = ({ value = '', variant, ...props }) => {
       <div>
         <TextField
           id="contents"
-          label="내용"
           multiline
           margin="dense"
           fullWidth

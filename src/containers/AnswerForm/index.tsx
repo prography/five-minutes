@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Popper from '@material-ui/core/Popper';
 import { EditorFromTextArea } from 'codemirror';
 import { useInput, useSetState } from '../../hooks';
@@ -8,6 +8,9 @@ import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
 import { ICommand, CommandType } from '../../models/command';
+import Toolbar from '../Editor/Toolbar';
+import { EditorWithToolbar } from './styles';
+import { Title } from '../../styles/common';
 
 interface IAnswerFormProps extends IQuestion {}
 
@@ -58,7 +61,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
   // Command 관리
   const [editorRef, setEditorRef] = useState<HTMLTextAreaElement>();
   const [commands, setCommands] = useSetState(initialCommand);
-  // command 정리
+  // Command clear
   const clearCommand = useCallback(
     (removeCommand: boolean = false) => {
       // removeCommand true일 시 slash 뒤 삭제
@@ -75,6 +78,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
     },
     [commands.slashPos],
   );
+  // Command helper keymapping
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       switch (KEYMAP[e.keyCode]) {
@@ -118,6 +122,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
       });
     }
   }, [answer]);
+  // Command 실행
   const execCommand = useCallback(
     (command: CommandType) => {
       switch (command) {
@@ -132,7 +137,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
   const { show, codeline } = codelineState;
   return (
     <>
-      <button onClick={() => showCodeline(true)}>open</button>
+      <Title>답변 작성</Title>
       {codeline && (
         <Codemirror
           setCodeEditor={setCodelineRef}
@@ -141,15 +146,19 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
           mode={language}
         />
       )}
-      <Editor
-        value={answer}
-        inputRef={setEditorRef}
-        onChange={setAnswer}
-        onKeyDown={handleKeyDown}
-        rows={4}
-        margin="none"
-        variant="outlined"
-      />
+      <EditorWithToolbar>
+        <Toolbar commands={COMMANDS} execCommand={execCommand} />
+        <Editor
+          value={answer}
+          inputRef={setEditorRef}
+          onChange={setAnswer}
+          onKeyDown={handleKeyDown}
+          rows={4}
+          margin="none"
+          variant="outlined"
+          placeholder="내용을 입력해주세요."
+        />
+      </EditorWithToolbar>
       <Popper
         anchorEl={editorRef}
         open={commands.show}

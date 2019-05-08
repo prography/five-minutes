@@ -10,3 +10,17 @@ export const Commands = styled.div`
 
   padding: 5px 10px;
 `;
+
+export const EditorWithToolbar = styled.div`
+  margin-top: 2rem;
+  * {
+    box-sizing: border-box;
+  }
+  fieldset {
+    border-radius: 0px;
+
+    &:focus {
+      border: 1px solid #ccc;
+    }
+  }
+`;

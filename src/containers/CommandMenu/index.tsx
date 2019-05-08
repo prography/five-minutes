@@ -29,7 +29,14 @@ const CommandMenu: React.SFC<ICommandProps> = ({
 }) => {
   // 슬래쉬 다음 input 값에 대해 regex로 필터링
   const matchCommands = useMemo(() => {
-    return commands.filter(({ type }) => type.match(command));
+    return commands.filter(({ type }) => {
+      try {
+        const isMatch = new RegExp('^' + command, 'g').test(type);
+        return isMatch;
+      } catch (err) {
+        return false;
+      }
+    });
   }, [command]);
   // 현재 focus 중인 index
   const [commandIndex, setCommandIndex] = useState(0);
