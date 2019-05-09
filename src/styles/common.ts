@@ -22,8 +22,12 @@ export const ShadowBox = styled.div`
 
   box-sizing: border-box;
   background: #ffffff;
-  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.02);
   width: 100%;
+  transition: box-shadow 0.3s;
+  &:hover {
+    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.15);
+  }
 `;
 
 export const Title = styled.h1`
