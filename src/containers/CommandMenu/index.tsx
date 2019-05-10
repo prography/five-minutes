@@ -49,7 +49,7 @@ const CommandMenu: React.SFC<ICommandProps> = ({
     if (matchCommands.length === 0 && command.length > prevCommand.length) {
       attemptRef.current++;
     } else {
-      attemptRef.current = Math.min(attemptRef.current - 1, 0);
+      attemptRef.current = Math.max(attemptRef.current - 1, 0);
     }
   }, [command]);
 
@@ -90,7 +90,7 @@ const CommandMenu: React.SFC<ICommandProps> = ({
           ))}
         </List>
       ) : (
-        <h2>결과가 없습니다..</h2>
+        <span>결과가 없습니다.</span>
       )}
     </Commands>
   );

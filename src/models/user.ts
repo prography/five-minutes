@@ -19,6 +19,10 @@ export interface IUser extends ISchemaBase {
   likedComments: ICommentLike[];
 }
 
+export type ISignupUser = Pick<
+  IUser,
+  'email' | 'nickname' | 'password' | 'githubUrl'
+>;
 export interface IUserTag extends ISchemaBase {
   tag: ITag;
   user: IUser;

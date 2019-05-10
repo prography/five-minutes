@@ -19,5 +19,10 @@ const palette = {
   },
   gray: '#d1d5da',
 };
-export const materialTheme = createMuiTheme({ palette });
+export const materialTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+  palette,
+});
 export const styledTheme: DefaultTheme = { palette };
