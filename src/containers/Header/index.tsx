@@ -1,6 +1,9 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import { CustomLink, Input, Logo } from '../../components';
+import { openModal, closeModal } from '../../actions/modal';
 import {
   Container,
   LogoWrapper,
@@ -16,7 +19,10 @@ import {
 //   '/ask': true,
 // };
 
-const Header: React.SFC<RouteComponentProps> = ({ location }) => {
+const Header: React.SFC<RouteComponentProps & { dispatch: Dispatch }> = ({
+  dispatch,
+  location,
+}) => {
   const { pathname } = location;
   return (
     <Container>
@@ -35,11 +41,11 @@ const Header: React.SFC<RouteComponentProps> = ({ location }) => {
         </CustomLink>
       </SearchBox>
       <Actions>
-        <Menu>로그인</Menu>
-        <Menu>회원가입</Menu>
+        <Menu onClick={() => dispatch(openModal('signin'))}>로그인</Menu>
+        <Menu onClick={() => dispatch(openModal('signup'))}>회원가입</Menu>
       </Actions>
     </Container>
   );
 };
 
-export default withRouter(memo(Header));
+export default withRouter(connect()(Header));

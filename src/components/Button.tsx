@@ -22,7 +22,6 @@ export const LoadingWrapper = styled.div`
 const DefaultButton = styled.button<{ color?: ColorType }>`
   position: relative;
   min-width: 120px;
-  height: 100%;
   min-height: 60px;
   padding: 20px 5px;
   margin-left: 20px;

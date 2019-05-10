@@ -3,7 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { History } from 'history';
 import { NotiPortal } from 'renoti';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Header } from './containers';
+import { Header, Modal } from './containers';
 import { PageLayout } from './styles/common';
 import { Dimmer, ScrollChecker } from './components';
 import { notifier } from './utils/renoti';
@@ -42,6 +42,7 @@ class App extends Component<IAppProps> {
             </Suspense>
           </PageLayout>
         </ScrollChecker>
+        <Modal />
         <NotiPortal notifier={notifier} />
       </Router>
     );

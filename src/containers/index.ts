@@ -5,6 +5,7 @@ import CommandMenu from './CommandMenu';
 import Editor from './Editor';
 import FeedSearch from './FeedSearch';
 import Header from './Header';
+import Modal from './Modal';
 import Question from './Question';
 import QuestionForm from './QuestionForm';
 import QuestionList from './QuestionList';
@@ -20,6 +21,7 @@ export {
   Editor,
   FeedSearch,
   Header,
+  Modal,
   Question,
   QuestionForm,
   QuestionList,

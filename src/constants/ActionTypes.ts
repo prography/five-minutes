@@ -1,5 +1,10 @@
 export const INIT_ACTION = 'INIT_ACTION';
 
+/* Modal */
+
+export const OPEN_MODAL = 'OPEN_MODAL' as const;
+export const CLOSE_MODAL = 'CLOSE_MODAL' as const;
+ 
 /* Question */
 
 export const POST_QUESTION = 'POST_QUESTION' as const;
