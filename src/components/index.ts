@@ -10,6 +10,7 @@ import NoResult from './NoResult';
 import ScrollChecker from './ScrollChecker';
 import Tag from './Tag';
 import TagList from './TagList';
+import ProfilePhoto from './ProfilePhoto'
 
 export {
   Button,
@@ -24,4 +25,5 @@ export {
   ScrollChecker,
   Tag,
   TagList,
+  ProfilePhoto,
 };

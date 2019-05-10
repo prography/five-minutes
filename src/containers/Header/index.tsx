@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { CustomLink, Input, Logo } from '../../components';
+import { CustomLink, Input, Logo, ProfilePhoto } from '../../components';
 import { openModal, closeModal } from '../../actions/modal';
 import {
   Container,
@@ -41,7 +41,7 @@ const Header: React.SFC<RouteComponentProps & { dispatch: Dispatch }> = ({
         </CustomLink>
       </SearchBox>
       <Actions>
-        <Menu onClick={() => dispatch(openModal('signin'))}>로그인</Menu>
+        <Menu onClick={() => dispatch(openModal('signin'))}><ProfilePhoto /></Menu>
         <Menu onClick={() => dispatch(openModal('signup'))}>회원가입</Menu>
       </Actions>
     </Container>
