@@ -18,11 +18,11 @@ export interface IUser extends ISchemaBase {
   likedQuestions: IQuestionLike[];
   likedComments: ICommentLike[];
 }
-
+export type ISigninUser = Pick<IUser, 'email' | 'password'>;
 export type ISignupUser = Pick<
   IUser,
   'email' | 'nickname' | 'password' | 'githubUrl'
->;
+> & { passwordConfirmation: string };
 export interface IUserTag extends ISchemaBase {
   tag: ITag;
   user: IUser;

@@ -10,8 +10,7 @@ const CustomMuiField: React.SFC<FieldProps & TextFieldProps> = ({
 }) => {
   return (
     <TextField
-      margin="normal"
-      fullWidth
+      margin="dense"
       error={!!errors[field.name]}
       helperText={errors[field.name]}
       variant={variant as any}
