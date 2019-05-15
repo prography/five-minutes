@@ -34,7 +34,7 @@ export const Title = styled.h1`
   font-size: 24px;
   color: ${props => props.theme.palette.primary.main};
 
-  border-left: 5px solid ${props => props.theme.palette.primary.main};
+  border-left: 3.5px solid ${props => props.theme.palette.primary.main};
 
   padding-left: 20px;
 `;

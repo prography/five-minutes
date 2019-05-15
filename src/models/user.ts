@@ -3,10 +3,12 @@ import { IComment, ICommentLike } from './comment';
 import { IQuestion, IQuestionLike } from './question';
 import { ITag } from './tag';
 
+interface IPrivateInfo {
+  password: string;
+}
 export interface IUser extends ISchemaBase {
   email: string;
   nickname: string;
-  password: string;
   rank: string;
   verifiedAt: Date;
   token: string;
@@ -18,11 +20,10 @@ export interface IUser extends ISchemaBase {
   likedQuestions: IQuestionLike[];
   likedComments: ICommentLike[];
 }
-export type ISigninUser = Pick<IUser, 'email' | 'password'>;
-export type ISignupUser = Pick<
-  IUser,
-  'email' | 'nickname' | 'password' | 'githubUrl'
-> & { passwordConfirmation: string };
+export type ISigninUser = Pick<IUser, 'email'> & IPrivateInfo;
+export type ISignupUser = Pick<IUser, 'email' | 'nickname' | 'githubUrl'> & {
+  passwordConfirmation: string;
+} & IPrivateInfo;
 export interface IUserTag extends ISchemaBase {
   tag: ITag;
   user: IUser;

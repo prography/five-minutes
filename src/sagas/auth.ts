@@ -1,17 +1,52 @@
-import { all, fork, call, put, take } from 'redux-saga/effects';
-import * as ActionTypes from '../constants/ActionTypes';
-import { IInitAction } from '../actions/auth';
-import tagRoot from './tag';
+import {
+  all,
+  fork,
+  call,
+  put,
+  take,
+  cancel,
+  cancelled,
+} from 'redux-saga/effects';
+import {
+  SIGNIN,
+  SIGNIN_FAILURE,
+  SIGNIN_SUCCESS,
+} from '../constants/ActionTypes';
+import { AuthAction, Signin, Logout } from '../actions/auth';
+import * as authApi from '../api/auth';
 
-function init(action: IInitAction) {
-  console.log(`${action.type} dispatched!`);
+function* signin(action: Signin) {
+  try {
+    const { result }: SagaEffect<typeof authApi.signin> = yield call(
+      authApi.signin,
+      action.payload,
+    );
+    yield put<AuthAction>({
+      type: SIGNIN_SUCCESS,
+      payload: result,
+    });
+  } catch (err) {
+    yield put<AuthAction>({
+      type: SIGNIN_FAILURE,
+      payload: err.response ? err.response.data : '',
+    });
+  } finally {
+    if (yield cancelled()) {
+      // signin cancelled.
+    }
+  }
 }
-function* watchInit() {
+function* watchSignin() {
   while (true) {
-    const action = yield take(ActionTypes.INIT_ACTION);
-    yield call(init, action);
+    const action: Signin = yield take(SIGNIN);
+    const signinTask = yield fork(signin, action);
+    const laterAction: AuthAction = yield take(['LOGOUT', 'SIGNIN_FAILURE']);
+    if (laterAction.type === 'LOGOUT') {
+      yield cancel(signinTask);
+    }
+    // TODO: logout api
   }
 }
 export default function* root() {
-  yield all([fork(watchInit), fork(tagRoot)]);
+  yield all([fork(watchSignin)]);
 }

@@ -6,6 +6,9 @@ export const Inner = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
+
+  max-width: 400px;
+  margin: auto;
 `;
 // input 2개를 centering
 export const InputWrapper = styled.div<{ isLeft?: boolean }>`

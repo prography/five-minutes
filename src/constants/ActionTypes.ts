@@ -1,10 +1,16 @@
 export const INIT_ACTION = 'INIT_ACTION';
 
+/* Auth */
+export const SIGNIN = 'SIGNIN' as const;
+export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS' as const;
+export const SIGNIN_FAILURE = 'SIGNIN_FAILURE' as const;
+
+export const LOGOUT = 'LOGOUT' as const;
 /* Modal */
 
 export const OPEN_MODAL = 'OPEN_MODAL' as const;
 export const CLOSE_MODAL = 'CLOSE_MODAL' as const;
- 
+
 /* Question */
 
 export const POST_QUESTION = 'POST_QUESTION' as const;

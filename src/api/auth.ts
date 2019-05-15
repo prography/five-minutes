@@ -14,7 +14,10 @@ export const signup: ApiCall<
 };
 
 // signin response 타입
-export const signin: ApiCall<ISigninUser, any> = async signinUser => {
+export const signin: ApiCall<
+  ISigninUser,
+  ApiResponse<IUser>
+> = async signinUser => {
   const { data } = await instance.post('/sign-in', signinUser);
   return data;
 };

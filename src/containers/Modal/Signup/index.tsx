@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Formik, FastField, FormikProps } from 'formik';
 import Button from '@material-ui/core/Button';
 import { string, object, Schema } from 'yup';
@@ -8,6 +8,7 @@ import { Form, FakeLink, InputWrapper } from '../style';
 import { Title } from '../../../styles/common';
 import { ISignupUser } from '../../../models/user';
 import { signup } from '../../../api/auth';
+import { useApi } from '../../../hooks';
 
 interface SignupProps {
   openModal: (type: ModalType) => void;
@@ -78,18 +79,20 @@ function setTouchedOnChange(
   };
 }
 const Signup: React.SFC<SignupProps> = ({ openModal, closeModal }) => {
+  const { api, status } = useApi(signup);
+  const isFetching = status === 'FETCHING';
   return (
     <>
       <Formik
         validateOnBlur={false}
         initialValues={initialValues}
-        onSubmit={async values => {
+        onSubmit={async (values, actions) => {
           // server-side validation
           try {
-            const { result } = await signup(values);
-            console.log(result);
+            const { result } = await api(values);
+            // TODO: signup 성공 로직
           } catch (err) {
-            console.log(err);
+            actions.validateForm();
           }
         }}
         render={props => (
@@ -156,10 +159,12 @@ const Signup: React.SFC<SignupProps> = ({ openModal, closeModal }) => {
               onChange={setTouchedOnChange('githubUrl', props)}
             />
             <Button
+              disabled={isFetching}
               variant="contained"
               fullWidth
               color="primary"
               onClick={() => props.handleSubmit()}
+              style={{ margin: '1rem 0' }}
             >
               완료
             </Button>
@@ -174,4 +179,4 @@ const Signup: React.SFC<SignupProps> = ({ openModal, closeModal }) => {
   );
 };
 
-export default Signup;
+export default memo(Signup);
