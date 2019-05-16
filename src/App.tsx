@@ -1,5 +1,6 @@
-import React, { Component, lazy, Suspense } from 'react';
+import React, { Component, lazy, Suspense, useEffect } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { History } from 'history';
 import { NotiPortal } from 'renoti';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -12,17 +13,22 @@ import {
   PrevLocation,
 } from './components';
 import { notifier } from './utils/renoti';
+import { IRootState } from './reducers';
 
 const Home = lazy(() => import('./pages/Home'));
 const Ask = lazy(() => import('./pages/Ask'));
 const Question = lazy(() => import('./pages/Question'));
 
 export interface IAppProps {
+  meStatus: Status;
   history: History;
 }
 class App extends Component<IAppProps> {
   render() {
-    const { history } = this.props;
+    const { history, meStatus } = this.props;
+    if (meStatus === 'INIT' || meStatus === 'FETCHING') {
+      return null;
+    }
     return (
       <Router history={history}>
         <Header />
@@ -56,4 +62,7 @@ class App extends Component<IAppProps> {
   }
 }
 
-export default App;
+const mapStateToProps = (state: IRootState) => ({
+  meStatus: state.auth.me.status,
+});
+export default connect(mapStateToProps)(App);

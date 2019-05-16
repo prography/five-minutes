@@ -9,6 +9,7 @@ import Logo from './Logo';
 import Message from './Message';
 import NoResult from './NoResult';
 import PrevLocation from './PrevLocation';
+import ProfileMenu from './ProfileMenu';
 import ProfilePhoto from './ProfilePhoto';
 import ProtectedRoute from './ProtectedRoute';
 import ScrollChecker from './ScrollChecker';
@@ -27,6 +28,7 @@ export {
   Message,
   NoResult,
   PrevLocation,
+  ProfileMenu,
   ProfilePhoto,
   ProtectedRoute,
   ScrollChecker,

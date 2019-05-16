@@ -21,7 +21,7 @@ const ProtectedRoute: React.SFC<IProtectedRouteProps> = ({
   ...props
 }) => {
   const prevLocation = usePrevLocation();
-  // 초기 진입시 로그인 안되어있을 경우 로그인 모달
+  // 초기 진입시 로그인 안되어있을 경우(verify 진행 중인 경우 제외) 로그인 모달
   useEffect(() => {
     if (!isLoggedIn) {
       dispatch(openModal('signin'));
@@ -44,7 +44,7 @@ const ProtectedRoute: React.SFC<IProtectedRouteProps> = ({
 };
 
 const mapStateToProps = (state: IRootState) => ({
-  isLoggedIn: state.auth.profile.isLoggedIn,
+  isLoggedIn: state.auth.me.isLoggedIn,
   modalType: state.modal.modalType,
 });
 

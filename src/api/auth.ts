@@ -21,3 +21,8 @@ export const signin: ApiCall<
   const { data } = await instance.post('/sign-in', signinUser);
   return data;
 };
+
+export const me: ApiCall<any, ApiResponse<IUser | null>> = async () => {
+  const { data } = await instance.get('/me');
+  return data;
+};

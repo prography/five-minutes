@@ -6,9 +6,14 @@ import {
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
   LOGOUT,
+  ME,
+  ME_SUCCESS,
+  ME_FAILURE,
 } from '../constants/ActionTypes';
 
-export interface IAuthProfile {
+export interface IAuthMe {
+  status: Status;
+  error: string;
   isLoggedIn: boolean;
   user: IUser;
 }
@@ -17,11 +22,13 @@ export interface IAuthSignin {
   error: string;
 }
 export interface IAuthState {
-  profile: IAuthProfile;
+  me: IAuthMe;
   signin: IAuthSignin;
 }
 const initialState: IAuthState = {
-  profile: {
+  me: {
+    status: 'INIT',
+    error: '',
     isLoggedIn: false,
     user: {
       id: '',
@@ -52,23 +59,43 @@ const authReducer = (
 ): IAuthState => {
   return produce(state, draft => {
     switch (action.type) {
+      case ME: {
+        draft.me.status = 'FETCHING';
+        return draft;
+      }
+      case ME_SUCCESS: {
+        draft.me.status = 'SUCCESS';
+        if (action.payload) {
+          // verify 성공하여 유저 정보 받아온 경우
+          draft.me.isLoggedIn = true;
+          draft.me.user = action.payload;
+        }
+        return draft;
+      }
+      case ME_FAILURE: {
+        draft.me.status = 'FAILURE';
+        draft.me.error = action.payload;
+        draft.me.user = initialState.me.user;
+        return draft;
+      }
       case SIGNIN: {
         draft.signin.status = 'FETCHING';
         return draft;
       }
       case SIGNIN_SUCCESS: {
         draft.signin.status = 'SUCCESS';
-        draft.profile.isLoggedIn = true;
-        draft.profile.user = action.payload;
+        draft.me.isLoggedIn = true;
+        draft.me.user = action.payload;
         return draft;
       }
       case SIGNIN_FAILURE: {
         draft.signin.status = 'FAILURE';
-        draft.profile.isLoggedIn = false;
+        draft.me.isLoggedIn = false;
         return draft;
       }
       case LOGOUT: {
-        draft = initialState;
+        draft.me.isLoggedIn = false;
+        draft.me.user = initialState.me.user;
         return draft;
       }
     }

@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { CustomLink, Input, Logo, ProfilePhoto } from '../../components';
+import Button from '@material-ui/core/Button';
+import {
+  CustomLink,
+  Input,
+  Logo,
+  ProfilePhoto,
+  ProfileMenu,
+} from '../../components';
 import { openModal, closeModal } from '../../actions/modal';
 import {
   Container,
@@ -13,17 +20,24 @@ import {
   Actions,
   Menu,
 } from './style';
+import { IRootState } from '../../reducers';
+import { IUser } from '../../models/user';
+import { logout } from '../../actions/auth';
 
 // searchbox가 필요한 route
 // const withSearchPath: { [key: string]: boolean } = {
 //   '/ask': true,
 // };
 
-const Header: React.SFC<RouteComponentProps & { dispatch: Dispatch }> = ({
-  dispatch,
-  location,
-}) => {
-  const { pathname } = location;
+export interface IHeaderProps extends RouteComponentProps {
+  dispatch: Dispatch;
+  user: IUser;
+  isLoggedIn: boolean;
+}
+const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+  }, []);
   return (
     <Container>
       <LogoWrapper>
@@ -41,11 +55,27 @@ const Header: React.SFC<RouteComponentProps & { dispatch: Dispatch }> = ({
         </CustomLink>
       </SearchBox>
       <Actions>
-        <Menu onClick={() => dispatch(openModal('signin'))}><ProfilePhoto /></Menu>
-        <Menu onClick={() => dispatch(openModal('signup'))}>회원가입</Menu>
+        {isLoggedIn ? (
+          <Menu>
+            <ProfileMenu {...user} logout={handleLogout} />
+          </Menu>
+        ) : (
+          <>
+            <Button onClick={() => dispatch(openModal('signin'))}>
+              로그인
+            </Button>
+            <Button onClick={() => dispatch(openModal('signup'))}>
+              회원가입
+            </Button>
+          </>
+        )}
       </Actions>
     </Container>
   );
 };
 
-export default withRouter(connect()(Header));
+const mapStateToProps = (state: IRootState) => ({
+  isLoggedIn: state.auth.me.isLoggedIn,
+  user: state.auth.me.user,
+});
+export default withRouter(connect(mapStateToProps)(Header));

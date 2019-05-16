@@ -1,6 +1,10 @@
 export const INIT_ACTION = 'INIT_ACTION';
 
 /* Auth */
+export const ME = 'ME' as const;
+export const ME_SUCCESS = 'ME_SUCCESS' as const;
+export const ME_FAILURE = 'ME_FAILURE' as const;
+
 export const SIGNIN = 'SIGNIN' as const;
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS' as const;
 export const SIGNIN_FAILURE = 'SIGNIN_FAILURE' as const;
