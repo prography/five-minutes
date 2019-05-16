@@ -90,7 +90,9 @@ const Signup: React.SFC<SignupProps> = ({ openModal, closeModal }) => {
           // server-side validation
           try {
             const { result } = await api(values);
-            // TODO: signup 성공 로직
+            if (result) {
+              openModal('signin');
+            }
           } catch (err) {
             actions.validateForm();
           }

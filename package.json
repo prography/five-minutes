@@ -56,7 +56,7 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "https://aws.heewon.xyz",
+  "proxy": "http://35.212.191.174",
   "devDependencies": {
     "typescript": "^3.4.5"
   }

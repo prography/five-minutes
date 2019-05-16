@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { QuestionForm } from '../containers';
 import { ErrorBoundary } from '../components';
 
@@ -12,4 +12,4 @@ const Ask = () => {
   );
 };
 
-export default Ask;
+export default memo(Ask);

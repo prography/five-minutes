@@ -11,9 +11,14 @@ import {
   SIGNIN,
   SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
+  LOGOUT,
+  CLOSE_MODAL,
 } from '../constants/ActionTypes';
 import { AuthAction, Signin, Logout } from '../actions/auth';
 import * as authApi from '../api/auth';
+import * as authUtil from '../utils/auth';
+import { ModalAction } from '../actions/modal';
+import { notifier } from '../utils/renoti';
 
 function* signin(action: Signin) {
   try {
@@ -21,10 +26,15 @@ function* signin(action: Signin) {
       authApi.signin,
       action.payload,
     );
+    authUtil.setToken(result.token);
     yield put<AuthAction>({
       type: SIGNIN_SUCCESS,
       payload: result,
     });
+    yield put<ModalAction>({
+      type: CLOSE_MODAL,
+    });
+    notifier.notify({ message: `환영합니다! ${result.nickname}님 👋` });
   } catch (err) {
     yield put<AuthAction>({
       type: SIGNIN_FAILURE,
@@ -32,6 +42,10 @@ function* signin(action: Signin) {
     });
   } finally {
     if (yield cancelled()) {
+      yield put<AuthAction>({
+        type: SIGNIN_FAILURE,
+        payload: '',
+      });
       // signin cancelled.
     }
   }
@@ -44,7 +58,10 @@ function* watchSignin() {
     if (laterAction.type === 'LOGOUT') {
       yield cancel(signinTask);
     }
-    // TODO: logout api
+    authUtil.removeToken();
+    yield put<AuthAction>({
+      type: LOGOUT,
+    });
   }
 }
 export default function* root() {

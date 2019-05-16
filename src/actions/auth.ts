@@ -11,7 +11,7 @@ const signinActions = createAsyncActionCreator(
   SIGNIN,
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
-)<ISigninUser, IUser, { error: string }>();
+)<ISigninUser, IUser, string>();
 
 export const signin = signinActions.request;
 export type Signin = ReturnType<typeof signin>;

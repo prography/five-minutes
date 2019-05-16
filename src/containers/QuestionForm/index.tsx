@@ -10,11 +10,13 @@ import { ButtonWrapper } from './styles';
 import { Button } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
 import * as questionApi from '../../api/question';
+import { IRootState } from '../../reducers';
 
 export interface QuestionForm {
+  userId: string;
   dispatch: Dispatch;
 }
-const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
+const QuestionForm: React.SFC<QuestionForm> = ({ userId, dispatch }) => {
   const codeEditor = useRef<EditorFromTextArea | null>(null);
   const setCodeEditor = useCallback((editor: EditorFromTextArea) => {
     codeEditor.current = editor;
@@ -45,7 +47,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       tags,
       code,
       language: mode,
-      user: 1, // 임시
+      user: userId,
     };
     dispatch(postQuestion(newQuestion));
   };
@@ -96,4 +98,8 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   );
 };
 
-export default connect()(QuestionForm);
+const mapStateToProps = (state: IRootState) => ({
+  userId: state.auth.profile.user.id,
+});
+
+export default connect(mapStateToProps)(QuestionForm);

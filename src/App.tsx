@@ -5,7 +5,12 @@ import { NotiPortal } from 'renoti';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Header, Modal } from './containers';
 import { PageLayout } from './styles/common';
-import { Dimmer, ScrollChecker } from './components';
+import {
+  Dimmer,
+  ScrollChecker,
+  ProtectedRoute,
+  PrevLocation,
+} from './components';
 import { notifier } from './utils/renoti';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -21,27 +26,29 @@ class App extends Component<IAppProps> {
     return (
       <Router history={history}>
         <Header />
-        <ScrollChecker history={history}>
-          <PageLayout>
-            <Suspense
-              fallback={
-                <Dimmer>
-                  <CircularProgress />
-                </Dimmer>
-              }
-            >
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/ask" component={Ask} />
-                <Route
-                  exact
-                  path="/question/:questionId"
-                  component={Question}
-                />
-              </Switch>
-            </Suspense>
-          </PageLayout>
-        </ScrollChecker>
+        <PrevLocation>
+          <ScrollChecker history={history}>
+            <PageLayout>
+              <Suspense
+                fallback={
+                  <Dimmer>
+                    <CircularProgress />
+                  </Dimmer>
+                }
+              >
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <ProtectedRoute exact path="/ask" component={Ask} />
+                  <Route
+                    exact
+                    path="/question/:questionId"
+                    component={Question}
+                  />
+                </Switch>
+              </Suspense>
+            </PageLayout>
+          </ScrollChecker>
+        </PrevLocation>
         <Modal />
         <NotiPortal notifier={notifier} />
       </Router>
