@@ -110,15 +110,11 @@ export default function* root() {
   const token = authUtil.getToken();
   if (token) {
     authUtil.setToken(token);
-    // verify action 디스패치
-    yield put<AuthAction>({
-      type: ME,
-      payload: null,
-    });
-  } else {
-    yield put<AuthAction>({
-      type: ME_SUCCESS,
-      payload: null,
-    });
   }
+  // verify action 디스패치.
+  // token 있으면 ME put 해서 검증. 없으면 SUCCESS로 넣고 null 처리.
+  yield put<AuthAction>({
+    type: token ? ME : ME_SUCCESS,
+    payload: null,
+  });
 }
