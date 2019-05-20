@@ -116,5 +116,6 @@ export default function* root() {
   yield put<AuthAction>({
     type: token ? ME : ME_SUCCESS,
     payload: null,
-  });
+  } as AuthAction);
+  // type infer가 안됨. 확인해야봐야할듯.
 }
