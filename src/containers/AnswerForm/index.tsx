@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Popper from '@material-ui/core/Popper';
+import Button from '@material-ui/core/Button';
 import { EditorFromTextArea } from 'codemirror';
-import { useInput, useSetState } from '../../hooks';
+import { useInput, useSetState, useApi } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror } from '../../components';
 import { IQuestion } from '../../models/question';
@@ -11,6 +12,7 @@ import { ICommand, CommandType } from '../../models/command';
 import Toolbar from '../Editor/Toolbar';
 import { EditorWithToolbar } from './styles';
 import { Title } from '../../styles/common';
+import { postComment } from '../../api/question';
 
 interface IAnswerFormProps extends IQuestion {}
 
@@ -23,7 +25,8 @@ const initialCommand = {
 };
 type CodelineState = {
   codelineRef: EditorFromTextArea | undefined;
-  codeline: string;
+  codeline: number;
+  code: string;
   show: boolean;
 };
 // 일단 하나만.
@@ -31,11 +34,12 @@ const COMMANDS: ICommand[] = [
   { type: 'codeline', description: '코드 라인을 정합니다.' },
 ];
 
-const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
+const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   // 코드 라인 커맨드
   const [codelineState, setCodelineState] = useSetState<CodelineState>({
     codelineRef: undefined,
-    codeline: '',
+    codeline: -1,
+    code: '',
     show: false,
   });
   const showCodeline = useCallback((show: boolean) => {
@@ -45,15 +49,15 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
     (editor: EditorFromTextArea) => setCodelineState({ codelineRef: editor }),
     [],
   );
-  const onCodeSelect = useCallback(code => {
-    setCodelineState({ codeline: code, show: false });
+  const onCodeSelect = useCallback((code, line) => {
+    setCodelineState({ code: code, codeline: line, show: false });
   }, []);
   useEffect(() => {
-    const { codeline, codelineRef } = codelineState;
+    const { code, codelineRef } = codelineState;
     if (codelineRef) {
-      codelineRef.getDoc().setValue(codeline);
+      codelineRef.getDoc().setValue(code);
     }
-  }, [codelineState.codeline]);
+  }, [codelineState.code]);
 
   // Answer 폼
   const [answer, setAnswer, setAnswerValue] = useInput('');
@@ -134,15 +138,27 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
     },
     [clearCommand],
   );
-  const { show, codeline } = codelineState;
+
+  // comment 등록
+  const { api } = useApi(postComment);
+  const post = () => {
+    api({
+      questionId: id,
+      comment: {
+        content: answer,
+        codeline: codelineState.codeline,
+      },
+    });
+  };
+  const { show, code: codelineCode } = codelineState;
   return (
     <>
       <Title>답변 작성</Title>
-      {codeline && (
+      {codelineCode && (
         <Codemirror
           setCodeEditor={setCodelineRef}
           readOnly
-          value={codeline}
+          value={codelineCode}
           mode={language}
         />
       )}
@@ -191,6 +207,9 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ code, language }) => {
         onCodeSelect={onCodeSelect}
         showCodeSelect={showCodeline}
       />
+      <Button variant="outlined" color="primary" onClick={post}>
+        답변 등록
+      </Button>
     </>
   );
 };

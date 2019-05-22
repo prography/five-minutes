@@ -14,3 +14,5 @@ export interface ICommentLike extends ISchemaBase {
   user: IUser;
   comment: IComment;
 }
+
+export type IPostComment = Pick<IComment, 'content' | 'codeline'>;

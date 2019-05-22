@@ -2,6 +2,8 @@ import axios from 'axios';
 import qs from 'query-string';
 import { IQuestion, IPostQuestion } from '../models/question';
 import { IBaseListQuery } from '../models/api';
+import { IPostComment } from '../models/comment';
+import { ICommand } from '../models/command';
 
 const instance = axios.create({
   baseURL: '/api/questions',
@@ -26,5 +28,15 @@ export const postQuestion: ApiCall<
   ApiResponse<IQuestion>
 > = async post => {
   const { data } = await instance.post('', post);
+  return data;
+};
+
+/* 답변 */
+
+export const postComment: ApiCall<
+  { questionId: string; comment: IPostComment },
+  ApiResponse<ICommand>
+> = async ({ questionId, comment }) => {
+  const { data } = await instance.post(`/${questionId}/comments`, comment);
   return data;
 };

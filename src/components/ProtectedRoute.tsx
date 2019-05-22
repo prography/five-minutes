@@ -29,7 +29,7 @@ const ProtectedRoute: React.SFC<IProtectedRouteProps> = ({
     return () => {
       dispatch(closeModal());
     };
-  }, []);
+  }, [isLoggedIn]);
   // 로그인을 하지 않고 모달을 닫았을 경우, prevLocation 있으면 뒤로. 없으면 홈으로
   const prevModal = usePrevious(modalType);
   useEffect(() => {

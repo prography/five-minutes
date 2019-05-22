@@ -98,10 +98,6 @@ function* watchSignin() {
       yield cancel(verifyTask);
     }
     authUtil.removeToken();
-    yield put<AuthAction>({
-      type: LOGOUT,
-    });
-    history.push('/');
   }
 }
 export default function* root() {

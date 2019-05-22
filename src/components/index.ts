@@ -1,3 +1,4 @@
+import AuthBlock from './AuthBlock';
 import Button from './Button';
 import Codemirror from './Codemirror';
 import CustomLink from './CustomLink';
@@ -17,6 +18,7 @@ import Tag from './Tag';
 import TagList from './TagList';
 
 export {
+  AuthBlock,
   Button,
   Codemirror,
   CustomLink,

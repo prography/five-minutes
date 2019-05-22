@@ -10,7 +10,7 @@ import { Codemirror } from '../../components';
 interface ICodeSelectProps extends DialogProps {
   code: string;
   language: string;
-  onCodeSelect: (code: string) => void;
+  onCodeSelect: (code: string, line: number) => void;
   showCodeSelect: (show: boolean) => void;
 }
 const CodeSelect: React.SFC<ICodeSelectProps> = ({
@@ -24,7 +24,7 @@ const CodeSelect: React.SFC<ICodeSelectProps> = ({
   useEffect(() => {
     if (codeRef) {
       const selectCodeline = (line: number) => {
-        onCodeSelect(codeRef.getDoc().getLine(line));
+        onCodeSelect(codeRef.getDoc().getLine(line), line);
       };
       codeRef.on('dblclick', editor =>
         selectCodeline(editor.getDoc().getCursor().line),
