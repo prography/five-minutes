@@ -18,9 +18,6 @@ export const EditorWithToolbar = styled.div`
   }
   fieldset {
     border-radius: 0px;
-
-    &:focus {
-      border: 1px solid #ccc;
-    }
+    border-color: ${props => props.theme.palette.gray} !important;
   }
 `;

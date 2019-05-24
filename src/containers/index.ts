@@ -12,6 +12,7 @@ import QuestionForm from './QuestionForm';
 import QuestionList from './QuestionList';
 import QuestionListItem from './QuestionListItem';
 import QuestionView from './QuestionView';
+import UserProfile from './UserProfile';
 import TagSelect from './TagSelect';
 
 export {
@@ -29,5 +30,6 @@ export {
   QuestionList,
   QuestionListItem,
   QuestionView,
+  UserProfile,
   TagSelect,
 };

@@ -7,11 +7,12 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import { ProfilePhoto } from '.';
 import { IUser } from '../models/user';
+import { history } from '../utils/history';
 
 export interface IProfileMenuProps extends IUser {
   logout: () => void;
 }
-const ProfileMenu: React.SFC<IProfileMenuProps> = ({ logout }) => {
+const ProfileMenu: React.SFC<IProfileMenuProps> = ({ nickname, logout }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -20,6 +21,10 @@ const ProfileMenu: React.SFC<IProfileMenuProps> = ({ logout }) => {
     setAnchorEl(null);
   }, []);
 
+  // Menu 액션
+  const handleProfile = useCallback(() => {
+    history.push(`/profile/${nickname}`);
+  }, [nickname]);
   const handleLogout = useCallback(() => {
     handleClose();
     logout();
@@ -42,6 +47,7 @@ const ProfileMenu: React.SFC<IProfileMenuProps> = ({ logout }) => {
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList>
+              <MenuItem onClick={handleProfile}>프로필 보기</MenuItem>
               <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
             </MenuList>
           </ClickAwayListener>

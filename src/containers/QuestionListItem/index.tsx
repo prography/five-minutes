@@ -27,9 +27,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
       </Header>
       <Divider light />
       <div dangerouslySetInnerHTML={{ __html: parsedHTML }} />
-      <Footer>
-        <TagList tags={tags} />
-      </Footer>
+      <Footer>{tags && <TagList tags={tags} />}</Footer>
     </Question>
   );
 };

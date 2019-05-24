@@ -15,6 +15,7 @@ const AnswerList: React.SFC<IAnswerListProps> = ({
   language,
 }) => {
   const count = useMemo(() => comments.length, [comments]);
+  if (count === 0) return null;
   return (
     <div>
       <ListHeader>

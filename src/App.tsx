@@ -18,6 +18,7 @@ import { IRootState } from './reducers';
 const Home = lazy(() => import('./pages/Home'));
 const Ask = lazy(() => import('./pages/Ask'));
 const Question = lazy(() => import('./pages/Question'));
+const Profile = lazy(() => import('./pages/Profile'));
 
 export interface IAppProps {
   meStatus: Status;
@@ -49,6 +50,10 @@ class App extends Component<IAppProps> {
                     exact
                     path="/question/:questionId"
                     component={Question}
+                  />
+                  <ProtectedRoute
+                    path="/profile/:nickname"
+                    component={Profile}
                   />
                 </Switch>
               </Suspense>

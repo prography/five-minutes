@@ -9,13 +9,16 @@ interface IUseApiState {
   error: string;
 }
 interface IUseApi {
-  <T extends AsyncApi>(api: T): IUseApiState & {
-    api: T;
+  <T, R>(api: ApiCall<T, R>): IUseApiState & {
+    api: ApiCall<T, R>;
+    data: R;
   };
-  <T extends AsyncApi, S = UnpackPromise<ReturnType<T>>>(
-    api: T,
-    defaultData: S,
-  ): { api: T; data: S };
+  <T, R, D = Partial<R>>(api: ApiCall<T, R>, defaultData: D): {
+    api: T;
+    status: Status;
+    error: string;
+    data: R;
+  };
 }
 
 const useApi: IUseApi = (api: any, defaultData?: any) => {
