@@ -4,23 +4,20 @@ import {
   GET_TAGS_SUCCESS,
   GET_TAGS_FAILURE,
 } from '../constants/ActionTypes';
-import { GetTags } from '../actions/tag';
+import { GetTags, getTagsActions } from '../actions/tag';
 import * as tagApi from '../api/tag';
 
 function* getTags(action: GetTags) {
   try {
-    const data: SagaEffect<typeof tagApi.getTags> = yield call(tagApi.getTags, {
-      ...action.payload,
-    });
-    yield put({
-      type: GET_TAGS_SUCCESS,
-      tags: data.items,
-    });
-  } catch (err) {
-    yield put({
-      type: GET_TAGS_FAILURE,
-      error: 'tag error',
-    });
+    const { items }: SagaEffect<typeof tagApi.getTags> = yield call(
+      tagApi.getTags,
+      {
+        ...action.payload,
+      },
+    );
+    yield put(getTagsActions.success(items));
+  } catch ({ response = {} }) {
+    yield put(getTagsActions.failure(response.message));
   }
 }
 

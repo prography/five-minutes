@@ -3,7 +3,7 @@ import { EditorFromTextArea } from 'codemirror';
 import TextField from '@material-ui/core/TextField';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { postQuestion } from '../../actions/question';
+import { postQuestionActions } from '../../actions/question';
 import { useApi, useInput } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
@@ -46,7 +46,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       code,
       language: mode,
     };
-    dispatch(postQuestion(newQuestion));
+    dispatch(postQuestionActions.request(newQuestion));
   };
   return (
     <>

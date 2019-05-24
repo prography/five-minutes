@@ -6,7 +6,7 @@ import CustomMuiField from '../CustomMuiField';
 import { ModalType } from '../../../models/modal';
 import { Form, FakeLink } from '../style';
 import { Title } from '../../../styles/common';
-import { signin } from '../../../actions/auth';
+import { signinActions } from '../../../actions/auth';
 import { IRootState } from '../../../reducers';
 import { Dispatch } from 'redux';
 import { ISigninUser } from '../../../models/user';
@@ -44,7 +44,7 @@ const Signin: React.SFC<SigninProps> = ({
           password: '',
         }}
         onSubmit={values => {
-          dispatch(signin(values));
+          dispatch(signinActions.request(values));
         }}
         render={props => (
           <Form onSubmit={props.handleSubmit}>

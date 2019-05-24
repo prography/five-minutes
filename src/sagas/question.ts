@@ -15,6 +15,9 @@ import {
   GetQuestions,
   QuestionAction,
   GetQuestion,
+  postQuestionActions,
+  getQuestionActions,
+  getQuestionsActions,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
@@ -29,15 +32,9 @@ function* get(action: GetQuestion) {
       questionApi.getQuestion,
       action.payload,
     );
-    yield put<QuestionAction>({
-      type: GET_QUESTION_SUCCESS,
-      payload: result,
-    });
-  } catch (err) {
-    yield put<QuestionAction>({
-      type: GET_QUESTION_FAILURE,
-      payload: err.response ? err.response.data : '',
-    });
+    yield put<QuestionAction>(getQuestionActions.success(result));
+  } catch ({ response = {} }) {
+    yield put<QuestionAction>(getQuestionActions.failure(response.data || ''));
   }
 }
 function* getList(action: GetQuestions) {
@@ -56,19 +53,15 @@ function* getList(action: GetQuestions) {
       selectQuestionList,
     );
 
-    yield put<QuestionAction>({
-      type: GET_QUESTIONS_SUCCESS,
-      payload: {
+    yield put<QuestionAction>(
+      getQuestionsActions.success({
         items: isInit ? items : currentItems.concat(items),
         page,
         hasNext: !!nextPage,
-      },
-    });
-  } catch (err) {
-    yield put<QuestionAction>({
-      type: GET_QUESTIONS_FAILURE,
-      payload: err.response ? err.response.data : '',
-    });
+      }),
+    );
+  } catch ({ response = {} }) {
+    yield put<QuestionAction>(getQuestionsActions.failure(response.data || ''));
   }
 }
 function* post(action: PostQuestion) {
@@ -77,16 +70,10 @@ function* post(action: PostQuestion) {
       questionApi.postQuestion,
       action.payload,
     );
-    yield put<QuestionAction>({
-      type: POST_QUESTION_SUCCESS,
-      payload: result,
-    });
+    yield put<QuestionAction>(postQuestionActions.success(result));
     history.push(`/question/${result.id}`, { new: true });
-  } catch (err) {
-    yield put<QuestionAction>({
-      type: POST_QUESTION_FAILURE,
-      payload: err.response ? err.response.data : '',
-    });
+  } catch ({ response = {} }) {
+    yield put<QuestionAction>(postQuestionActions.failure(response.data || ''));
   }
 }
 function* watchGet() {

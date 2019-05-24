@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EditorFromTextArea } from 'codemirror';
 import { AnswerForm, AnswerList, QuestionView } from '../containers';
 import { AuthBlock } from '../components';
-import { getQuestion } from '../actions/question';
+import { getQuestionActions } from '../actions/question';
 import { IRootState } from '../reducers';
 import { ShadowBox } from '../styles/common';
 
@@ -18,7 +18,7 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   const [codeRef, setCodeRef] = useState<EditorFromTextArea>();
   const { questionId } = match.params;
   useEffect(() => {
-    dispatch(getQuestion(questionId));
+    dispatch(getQuestionActions.request(questionId));
   }, [questionId]);
 
   const { status, question, error, isLoggedIn } = useSelector(

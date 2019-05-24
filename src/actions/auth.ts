@@ -10,23 +10,19 @@ import {
 import { createAsyncActionCreator, ActionTypes } from '../utils/redux';
 import { ISigninUser, IUser } from '../models/user';
 
-const meActions = createAsyncActionCreator(ME, ME_SUCCESS, ME_FAILURE)<
+export const meActions = createAsyncActionCreator(ME, ME_SUCCESS, ME_FAILURE)<
   null,
   IUser | null,
   string
 >();
+export type Me = ReturnType<typeof meActions.request>;
 
-export const me = meActions.request;
-export type Me = ReturnType<typeof me>;
-
-const signinActions = createAsyncActionCreator(
+export const signinActions = createAsyncActionCreator(
   SIGNIN,
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
 )<ISigninUser, IUser, string>();
-
-export const signin = signinActions.request;
-export type Signin = ReturnType<typeof signin>;
+export type Signin = ReturnType<typeof signinActions.request>;
 
 export const logout = () => ({
   type: LOGOUT,

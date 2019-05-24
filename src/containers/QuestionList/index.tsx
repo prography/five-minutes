@@ -5,7 +5,7 @@ import { Observer } from './style';
 import { QuestionListItem } from '..';
 import { NoResult } from '../../components';
 import useIntersect, { OnIntersect } from '../../hooks/useIntersect';
-import { getQuestions } from '../../actions/question';
+import { getQuestionsActions } from '../../actions/question';
 import { IRootState } from '../../reducers';
 import { IQuestion } from '../../models/question';
 
@@ -16,7 +16,7 @@ export interface IQuestionListProps {
   error: string;
   page: number;
   hasNext: boolean;
-  getQuestionsAction: typeof getQuestions;
+  getQuestions: typeof getQuestionsActions.request;
 }
 const QuestionList: React.SFC<IQuestionListProps> = ({
   loadNew,
@@ -25,12 +25,12 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
   error,
   page,
   hasNext,
-  getQuestionsAction,
+  getQuestions,
 }) => {
   useEffect(() => {
     // TODO: cache 확인
     if (loadNew) {
-      getQuestionsAction({ page: 1, perPage: 10 });
+      getQuestions({ page: 1, perPage: 10 });
     }
   }, []);
   // 현재 페이지 저장
@@ -53,7 +53,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
     observer.unobserve(entry.target);
     const { page, status, hasNext } = currentList.current;
     if (hasNext && status !== 'FETCHING') {
-      getQuestionsAction({ page: page + 1, perPage: 10 });
+      getQuestions({ page: page + 1, perPage: 10 });
     }
   }, []);
 
@@ -92,6 +92,6 @@ const mapState = (state: IRootState) => ({
 export default connect(
   mapState,
   {
-    getQuestionsAction: getQuestions,
+    getQuestions: getQuestionsActions.request,
   },
 )(QuestionList);

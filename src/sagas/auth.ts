@@ -17,10 +17,16 @@ import {
   ME_FAILURE,
   ME_SUCCESS,
 } from '../constants/ActionTypes';
-import { AuthAction, Signin, Logout } from '../actions/auth';
+import {
+  AuthAction,
+  Signin,
+  Logout,
+  signinActions,
+  meActions,
+} from '../actions/auth';
 import * as authApi from '../api/auth';
 import * as authUtil from '../utils/auth';
-import { ModalAction } from '../actions/modal';
+import { closeModal, ModalAction } from '../actions/modal';
 import { notifier } from '../utils/renoti';
 import { history } from '../utils/history';
 
@@ -31,25 +37,14 @@ function* signin(action: Signin) {
       action.payload,
     );
     authUtil.setToken(result.token);
-    yield put<AuthAction>({
-      type: SIGNIN_SUCCESS,
-      payload: result,
-    });
-    yield put<ModalAction>({
-      type: CLOSE_MODAL,
-    });
+    yield put<AuthAction>(signinActions.success(result));
+    yield put<ModalAction>(closeModal());
     notifier.notify({ message: `환영합니다! ${result.nickname}님 👋` });
-  } catch (err) {
-    yield put<AuthAction>({
-      type: SIGNIN_FAILURE,
-      payload: err.response ? err.response.data : '',
-    });
+  } catch ({ response = {} }) {
+    yield put<AuthAction>(signinActions.failure(response.data || ''));
   } finally {
     if (yield cancelled()) {
-      yield put<AuthAction>({
-        type: SIGNIN_FAILURE,
-        payload: '',
-      });
+      yield put<AuthAction>(signinActions.failure('Signin Cancelled'));
       // signin cancelled.
     }
   }
@@ -63,21 +58,12 @@ function* verifyMe() {
     if (!result) {
       authUtil.removeToken();
     }
-    yield put<AuthAction>({
-      type: ME_SUCCESS,
-      payload: result,
-    });
-  } catch (err) {
-    yield put<AuthAction>({
-      type: ME_FAILURE,
-      payload: err.response ? err.reponse.data : '',
-    });
+    yield put<AuthAction>(meActions.success(result));
+  } catch ({ response = {} }) {
+    yield put<AuthAction>(meActions.failure(response.data || ''));
   } finally {
     if (yield cancelled()) {
-      yield put<AuthAction>({
-        type: ME_FAILURE,
-        payload: '',
-      });
+      yield put<AuthAction>(meActions.failure('Cancelled'));
     }
   }
 }
