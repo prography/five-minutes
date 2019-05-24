@@ -3,6 +3,9 @@ import {
   POST_QUESTION,
   POST_QUESTION_FAILURE,
   POST_QUESTION_SUCCESS,
+  GET_QUESTION,
+  GET_QUESTION_SUCCESS,
+  GET_QUESTION_FAILURE,
   GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_FAILURE,
@@ -11,6 +14,7 @@ import {
   PostQuestion,
   GetQuestions,
   QuestionAction,
+  GetQuestion,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
@@ -19,6 +23,23 @@ import { history } from '../utils/history';
 const selectQuestionList = (state: IRootState) =>
   state.question.getList.questions;
 
+function* get(action: GetQuestion) {
+  try {
+    const { result }: SagaEffect<typeof questionApi.getQuestion> = yield call(
+      questionApi.getQuestion,
+      action.payload,
+    );
+    yield put<QuestionAction>({
+      type: GET_QUESTION_SUCCESS,
+      payload: result,
+    });
+  } catch (err) {
+    yield put<QuestionAction>({
+      type: GET_QUESTION_FAILURE,
+      payload: err.response ? err.response.data : '',
+    });
+  }
+}
 function* getList(action: GetQuestions) {
   try {
     const {
@@ -68,6 +89,12 @@ function* post(action: PostQuestion) {
     });
   }
 }
+function* watchGet() {
+  while (true) {
+    const action: GetQuestion = yield take(GET_QUESTION);
+    yield call(get, action);
+  }
+}
 function* watchGetList() {
   while (true) {
     const action: GetQuestions = yield take(GET_QUESTIONS);
@@ -81,5 +108,5 @@ function* watchPost() {
   }
 }
 export default function* root() {
-  yield all([fork(watchGetList), fork(watchPost)]);
+  yield all([fork(watchGet), fork(watchGetList), fork(watchPost)]);
 }

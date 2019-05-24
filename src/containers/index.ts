@@ -1,4 +1,5 @@
 import AnswerForm from './AnswerForm';
+import AnswerList from './AnswerList';
 import CodeEditor from './CodeEditor';
 import CodeSelect from './CodeSelect';
 import CommandMenu from './CommandMenu';
@@ -15,6 +16,7 @@ import TagSelect from './TagSelect';
 
 export {
   AnswerForm,
+  AnswerList,
   CodeEditor,
   CodeSelect,
   CommandMenu,

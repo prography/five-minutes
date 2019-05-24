@@ -14,7 +14,10 @@ import { Container, Subject, Body, Content, Code } from './style';
 import { notifier } from '../../utils/renoti';
 import { history } from '../../utils/history';
 
-export interface IQuestionViewProps extends IQuestion {}
+export interface IQuestionViewProps extends IQuestion {
+  codeRef: EditorFromTextArea | undefined;
+  setCodeRef: React.Dispatch<React.SetStateAction<EditorFromTextArea | undefined>>;
+}
 
 const QuestionView: React.SFC<IQuestionViewProps> = ({
   subject,
@@ -23,8 +26,9 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
   createdAt,
   code,
   language,
+  codeRef,
+  setCodeRef,
 }) => {
-  const [codeRef, setCodeRef] = useState<EditorFromTextArea>();
   const fmContent = useMarkdown(content);
   const fmDate = useDateFormat(createdAt, 'YYYY-MM-DD');
 

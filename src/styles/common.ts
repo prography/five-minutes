@@ -5,7 +5,7 @@ export const WithBackground = styled.div`
 `;
 
 export const PageLayout = styled.div`
-  width: 50%;
+  width: 60%;
   min-width: 800px;
   margin: 3rem auto;
 

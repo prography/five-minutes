@@ -21,9 +21,17 @@ export const POST_QUESTION = 'POST_QUESTION' as const;
 export const POST_QUESTION_SUCCESS = 'POST_QEUSTION_SUCCESS' as const;
 export const POST_QUESTION_FAILURE = 'POST_QUESTION_FAILURE' as const;
 
+export const GET_QUESTION = 'GET_QUESTION' as const;
+export const GET_QUESTION_SUCCESS = 'GET_QUESTION_SUCCESS' as const;
+export const GET_QUESTION_FAILURE = 'GET_QUESTION_FAILURE' as const;
+
 export const GET_QUESTIONS = 'GET_QUESTIONS' as const;
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS' as const;
 export const GET_QUESTIONS_FAILURE = 'GET_QUESTIONS_FAILURE' as const;
+
+/* Comment */
+
+export const ADD_COMMENT = 'ADD_COMMENT' as const;
 
 /* Tag */
 

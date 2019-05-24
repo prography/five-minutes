@@ -8,12 +8,21 @@ import {
   GET_QUESTIONS,
   GET_QUESTIONS_FAILURE,
   GET_QUESTIONS_SUCCESS,
+  GET_QUESTION_SUCCESS,
+  GET_QUESTION,
+  GET_QUESTION_FAILURE,
+  ADD_COMMENT,
 } from '../constants/ActionTypes';
 
 export interface IPostQuestionState {
   status: Status;
   question?: IQuestion;
   error: string;
+}
+export interface IGetQuestionState {
+  status: Status;
+  error: string;
+  question: IQuestion | undefined;
 }
 export interface IGetQuestionsState {
   status: Status;
@@ -24,10 +33,16 @@ export interface IGetQuestionsState {
 }
 export interface IQuestionState {
   post: IPostQuestionState;
+  get: IGetQuestionState;
   getList: IGetQuestionsState;
 }
 const initialState: IQuestionState = {
   post: {
+    status: 'INIT',
+    question: undefined,
+    error: '',
+  },
+  get: {
     status: 'INIT',
     question: undefined,
     error: '',
@@ -63,6 +78,27 @@ export default function reducer(
       case POST_QUESTION_FAILURE: {
         draft.post.status = 'FAILURE';
         draft.post.error = action.payload;
+        return draft;
+      }
+      case GET_QUESTION: {
+        draft.get.status = 'FETCHING';
+        return draft;
+      }
+      case GET_QUESTION_SUCCESS: {
+        draft.get.question = action.payload;
+        draft.get.status = 'SUCCESS';
+        return draft;
+      }
+      case GET_QUESTION_FAILURE: {
+        draft.get.question = undefined;
+        draft.get.error = action.payload;
+        draft.get.status = 'FAILURE';
+        return draft;
+      }
+      case ADD_COMMENT: {
+        if (draft.get.question) {
+          draft.get.question.comments.push(action.payload);
+        }
         return draft;
       }
       case GET_QUESTIONS: {

@@ -2,9 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Popper from '@material-ui/core/Popper';
 import Button from '@material-ui/core/Button';
 import { EditorFromTextArea } from 'codemirror';
+import { useDispatch } from 'react-redux';
 import { useInput, useSetState, useApi } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
-import { Codemirror } from '../../components';
+import { Codemirror, Divider } from '../../components';
 import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
@@ -13,6 +14,7 @@ import Toolbar from '../Editor/Toolbar';
 import { EditorWithToolbar } from './styles';
 import { Title } from '../../styles/common';
 import { postComment } from '../../api/question';
+import { addComment } from '../../actions/question';
 
 interface IAnswerFormProps extends IQuestion {}
 
@@ -140,20 +142,25 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   );
 
   // comment 등록
+  const dispatch = useDispatch();
   const { api } = useApi(postComment);
-  const post = () => {
-    api({
-      questionId: id,
-      comment: {
-        content: answer,
-        codeline: codelineState.codeline,
-      },
-    });
+  const post = async () => {
+    try {
+      const { result } = await api({
+        questionId: id,
+        comment: {
+          content: answer,
+          codeline: codelineState.codeline,
+        },
+      });
+      dispatch(addComment(result));
+    } catch (err) {}
   };
   const { show, code: codelineCode } = codelineState;
   return (
     <>
-      <Title>답변 작성</Title>
+      <h2>Your Answer</h2>
+      <Divider withMargin />
       {codelineCode && (
         <Codemirror
           setCodeEditor={setCodelineRef}
