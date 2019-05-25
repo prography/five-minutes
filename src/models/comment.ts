@@ -7,7 +7,8 @@ export interface IComment extends ISchemaBase {
   question: IQuestion;
   user: IUser;
   codeline: number;
-  likedUsers: ICommentLike[];
+  likedUsers: IUser[];
+  dislikedUsers: IUser[];
 }
 
 export interface ICommentLike extends ISchemaBase {

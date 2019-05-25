@@ -8,7 +8,7 @@ const instance = axios.create({
 });
 
 export const signup: ApiCall<
-  ISignupUser,
+  [ISignupUser],
   ApiResponse<IUser>
 > = async signupUser => {
   const { data } = await instance.post('/sign-up', signupUser);
@@ -17,18 +17,16 @@ export const signup: ApiCall<
 
 // signin response 타입
 export const signin: ApiCall<
-  ISigninUser,
+  [ISigninUser],
   ApiResponse<IUser>
 > = async signinUser => {
   const { data } = await instance.post('/sign-in', signinUser);
   return data;
 };
-
 export const me: ApiCall<any, ApiResponse<IUser | null>> = async () => {
   const { data } = await instance.get('/me');
   return data;
 };
-
 /* 내 질문 / 답변 */
 
 export const meQuestions: ApiCall<

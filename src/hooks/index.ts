@@ -4,6 +4,7 @@ import useInitialFetch from './useInitialFetch';
 import useInput from './useInput';
 import useIntersect from './useIntersect';
 import useIObserver from './useIObserver';
+import useLike from './useLike';
 import useMarkdown from './useMarkdown';
 import useMe from './useMe';
 import usePrevious from './usePrevious';
@@ -18,6 +19,7 @@ export {
   useInput,
   useIntersect,
   useIObserver,
+  useLike,
   useMarkdown,
   useMe,
   usePrevious,

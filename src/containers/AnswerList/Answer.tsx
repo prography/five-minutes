@@ -1,31 +1,35 @@
-import React, { useState, useMemo, memo, useEffect } from 'react';
+import React, { useState, useMemo, memo, useEffect, useCallback } from 'react';
 import { EditorFromTextArea } from 'codemirror';
+import ThumbUp from '@material-ui/icons/ThumbUpOutlined';
+import ThumbDown from '@material-ui/icons/ThumbDownOutlined';
 import { Codemirror, ProfilePhoto } from '../../components';
 import { IQuestion } from '../../models/question';
 import { IComment } from '../../models/comment';
-import { useMarkdown } from '../../hooks';
+import { useMarkdown, useLike } from '../../hooks';
 import {
   AnswerItem,
   AnswerLike,
   AnswerMain,
   AnswerUser,
   AnswerSide,
+  ActionButton,
 } from './style';
-import LikeIcon from '../../assets/icon/like.png';
+import { likeComment, dislikeComment } from '../../api/comment';
 
 interface IAnswerProps extends IComment, Pick<IQuestion, 'language'> {
   codeRef: EditorFromTextArea | undefined;
 }
 const Answer: React.SFC<IAnswerProps> = ({
+  id,
   codeRef,
   codeline,
   content,
   language,
   user,
-  likedUsers,
+  likedUsers = [],
+  dislikedUsers = [],
 }) => {
   const [codelineRef, setCodelineRef] = useState<EditorFromTextArea>();
-
   // 답변의 코드라인 설정
   const code = useMemo(() => {
     if (codeRef) {
@@ -39,16 +43,39 @@ const Answer: React.SFC<IAnswerProps> = ({
     }
   }, [code]);
 
-  const likeCount = useMemo(() => likedUsers.length, likedUsers);
-
+  // Like
+  const {
+    likeCount,
+    dislikeCount,
+    hasLiked,
+    hasDisliked,
+    handleLike,
+    handleDislike,
+  } = useLike(id, likeComment, dislikeComment, likedUsers, dislikedUsers);
   // 마크다운 content
   const mdContent = useMarkdown(content);
 
   return (
     <AnswerItem>
       <AnswerLike>
-        <img src={LikeIcon} width={36} />
-        <div>{likeCount}</div>
+        <div>
+          <ActionButton
+            onClick={handleLike}
+            status={hasLiked ? 'like' : 'normal'}
+          >
+            <ThumbUp />
+            <div>{likeCount}</div>
+          </ActionButton>
+        </div>
+        <div>
+          <ActionButton
+            onClick={handleDislike}
+            status={hasDisliked ? 'dislike' : 'normal'}
+          >
+            <ThumbDown />
+            <div>{dislikeCount}</div>
+          </ActionButton>
+        </div>
       </AnswerLike>
       <AnswerMain>
         <Codemirror

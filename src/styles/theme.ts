@@ -18,6 +18,7 @@ const palette = {
     contrastText: '#fefefe',
   },
   gray: '#d1d5da',
+  negative: '#da3d4d',
 };
 export const materialTheme = createMuiTheme({
   typography: {

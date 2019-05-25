@@ -13,6 +13,7 @@ declare module 'styled-components' {
       secondary: Palette;
       tertiary: Palette;
       gray: string;
+      negative: string;
     };
   }
 }

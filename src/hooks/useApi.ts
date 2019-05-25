@@ -9,11 +9,11 @@ interface IUseApiState {
   error: string;
 }
 interface IUseApi {
-  <T, R>(api: ApiCall<T, R>): IUseApiState & {
+  <T extends any[], R>(api: ApiCall<T, R>): IUseApiState & {
     api: ApiCall<T, R>;
     data: R;
   };
-  <T, R, D = Partial<R>>(api: ApiCall<T, R>, defaultData: D): {
+  <T extends any[], R, D = Partial<R>>(api: ApiCall<T, R>, defaultData: D): {
     api: T;
     status: Status;
     error: string;

@@ -6,7 +6,10 @@ interface IFetchState<R> {
   data: R | null;
   error: string;
 }
-const useInitialFetch = <T, R>(api: ApiCall<T, R>, params: T) => {
+const useInitialFetch = <T extends any[], R>(
+  api: ApiCall<T, R>,
+  ...params: T
+) => {
   const [state, setState] = useSetState<IFetchState<R>>({
     status: 'INIT',
     data: null,
@@ -17,7 +20,7 @@ const useInitialFetch = <T, R>(api: ApiCall<T, R>, params: T) => {
     setState({
       status: 'FETCHING',
     });
-    api(params)
+    api(...params)
       .then((res: R) => {
         setState({
           status: 'SUCCESS',

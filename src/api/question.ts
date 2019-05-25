@@ -9,21 +9,21 @@ const instance = axios.create({
 });
 
 export const getQuestion: ApiCall<
-  number | string,
+  [number | string],
   ApiResponse<IQuestion>
 > = async questionId => {
   const { data } = await instance.get(`/${questionId}`);
   return data;
 };
 export const getQuestions: ApiCall<
-  IBaseListQuery,
+  [IBaseListQuery],
   ApiGetListResponse<IQuestion>
 > = async ({ page, perPage }) => {
   const { data } = await instance.get(`?${qs.stringify({ page, perPage })}`);
   return data;
 };
 export const postQuestion: ApiCall<
-  IPostQuestion,
+  [IPostQuestion],
   ApiResponse<IQuestion>
 > = async post => {
   const { data } = await instance.post('', post);
@@ -33,7 +33,7 @@ export const postQuestion: ApiCall<
 /* 답변 */
 
 export const postComment: ApiCall<
-  { questionId: string; comment: IPostComment },
+  [{ questionId: string; comment: IPostComment }],
   ApiResponse<IComment>
 > = async ({ questionId, comment }) => {
   const { data } = await instance.post(`/${questionId}/comments`, comment);

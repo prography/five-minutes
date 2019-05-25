@@ -50,3 +50,16 @@ export const AnswerUser = styled.div`
     margin-right: 10px;
   }
 `;
+
+export const ActionButton = styled.button<{
+  status?: 'like' | 'dislike' | 'normal';
+}>`
+  padding: 10px;
+  cursor: pointer;
+  color: ${props =>
+    props.status === 'like'
+      ? props.theme.palette.primary.main
+      : props.status === 'dislike'
+      ? props.theme.palette.negative
+      : props.theme.palette.gray};
+`;
