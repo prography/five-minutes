@@ -19,10 +19,10 @@ const AnswerList: React.SFC<IAnswerListProps> = ({
   return (
     <div>
       <ListHeader>
-        <ListCount>{count} Answer</ListCount>
+        <ListCount>{count} 답변</ListCount>
         <ListActions>Popular Newest</ListActions>
       </ListHeader>
-      <Divider withMargin />
+      <Divider />
       {comments.map(comment => (
         <Answer
           key={comment.id}

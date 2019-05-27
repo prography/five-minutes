@@ -6,6 +6,8 @@ import Dimmer from './Dimmer';
 import Divider from './Divider';
 import ErrorBoundary from './ErrorBoundary';
 import Input from './Input';
+import LikeButton from './LikeButton';
+import LikeAndDislike from './LikeAndDislike';
 import Logo from './Logo';
 import Message from './Message';
 import NoResult from './NoResult';
@@ -27,6 +29,8 @@ export {
   Divider,
   ErrorBoundary,
   Input,
+  LikeAndDislike,
+  LikeButton,
   Logo,
   Message,
   NoResult,

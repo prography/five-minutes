@@ -1,35 +1,65 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { QuestionListItem } from '../../';
-import { meQuestions, meComments } from '../../../api/auth';
-import { IComment } from '../../../models/comment';
-import { IQuestion } from '../../../models/question';
-import { useSetState } from '../../../hooks';
-import { List, Center } from './style';
-import { useSelector } from 'react-redux';
+import ContentList from './ContentList';
+import { List, Tab } from './style';
+import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../../../reducers';
+import { loadUserQuestions, loadUserComments } from '../../../actions/user';
 
 interface IContentProps {
   currentTab: string;
 }
 
 const Content: React.SFC<IContentProps> = ({ currentTab }) => {
-  const { questions, comments, questionStatus, commentStatus } = useSelector(
-    (state: IRootState) => ({
-      questions: state.user.questions.items,
-      questionStatus: state.user.questions.status,
-      comments: state.user.comments.items,
-      commentStatus: state.user.comments.status,
-    }),
+  const {
+    userId,
+    questions,
+    comments,
+    questionStatus,
+    commentStatus,
+    questionHasNext,
+    commentHasNext,
+    questionCount,
+    commentCount,
+  } = useSelector((state: IRootState) => ({
+    userId: state.user.get.user ? state.user.get.user.id : '',
+    questions: state.user.questions.items,
+    questionStatus: state.user.questions.status,
+    comments: state.user.comments.items,
+    commentStatus: state.user.comments.status,
+    questionHasNext: !!state.user.questions.nextPage,
+    commentHasNext: !!state.user.comments.nextPage,
+    questionCount: state.user.questions.totalCount,
+    commentCount: state.user.comments.totalCount,
+  }));
+  const dispatch = useDispatch();
+  const fetchMore = useCallback(
+    (tab: 'Questions' | 'Answers') => () => {
+      if (tab === 'Questions') {
+        dispatch(loadUserQuestions(userId, false));
+      }
+      if (tab === 'Answers') {
+        dispatch(loadUserComments(userId, false));
+      }
+    },
+    [userId, dispatch],
   );
   return (
     <List>
       {currentTab === 'Questions' && (
-        <>
-          {questions.map(question => (
-            <QuestionListItem key={question.id} {...question} />
-          ))}
-        </>
+        <div>
+          <div>
+            <Tab selected>
+              {currentTab}: {questionCount}
+            </Tab>
+          </div>
+          <ContentList
+            status={questionStatus}
+            items={questions}
+            fetchMore={fetchMore('Questions')}
+            hasNext={questionHasNext}
+          />
+        </div>
       )}
     </List>
   );

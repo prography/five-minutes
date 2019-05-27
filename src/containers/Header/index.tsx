@@ -48,7 +48,7 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
         </LogoAdjust>
       </LogoWrapper>
       <SearchBox>
-        <Input />
+        <Input paperProps={{ style: { width: '100%' } }} />
         <MiniButton invert>상세 검색</MiniButton>
         <CustomLink to="/ask">
           <MiniButton>코드 올리기</MiniButton>

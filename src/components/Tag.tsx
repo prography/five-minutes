@@ -11,11 +11,11 @@ const Wrapper = styled.span`
   margin-right: 0.3rem;
   padding: 0.5rem;
 
-  border-radius: 15px;
+  border-radius: 5px;
   transition: background-color 0.2s ease;
- 
+
   &:hover {
-    background-color: #4597AF;
+    background-color: #4597af;
   }
 `;
 

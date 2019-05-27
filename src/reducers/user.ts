@@ -72,6 +72,7 @@ export default function reducer(
   return produce(state, draft => {
     switch (action.type) {
       case GET_USER: {
+        draft = initialState;
         draft.get.status = 'FETCHING';
         return draft;
       }

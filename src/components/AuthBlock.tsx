@@ -6,6 +6,7 @@ import { ShadowBox } from '../styles/common';
 import { openModal } from '../actions/modal';
 
 const Container = styled(ShadowBox)`
+  margin-top: 20px;
   text-align: center;
 `;
 

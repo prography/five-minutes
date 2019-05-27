@@ -1,5 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import Divider from '@material-ui/core/Divider';
+import ThumbUp from '@material-ui/icons/ThumbUpOutlined';
+import ThumbDown from '@material-ui/icons/ThumbDownOutlined';
+import Comment from '@material-ui/icons/CommentOutlined';
 import {
   Question,
   Header,
@@ -7,7 +10,10 @@ import {
   Info,
   Date,
   Footer,
+  FooterRight,
   TagContainer,
+  Count,
+  CountContainer,
 } from './style';
 import { CustomLink, TagList, ProfileLink } from '../../components';
 import { useDateFormat, useMarkdown } from '../../hooks';
@@ -21,9 +27,15 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   createdAt,
   tags,
   user,
+  likedUsers = [],
+  dislikedUsers = [],
+  comments = [],
 }) => {
   const parsedHTML = useMarkdown(content);
-  const formattedDate = useDateFormat(createdAt, 'YYYY-MM-DD');
+  const formattedDate = useDateFormat(createdAt);
+  const likeCount = useMemo(() => likedUsers.length, [likedUsers]);
+  const dislikeCount = useMemo(() => dislikedUsers.length, [dislikedUsers]);
+  const commentCount = useMemo(() => comments.length, [comments]);
   return (
     <Question>
       <Header>
@@ -38,7 +50,25 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
       <div dangerouslySetInnerHTML={{ __html: parsedHTML }} />
       <Footer>
         <TagContainer>{tags && <TagList tags={tags} />}</TagContainer>
-        <ProfileLink {...user}>{user && user.nickname}</ProfileLink>
+        <FooterRight>
+          <div>
+            <ProfileLink {...user}>{user && user.nickname}</ProfileLink>
+          </div>
+          <CountContainer>
+            <Count>
+              <ThumbUp fontSize="inherit" />
+              &nbsp;{likeCount}
+            </Count>
+            <Count>
+              <ThumbDown fontSize="inherit" />
+              &nbsp;{dislikeCount}
+            </Count>
+            <Count>
+              <Comment fontSize="inherit" />
+              &nbsp;{commentCount}
+            </Count>
+          </CountContainer>
+        </FooterRight>
       </Footer>
     </Question>
   );

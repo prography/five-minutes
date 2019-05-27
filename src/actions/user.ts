@@ -31,12 +31,12 @@ export const getUserQuestionsActions = createEntity(
 )(userApi.getUserQuestions);
 export const loadUserQuestions = (
   id: string,
-  query: IBaseListQuery = { page: 1, perPage: 10 },
+  isInit: boolean,
 ) => ({
   type: LOAD_USER_QUESTIONS,
   payload: {
     id,
-    query,
+    isInit
   },
 });
 export type LoadUserQuestions = ReturnType<typeof loadUserQuestions>;
@@ -48,12 +48,12 @@ export const getUserCommentsActions = createEntity(
 )(userApi.getUserComments);
 export const loadUserComments = (
   id: string,
-  query: IBaseListQuery = { page: 1, perPage: 10 },
+  isInit: boolean,
 ) => ({
   type: LOAD_USER_COMMENTS,
   payload: {
     id,
-    query,
+    isInit
   },
 });
 export type LoadUserComments = ReturnType<typeof loadUserComments>;

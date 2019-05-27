@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PureDivider, { DividerProps } from '@material-ui/core/Divider';
 
-const DividerWrapper = styled.div<{ withMargin: boolean }>`
+const DividerWrapper = styled.div<{ withMargin?: boolean }>`
   ${props =>
     props.withMargin &&
     `
@@ -10,7 +10,7 @@ const DividerWrapper = styled.div<{ withMargin: boolean }>`
   `}
 `;
 interface IDividerProps extends DividerProps {
-  withMargin: boolean;
+  withMargin?: boolean;
 }
 const Divider: React.SFC<IDividerProps> = ({ withMargin, ...dividerProps }) => {
   return (

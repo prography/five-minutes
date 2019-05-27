@@ -1,18 +1,21 @@
 import React, { useState, useMemo, memo, useEffect, useCallback } from 'react';
 import { EditorFromTextArea } from 'codemirror';
-import ThumbUp from '@material-ui/icons/ThumbUpOutlined';
-import ThumbDown from '@material-ui/icons/ThumbDownOutlined';
-import { Codemirror, ProfilePhoto } from '../../components';
+import {
+  Codemirror,
+  ProfilePhoto,
+  ProfileLink,
+  LikeAndDislike,
+} from '../../components';
 import { IQuestion } from '../../models/question';
 import { IComment } from '../../models/comment';
-import { useMarkdown, useLike } from '../../hooks';
+import { useMarkdown, useDateFormat } from '../../hooks';
 import {
   AnswerItem,
   AnswerLike,
   AnswerMain,
   AnswerUser,
   AnswerSide,
-  ActionButton,
+  AnswerInfo,
 } from './style';
 import { likeComment, dislikeComment } from '../../api/comment';
 
@@ -28,12 +31,14 @@ const Answer: React.SFC<IAnswerProps> = ({
   user,
   likedUsers = [],
   dislikedUsers = [],
+  createdAt,
+  updatedAt,
 }) => {
   const [codelineRef, setCodelineRef] = useState<EditorFromTextArea>();
   // 답변의 코드라인 설정
   const code = useMemo(() => {
     if (codeRef) {
-      return codeRef.getDoc().getLine(codeline);
+      return codeRef.getDoc().getLine(codeline) || '';
     }
     return '';
   }, [codeRef]);
@@ -43,54 +48,39 @@ const Answer: React.SFC<IAnswerProps> = ({
     }
   }, [code]);
 
-  // Like
-  const {
-    likeCount,
-    dislikeCount,
-    hasLiked,
-    hasDisliked,
-    handleLike,
-    handleDislike,
-  } = useLike(id, likeComment, dislikeComment, likedUsers, dislikedUsers);
   // 마크다운 content
   const mdContent = useMarkdown(content);
-
+  const date = useDateFormat(createdAt);
   return (
     <AnswerItem>
       <AnswerLike>
-        <div>
-          <ActionButton
-            onClick={handleLike}
-            status={hasLiked ? 'like' : 'normal'}
-          >
-            <ThumbUp />
-            <div>{likeCount}</div>
-          </ActionButton>
-        </div>
-        <div>
-          <ActionButton
-            onClick={handleDislike}
-            status={hasDisliked ? 'dislike' : 'normal'}
-          >
-            <ThumbDown />
-            <div>{dislikeCount}</div>
-          </ActionButton>
-        </div>
+        <LikeAndDislike
+          id={id}
+          likedUsers={likedUsers}
+          dislikedUsers={dislikedUsers}
+          likeApi={likeComment}
+          dislikeApi={dislikeComment}
+        />
       </AnswerLike>
       <AnswerMain>
-        <Codemirror
-          readOnly
-          value={code}
-          mode={language}
-          setCodeEditor={setCodelineRef}
-        />
+        {code && (
+          <Codemirror
+            readOnly
+            value={code}
+            mode={language}
+            setCodeEditor={setCodelineRef}
+          />
+        )}
         <p dangerouslySetInnerHTML={{ __html: mdContent }} />
       </AnswerMain>
       <AnswerSide>
-        <AnswerUser>
-          <ProfilePhoto />
-          {user.nickname}
-        </AnswerUser>
+        <ProfileLink id={user.id}>
+          <AnswerUser>
+            <ProfilePhoto />
+            {user.nickname}
+          </AnswerUser>
+        </ProfileLink>
+        <AnswerInfo>{date} 작성됨</AnswerInfo>
       </AnswerSide>
     </AnswerItem>
   );

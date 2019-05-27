@@ -3,6 +3,8 @@ import Popper from '@material-ui/core/Popper';
 import Button from '@material-ui/core/Button';
 import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
+import { IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { useInput, useSetState, useApi } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror, Divider } from '../../components';
@@ -12,7 +14,6 @@ import { KEYMAP } from '../../utils/keyboard';
 import { ICommand, CommandType } from '../../models/command';
 import Toolbar from '../Editor/Toolbar';
 import { EditorWithToolbar } from './styles';
-import { Title } from '../../styles/common';
 import { postComment } from '../../api/question';
 import { addComment } from '../../actions/question';
 
@@ -24,6 +25,12 @@ const initialCommand = {
   show: false,
   top: 0,
   left: 0,
+};
+const initialCodelineState: CodelineState = {
+  codelineRef: undefined,
+  codeline: -1,
+  code: '',
+  show: false,
 };
 type CodelineState = {
   codelineRef: EditorFromTextArea | undefined;
@@ -38,12 +45,9 @@ const COMMANDS: ICommand[] = [
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   // 코드 라인 커맨드
-  const [codelineState, setCodelineState] = useSetState<CodelineState>({
-    codelineRef: undefined,
-    codeline: -1,
-    code: '',
-    show: false,
-  });
+  const [codelineState, setCodelineState] = useSetState<CodelineState>(
+    initialCodelineState,
+  );
   const showCodeline = useCallback((show: boolean) => {
     setCodelineState({ show });
   }, []);
@@ -51,6 +55,9 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
     (editor: EditorFromTextArea) => setCodelineState({ codelineRef: editor }),
     [],
   );
+  const clearCodelineState = useCallback(() => {
+    setCodelineState(initialCodelineState);
+  }, []);
   const onCodeSelect = useCallback((code, line) => {
     setCodelineState({ code: code, codeline: line, show: false });
   }, []);
@@ -97,6 +104,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           return;
         }
         case 'SLASH': {
+          if (!!e.shiftKey) return;
           if (editorRef) {
             const { top, left, height } = getCursorXY(
               editorRef,
@@ -159,15 +167,24 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   const { show, code: codelineCode } = codelineState;
   return (
     <>
-      <h2>Your Answer</h2>
+      <h3>내 답변</h3>
       <Divider withMargin />
       {codelineCode && (
-        <Codemirror
-          setCodeEditor={setCodelineRef}
-          readOnly
-          value={codelineCode}
-          mode={language}
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ flex: 1 }}>
+            <Codemirror
+              setCodeEditor={setCodelineRef}
+              readOnly
+              value={codelineCode}
+              mode={language}
+            />
+          </div>
+          <div>
+            <IconButton aria-label="Delete" onClick={clearCodelineState}>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        </div>
       )}
       <EditorWithToolbar>
         <Toolbar commands={COMMANDS} execCommand={execCommand} />

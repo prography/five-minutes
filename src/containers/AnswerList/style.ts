@@ -12,7 +12,7 @@ export const ListHeader = styled.div`
   align-items: center;
 `;
 
-export const ListCount = styled.h2`
+export const ListCount = styled.h3`
   flex: 1;
 `;
 
@@ -38,28 +38,19 @@ export const AnswerMain = styled.div`
 
 export const AnswerSide = styled.div`
   min-width: 150px;
-  text-align: center;
 `;
 
 export const AnswerUser = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   img {
     margin-right: 10px;
   }
+  margin-bottom: 10px;
 `;
 
-export const ActionButton = styled.button<{
-  status?: 'like' | 'dislike' | 'normal';
-}>`
-  padding: 10px;
-  cursor: pointer;
-  color: ${props =>
-    props.status === 'like'
-      ? props.theme.palette.primary.main
-      : props.status === 'dislike'
-      ? props.theme.palette.negative
-      : props.theme.palette.gray};
+export const AnswerInfo = styled.div`
+  font-size: 0.9em;
+  color: ${props => props.theme.palette.darkGray};
 `;

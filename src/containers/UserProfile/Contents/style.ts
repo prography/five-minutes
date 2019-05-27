@@ -12,6 +12,7 @@ export const Tabs = styled.ul`
   list-style-type: none;
 `;
 export const Tab = styled.li<{ selected: boolean }>`
+  list-style-type: none;
   cursor: pointer;
   font-size: 20px;
   line-height: 1.5;
@@ -26,13 +27,15 @@ export const Content = styled.div`
   flex: 1 0;
   margin-left: 20px;
 `;
-export const List = styled.div`
-  & > div {
-    border: 1px solid ${props => props.theme.palette.gray};
-    margin-top: 0;
-  }
-`;
+export const List = styled.div``;
 export const Center = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+export const ContentListWrapper = styled.div`
+  & > div {
+    margin-bottom: 0;
+    border-bottom: 1px solid ${props => props.theme.palette.gray};
+  }
 `;

@@ -29,6 +29,14 @@ export const postQuestion: ApiCall<
   const { data } = await instance.post('', post);
   return data;
 };
+export const likeQuestion = async (id: string) => {
+  const { data } = await instance.put<ApiResponse<IQuestion>>(`/${id}/like`);
+  return data;
+};
+export const dislikeQuestion = async (id: string) => {
+  const { data } = await instance.put<ApiResponse<IQuestion>>(`/${id}/dislike`);
+  return data;
+};
 
 /* 답변 */
 

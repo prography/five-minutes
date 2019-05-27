@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import Divider from '@material-ui/core/Divider';
 import { EditorFromTextArea } from 'codemirror';
-import { Codemirror, TagList } from '../../components';
+import { Codemirror, TagList, LikeAndDislike } from '../../components';
 import { IQuestion } from '../../models/question';
 import { useDateFormat, useMarkdown } from '../../hooks';
 import {
@@ -10,9 +10,18 @@ import {
   Date,
   Footer,
 } from '../../containers/QuestionListItem/style';
-import { Container, Subject, Body, Content, Code } from './style';
+import {
+  Container,
+  Subject,
+  Body,
+  Content,
+  Code,
+  BodySide,
+  BodyMain,
+} from './style';
 import { notifier } from '../../utils/renoti';
 import { history } from '../../utils/history';
+import { likeQuestion, dislikeQuestion } from '../../api/question';
 
 export interface IQuestionViewProps extends IQuestion {
   codeRef: EditorFromTextArea | undefined;
@@ -22,6 +31,7 @@ export interface IQuestionViewProps extends IQuestion {
 }
 
 const QuestionView: React.SFC<IQuestionViewProps> = ({
+  id,
   user,
   subject,
   content,
@@ -31,9 +41,11 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
   language,
   codeRef,
   setCodeRef,
+  likedUsers = [],
+  dislikedUsers = [],
 }) => {
   const fmContent = useMarkdown(content);
-  const fmDate = useDateFormat(createdAt, 'YYYY-MM-DD');
+  const fmDate = useDateFormat(createdAt);
 
   useEffect(() => {
     const { pathname, state = {} } = history.location;
@@ -60,15 +72,26 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
       </Header>
       <Divider light />
       <Body>
-        <Content dangerouslySetInnerHTML={{ __html: fmContent }} />
-        <Code>
-          <Codemirror
-            readOnly
-            value={code}
-            mode={language}
-            setCodeEditor={setCodeRef}
+        <BodySide>
+          <LikeAndDislike
+            id={id}
+            likedUsers={likedUsers}
+            dislikedUsers={dislikedUsers}
+            likeApi={likeQuestion}
+            dislikeApi={dislikeQuestion}
           />
-        </Code>
+        </BodySide>
+        <BodyMain>
+          <Content dangerouslySetInnerHTML={{ __html: fmContent }} />
+          <Code>
+            <Codemirror
+              readOnly
+              value={code}
+              mode={language}
+              setCodeEditor={setCodeRef}
+            />
+          </Code>
+        </BodyMain>
       </Body>
       <Footer>
         <TagList tags={tags} />

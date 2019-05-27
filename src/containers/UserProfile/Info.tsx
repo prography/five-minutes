@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useMe } from '../../hooks';
 import { IRootState } from '../../reducers';
 
 const Info = () => {
@@ -8,7 +7,7 @@ const Info = () => {
     const { user, status, error } = state.user.get;
     return { user, status, error };
   });
-  if (!user) return null;
+  if (!user || status === 'FETCHING') return null;
   const { nickname, image } = user;
   return <div>{nickname}</div>;
 };

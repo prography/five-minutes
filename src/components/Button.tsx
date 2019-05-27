@@ -32,12 +32,18 @@ const DefaultButton = styled.button<{ color?: ColorType }>`
 
   cursor: pointer;
   font-size: 16px;
+  border: 1px solid ${props => props.theme.palette.primary.main};
   color: ${props => props.theme.palette.primary.contrastText};
   background-color: ${props =>
     props.color
       ? props.theme.palette[props.color].main
       : props.theme.palette.primary.main};
   text-align: center;
+
+  &:hover {
+    opacity: 0.7;
+    transition: opacity 0.1s;
+  }
 `;
 
 const InvertButton = styled(DefaultButton)`
