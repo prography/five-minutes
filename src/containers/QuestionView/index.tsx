@@ -16,10 +16,13 @@ import { history } from '../../utils/history';
 
 export interface IQuestionViewProps extends IQuestion {
   codeRef: EditorFromTextArea | undefined;
-  setCodeRef: React.Dispatch<React.SetStateAction<EditorFromTextArea | undefined>>;
+  setCodeRef: React.Dispatch<
+    React.SetStateAction<EditorFromTextArea | undefined>
+  >;
 }
 
 const QuestionView: React.SFC<IQuestionViewProps> = ({
+  user,
   subject,
   content,
   tags,

@@ -38,6 +38,17 @@ export const createAsyncActionCreator = <R, S, F>(
 };
 
 /*
+  Api에 맞는 action creator
+*/
+export const createEntity = <R, S, F>(request: R, success: S, failure: F) => {
+  return <Params extends any[], Res>(api: ApiCall<Params, Res>) => ({
+    request: (...args: Params) => ({ type: request, payload: args } as const),
+    success: (payload: Res) => ({ type: success, payload } as const),
+    failure: (error: string) => ({ type: failure, payload: error } as const),
+  });
+};
+
+/*
 const { getTags, getTagsSuccess } = mapActionCreator({
   getTags: ['GET_TAGS', (param: { page: number; perPage: number }) => param],
   getTagsSuccess: ['GET_TAGS_SCUCESS', (param: { page: number }) => param],

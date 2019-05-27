@@ -10,6 +10,22 @@ export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS' as const;
 export const SIGNIN_FAILURE = 'SIGNIN_FAILURE' as const;
 
 export const LOGOUT = 'LOGOUT' as const;
+
+/* User */
+export const LOAD_USER = 'LOAD_USER' as const;
+export const GET_USER = 'GET_USER' as const;
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS' as const;
+export const GET_USER_FAILURE = 'GET_USER_FAILURE' as const;
+
+export const LOAD_USER_QUESTIONS = 'LOAD_USER_QUESTIONS' as const;
+export const GET_USER_QUESTIONS = 'GET_USER_QUESTIONS' as const;
+export const GET_USER_QUESTIONS_SUCCESS = 'GET_USER_QUESTIONS_SUCCESS' as const;
+export const GET_USER_QUESTIONS_FAILURE = 'GET_USER_QUESTIONS_FAILURE' as const;
+
+export const LOAD_USER_COMMENTS = 'LOAD_USER_COMMENTS' as const;
+export const GET_USER_COMMENTS = 'GET_USER_COMMENTS' as const;
+export const GET_USER_COMMENTS_SUCCESS = 'GET_USER_COMMENTS_SUCCESS' as const;
+export const GET_USER_COMMENTS_FAILURE = 'GET_USER_COMMENTS_FAILURE' as const;
 /* Modal */
 
 export const OPEN_MODAL = 'OPEN_MODAL' as const;

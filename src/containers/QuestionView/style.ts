@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 export const Container = styled.div`
-  font-size: 1.15rem;
+  font-size: 1rem;
+  line-height: 1.5;
 `;
 export const Subject = styled.h1`
   flex: 1;

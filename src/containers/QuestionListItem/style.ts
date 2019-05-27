@@ -16,6 +16,10 @@ export const Footer = styled.div`
 
   margin: 1rem 0;
 `;
+export const TagContainer = styled.div`
+  flex: 1 1;
+`;
+export const Profile = styled.div``;
 export const Subject = styled.h3`
   flex: 1 1;
 `;

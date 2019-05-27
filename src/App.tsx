@@ -51,10 +51,7 @@ class App extends Component<IAppProps> {
                     path="/question/:questionId"
                     component={Question}
                   />
-                  <ProtectedRoute
-                    path="/profile/:nickname"
-                    component={Profile}
-                  />
+                  <Route path="/profile/:userId" component={Profile} />
                 </Switch>
               </Suspense>
             </PageLayout>

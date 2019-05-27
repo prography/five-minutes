@@ -10,6 +10,7 @@ import Logo from './Logo';
 import Message from './Message';
 import NoResult from './NoResult';
 import PrevLocation from './PrevLocation';
+import ProfileLink from './ProfileLink';
 import ProfileMenu from './ProfileMenu';
 import ProfilePhoto from './ProfilePhoto';
 import ProtectedRoute from './ProtectedRoute';
@@ -30,6 +31,7 @@ export {
   Message,
   NoResult,
   PrevLocation,
+  ProfileLink,
   ProfileMenu,
   ProfilePhoto,
   ProtectedRoute,

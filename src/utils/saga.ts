@@ -13,15 +13,16 @@ export const fetchEntity = <
   Param extends any[],
   Res
 >(
-  entitiy: Entity<R, S, F>,
+  entity: Entity<R, S, F>,
   api: ApiCall<Param, Res>,
 ) => {
   return function*(...p: Param) {
+    yield put(entity.request(...p));
     try {
       const data = yield call(api, ...p);
-      yield put(entitiy.success(data));
+      yield put(entity.success(data));
     } catch ({ response = {} }) {
-      yield put(entitiy.failure(response.data || ''));
+      yield put(entity.failure(response.data || ''));
     }
   };
 };

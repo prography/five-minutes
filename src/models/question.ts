@@ -9,7 +9,8 @@ export interface IQuestion extends ISchemaBase {
   code: string;
   language: string;
   user: IUser;
-  likedUsers: IQuestionLike[];
+  likedUsers: IUser[];
+  dislikedUsers: IUser[];
   comments: IComment[];
   tags: ITag[];
 }
