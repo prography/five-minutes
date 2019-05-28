@@ -9,16 +9,22 @@ import {
   GET_QUESTION_SUCCESS,
   GET_QUESTION_FAILURE,
   ADD_COMMENT,
+  SEARCH_QUESTIONS,
+  SEARCH_QUESTIONS_SUCCESS,
+  SEARCH_QUESTIONS_FAILURE,
+  REQUEST_SEARCH_QUESTIONS,
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
 import { IPostQuestion, IQuestion } from '../models/question';
-import { IBaseListQuery } from '../models/api';
+import { IBaseListQuery, ISearchQuestionQuery } from '../models/api';
 import {
   ActionTypes,
+  createEntity,
   createActionCreator,
   createAsyncActionCreator,
 } from '../utils/redux';
+import * as questionApi from '../api/question';
 
 /* 질문 올리기 */
 export const postQuestionActions = createAsyncActionCreator(
@@ -53,8 +59,28 @@ export const addComment = createActionCreator(ADD_COMMENT)<IComment>();
 
 export type AddComment = ReturnType<typeof addComment>;
 
+/* 질문 검색 */
+
+export const searchQuestionsActions = createEntity(
+  SEARCH_QUESTIONS,
+  SEARCH_QUESTIONS_SUCCESS,
+  SEARCH_QUESTIONS_FAILURE,
+)(questionApi.searchQuestions);
+export const requestSearchQuestions = (
+  searchQuery: ISearchQuestionQuery,
+  isInit: boolean = false,
+) => ({
+  type: REQUEST_SEARCH_QUESTIONS,
+  payload: {
+    searchQuery,
+    isInit,
+  },
+});
+export type RequestSearchQuestions = ReturnType<typeof requestSearchQuestions>;
+
 export type QuestionAction =
   | ActionTypes<typeof postQuestionActions>
   | ActionTypes<typeof getQuestionsActions>
   | ActionTypes<typeof getQuestionActions>
+  | ActionTypes<typeof searchQuestionsActions>
   | AddComment;

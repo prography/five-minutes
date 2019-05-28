@@ -1,14 +1,11 @@
 import { all, call, take, fork, put, select } from 'redux-saga/effects';
+import isEmpty from 'lodash/isEmpty';
+import omitBy from 'lodash/omitBy';
 import {
   POST_QUESTION,
-  POST_QUESTION_FAILURE,
-  POST_QUESTION_SUCCESS,
   GET_QUESTION,
-  GET_QUESTION_SUCCESS,
-  GET_QUESTION_FAILURE,
   GET_QUESTIONS,
-  GET_QUESTIONS_SUCCESS,
-  GET_QUESTIONS_FAILURE,
+  REQUEST_SEARCH_QUESTIONS,
 } from '../constants/ActionTypes';
 import {
   PostQuestion,
@@ -18,13 +15,22 @@ import {
   postQuestionActions,
   getQuestionActions,
   getQuestionsActions,
+  RequestSearchQuestions,
+  searchQuestionsActions,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
 import { history } from '../utils/history';
+import { fetchEntity } from '../utils/saga';
+import { ISearchQuestionQuery } from '../models/api';
 
 const selectQuestionList = (state: IRootState) =>
   state.question.getList.questions;
+
+const fetchSearchedQuestions = fetchEntity(
+  searchQuestionsActions,
+  questionApi.searchQuestions,
+);
 
 function* get(action: GetQuestion) {
   try {
@@ -76,6 +82,10 @@ function* post(action: PostQuestion) {
     yield put<QuestionAction>(postQuestionActions.failure(response.data || ''));
   }
 }
+function* search(query: ISearchQuestionQuery, isInit: boolean) {
+  const { page, perPage, ...searchQueryWithFalsy } = query;
+  const searchQuery = omitBy(searchQueryWithFalsy, isEmpty);
+}
 function* watchGet() {
   while (true) {
     const action: GetQuestion = yield take(GET_QUESTION);
@@ -86,6 +96,12 @@ function* watchGetList() {
   while (true) {
     const action: GetQuestions = yield take(GET_QUESTIONS);
     yield call(getList, action);
+  }
+}
+function* watchSearch() {
+  while (true) {
+    const action: RequestSearchQuestions = yield take(REQUEST_SEARCH_QUESTIONS);
+    yield fork(search, action.payload.searchQuery, action.payload.isInit);
   }
 }
 function* watchPost() {

@@ -13,6 +13,7 @@ import {
   GET_QUESTION_FAILURE,
   ADD_COMMENT,
 } from '../constants/ActionTypes';
+import { ISearchQuestionQuery } from '../models/api';
 
 export interface IPostQuestionState {
   status: Status;
@@ -31,10 +32,17 @@ export interface IGetQuestionsState {
   hasNext: boolean;
   error: string;
 }
+export interface ISearchQuestionsState
+  extends ApiGetListResponse<IQuestion>,
+    ISearchQuestionQuery {
+  status: Status;
+  error: string;
+}
 export interface IQuestionState {
   post: IPostQuestionState;
   get: IGetQuestionState;
   getList: IGetQuestionsState;
+  search: ISearchQuestionsState;
 }
 const initialState: IQuestionState = {
   post: {
@@ -53,6 +61,20 @@ const initialState: IQuestionState = {
     page: 0,
     hasNext: true,
     error: '',
+  },
+  search: {
+    status: 'INIT',
+    error: '',
+    items: [],
+    count: 0,
+    page: 0,
+    perPage: 0,
+    prevPage: '',
+    nextPage: '',
+    totalCount: 0,
+    subject: '',
+    language: '',
+    tags: [],
   },
 };
 

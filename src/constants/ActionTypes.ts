@@ -45,6 +45,11 @@ export const GET_QUESTIONS = 'GET_QUESTIONS' as const;
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS' as const;
 export const GET_QUESTIONS_FAILURE = 'GET_QUESTIONS_FAILURE' as const;
 
+export const REQUEST_SEARCH_QUESTIONS = 'REQUEST_SEARCH_QUESTIONS' as const;
+export const SEARCH_QUESTIONS = 'SEARCH_QUESTIONS' as const;
+export const SEARCH_QUESTIONS_SUCCESS = 'SEARCH_QUESTIONS_SUCCESS' as const;
+export const SEARCH_QUESTIONS_FAILURE = 'SEARCH_QUESTIONS_FAILURE' as const;
+
 /* Comment */
 
 export const ADD_COMMENT = 'ADD_COMMENT' as const;

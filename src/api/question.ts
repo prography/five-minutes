@@ -47,3 +47,17 @@ export const postComment: ApiCall<
   const { data } = await instance.post(`/${questionId}/comments`, comment);
   return data;
 };
+
+interface ISearchListQuery extends IBaseListQuery {
+  [key: string]: any;
+  tags?: string[];
+  subject?: string;
+  language?: string;
+}
+/* 검색 */
+export const searchQuestions = async (query: ISearchListQuery) => {
+  const { data } = await instance.post<ApiGetListResponse<IQuestion>>(
+    `/search?${qs.stringify(query, { arrayFormat: 'bracket' })}`,
+  );
+  return data;
+};
