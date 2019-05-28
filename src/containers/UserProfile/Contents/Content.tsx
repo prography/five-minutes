@@ -5,33 +5,34 @@ import { List, Tab } from './style';
 import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../../../reducers';
 import { loadUserQuestions, loadUserComments } from '../../../actions/user';
+import { IQuestion } from '../../../models/question';
 
 interface IContentProps {
-  currentTab: string;
+  currentTab: 'Questions' | 'Answers';
 }
 
 const Content: React.SFC<IContentProps> = ({ currentTab }) => {
-  const {
-    userId,
-    questions,
-    comments,
-    questionStatus,
-    commentStatus,
-    questionHasNext,
-    commentHasNext,
-    questionCount,
-    commentCount,
-  } = useSelector((state: IRootState) => ({
-    userId: state.user.get.user ? state.user.get.user.id : '',
-    questions: state.user.questions.items,
-    questionStatus: state.user.questions.status,
-    comments: state.user.comments.items,
-    commentStatus: state.user.comments.status,
-    questionHasNext: !!state.user.questions.nextPage,
-    commentHasNext: !!state.user.comments.nextPage,
-    questionCount: state.user.questions.totalCount,
-    commentCount: state.user.comments.totalCount,
-  }));
+  const { userId, ...stateByTab } = useSelector((state: IRootState) => {
+    return {
+      userId: state.user.get.user ? state.user.get.user.id : '',
+      Questions: {
+        items: state.user.questions.items,
+        status: state.user.questions.status,
+        hasNext: !!state.user.questions.nextPage,
+        count: state.user.questions.totalCount,
+      },
+      Answers: {
+        // key값 중복 제거를 위해 question id대신 comment id 사용
+        items: state.user.comments.items.map(({ id, question }) => ({
+          ...question,
+          id,
+        })), // TODO: Reselect
+        status: state.user.comments.status,
+        hasNext: !!state.user.comments.nextPage,
+        count: state.user.comments.totalCount,
+      },
+    };
+  });
   const dispatch = useDispatch();
   const fetchMore = useCallback(
     (tab: 'Questions' | 'Answers') => () => {
@@ -44,23 +45,22 @@ const Content: React.SFC<IContentProps> = ({ currentTab }) => {
     },
     [userId, dispatch],
   );
+  const { status, items, hasNext, count } = stateByTab[currentTab];
   return (
     <List>
-      {currentTab === 'Questions' && (
+      <div>
         <div>
-          <div>
-            <Tab selected>
-              {currentTab}: {questionCount}
-            </Tab>
-          </div>
-          <ContentList
-            status={questionStatus}
-            items={questions}
-            fetchMore={fetchMore('Questions')}
-            hasNext={questionHasNext}
-          />
+          <Tab selected>
+            {currentTab}: {count}
+          </Tab>
         </div>
-      )}
+        <ContentList
+          status={status}
+          items={items}
+          fetchMore={fetchMore(currentTab)}
+          hasNext={hasNext}
+        />
+      </div>
     </List>
   );
 };

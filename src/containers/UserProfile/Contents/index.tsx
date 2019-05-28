@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import queryString from 'query-string';
 import Content from './Content';
 import * as St from './style';
 import { history } from '../../../utils/history';
 
-const TABS = ['Questions', 'Answers'];
+export const TABS = ['Questions', 'Answers'] as const;
 
+const isValidTab = (
+  currentTab: string,
+): currentTab is 'Questions' | 'Answers' =>
+  TABS.some(tab => tab === currentTab);
 interface IContentsProps {
   currentTab: string;
 }
 const Contents: React.SFC<IContentsProps> = ({ currentTab }) => {
-  const [selectedTab, setSelectedTab] = useState<string>(currentTab);
-  useEffect(() => {
-    if (TABS.includes(currentTab)) {
-      setSelectedTab(currentTab);
-    }
-  }, [currentTab]);
-
+  const validTab = useMemo(
+    () => (isValidTab(currentTab) ? currentTab : 'Questions'),
+    [currentTab],
+  );
   const selectTab = useCallback(tab => {
     history.push(
       `${history.location.pathname}?${queryString.stringify({ tab })}`,
@@ -29,7 +30,7 @@ const Contents: React.SFC<IContentsProps> = ({ currentTab }) => {
           {TABS.map(tab => (
             <St.Tab
               key={tab}
-              selected={selectedTab === tab}
+              selected={validTab === tab}
               onClick={() => selectTab(tab)}
             >
               {tab}
@@ -38,7 +39,7 @@ const Contents: React.SFC<IContentsProps> = ({ currentTab }) => {
         </St.Tabs>
       </St.Side>
       <St.Content>
-        <Content currentTab={selectedTab} />
+        <Content currentTab={validTab} />
       </St.Content>
     </St.Container>
   );
