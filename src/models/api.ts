@@ -3,7 +3,7 @@ export interface IBaseListQuery {
   perPage: number;
 }
 
-export interface ISearchQuestionQuery extends IBaseListQuery {
+export interface ISearchQuestionQuery {
   tags?: string[];
   subject?: string;
   language?: string;

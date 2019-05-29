@@ -12,6 +12,9 @@ import {
   GET_QUESTION,
   GET_QUESTION_FAILURE,
   ADD_COMMENT,
+  SEARCH_QUESTIONS,
+  SEARCH_QUESTIONS_SUCCESS,
+  SEARCH_QUESTIONS_FAILURE,
 } from '../constants/ActionTypes';
 import { ISearchQuestionQuery } from '../models/api';
 
@@ -32,11 +35,10 @@ export interface IGetQuestionsState {
   hasNext: boolean;
   error: string;
 }
-export interface ISearchQuestionsState
-  extends ApiGetListResponse<IQuestion>,
-    ISearchQuestionQuery {
+export interface ISearchQuestionsState extends ApiGetListResponse<IQuestion> {
   status: Status;
   error: string;
+  searchQuery: ISearchQuestionQuery;
 }
 export interface IQuestionState {
   post: IPostQuestionState;
@@ -72,9 +74,11 @@ const initialState: IQuestionState = {
     prevPage: '',
     nextPage: '',
     totalCount: 0,
-    subject: '',
-    language: '',
-    tags: [],
+    searchQuery: {
+      subject: '',
+      tags: [],
+      language: '',
+    },
   },
 };
 
@@ -137,6 +141,33 @@ export default function reducer(
       case GET_QUESTIONS_FAILURE: {
         draft.getList.status = 'FAILURE';
         draft.getList.error = action.payload;
+        return draft;
+      }
+      case SEARCH_QUESTIONS: {
+        const [listQuery, searchQuery] = action.payload;
+        draft.search = {
+          ...initialState.search,
+          ...listQuery,
+          searchQuery: searchQuery,
+          status: 'FETCHING',
+        };
+        return draft;
+      }
+      case SEARCH_QUESTIONS_SUCCESS: {
+        draft.search = {
+          ...draft.search,
+          ...action.payload,
+          status: 'SUCCESS',
+          error: '',
+        };
+        return draft;
+      }
+      case SEARCH_QUESTIONS_FAILURE: {
+        draft.search = {
+          ...initialState.search,
+          status: 'FAILURE',
+          error: action.payload,
+        };
         return draft;
       }
     }

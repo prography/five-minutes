@@ -3,14 +3,8 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import {
-  CustomLink,
-  Input,
-  Logo,
-  ProfilePhoto,
-  ProfileMenu,
-} from '../../components';
-import { openModal, closeModal } from '../../actions/modal';
+import { CustomLink, Search, Logo, ProfileMenu } from '../../components';
+import { openModal } from '../../actions/modal';
 import {
   Container,
   LogoWrapper,
@@ -48,7 +42,7 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
         </LogoAdjust>
       </LogoWrapper>
       <SearchBox>
-        <Input paperProps={{ style: { width: '100%' } }} />
+        <Search paperProps={{ style: { width: '100%' } }} />
         <MiniButton invert>상세 검색</MiniButton>
         <CustomLink to="/ask">
           <MiniButton>코드 올리기</MiniButton>

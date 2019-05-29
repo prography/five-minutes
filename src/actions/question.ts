@@ -12,7 +12,7 @@ import {
   SEARCH_QUESTIONS,
   SEARCH_QUESTIONS_SUCCESS,
   SEARCH_QUESTIONS_FAILURE,
-  REQUEST_SEARCH_QUESTIONS,
+  LOAD_SEARCHED_QUESTIONS,
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
@@ -66,17 +66,17 @@ export const searchQuestionsActions = createEntity(
   SEARCH_QUESTIONS_SUCCESS,
   SEARCH_QUESTIONS_FAILURE,
 )(questionApi.searchQuestions);
-export const requestSearchQuestions = (
-  searchQuery: ISearchQuestionQuery,
-  isInit: boolean = false,
+export const loadSearchedQuestions = (
+  listQuery: Partial<IBaseListQuery>,
+  searchQuery?: ISearchQuestionQuery,
 ) => ({
-  type: REQUEST_SEARCH_QUESTIONS,
+  type: LOAD_SEARCHED_QUESTIONS,
   payload: {
+    listQuery,
     searchQuery,
-    isInit,
   },
 });
-export type RequestSearchQuestions = ReturnType<typeof requestSearchQuestions>;
+export type RequestSearchQuestions = ReturnType<typeof loadSearchedQuestions>;
 
 export type QuestionAction =
   | ActionTypes<typeof postQuestionActions>

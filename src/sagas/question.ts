@@ -1,11 +1,11 @@
 import { all, call, take, fork, put, select } from 'redux-saga/effects';
-import isEmpty from 'lodash/isEmpty';
-import omitBy from 'lodash/omitBy';
+import identity from 'lodash/identity';
+import pickBy from 'lodash/pickBy';
 import {
   POST_QUESTION,
   GET_QUESTION,
   GET_QUESTIONS,
-  REQUEST_SEARCH_QUESTIONS,
+  LOAD_SEARCHED_QUESTIONS,
 } from '../constants/ActionTypes';
 import {
   PostQuestion,
@@ -22,7 +22,7 @@ import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
 import { history } from '../utils/history';
 import { fetchEntity } from '../utils/saga';
-import { ISearchQuestionQuery } from '../models/api';
+import { ISearchQuestionQuery, IBaseListQuery } from '../models/api';
 
 const selectQuestionList = (state: IRootState) =>
   state.question.getList.questions;
@@ -82,9 +82,9 @@ function* post(action: PostQuestion) {
     yield put<QuestionAction>(postQuestionActions.failure(response.data || ''));
   }
 }
-function* search(query: ISearchQuestionQuery, isInit: boolean) {
-  const { page, perPage, ...searchQueryWithFalsy } = query;
-  const searchQuery = omitBy(searchQueryWithFalsy, isEmpty);
+function* search(listQuery: IBaseListQuery, searchQuery: ISearchQuestionQuery) {
+  const prunedSearchQuery = pickBy(searchQuery, identity);
+  yield call(fetchSearchedQuestions, listQuery, prunedSearchQuery);
 }
 function* watchGet() {
   while (true) {
@@ -100,8 +100,20 @@ function* watchGetList() {
 }
 function* watchSearch() {
   while (true) {
-    const action: RequestSearchQuestions = yield take(REQUEST_SEARCH_QUESTIONS);
-    yield fork(search, action.payload.searchQuery, action.payload.isInit);
+    const action: RequestSearchQuestions = yield take([
+      LOAD_SEARCHED_QUESTIONS,
+    ]);
+    const { page, perPage, prevSearchQuery } = yield select(
+      (state: IRootState) => ({
+        page: state.question.search.page,
+        perPage: state.question.search.perPage,
+        prevSearchQuery: state.question.search.searchQuery,
+      }),
+    );
+    // 이전 search 사용
+    const { listQuery, searchQuery = prevSearchQuery } = action.payload;
+
+    yield fork(search, { page, perPage, ...listQuery }, searchQuery);
   }
 }
 function* watchPost() {
@@ -111,5 +123,10 @@ function* watchPost() {
   }
 }
 export default function* root() {
-  yield all([fork(watchGet), fork(watchGetList), fork(watchPost)]);
+  yield all([
+    fork(watchGet),
+    fork(watchGetList),
+    fork(watchPost),
+    fork(watchSearch),
+  ]);
 }

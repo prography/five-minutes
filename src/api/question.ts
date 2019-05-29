@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'query-string';
 import { IQuestion, IPostQuestion } from '../models/question';
-import { IBaseListQuery } from '../models/api';
+import { IBaseListQuery, ISearchQuestionQuery } from '../models/api';
 import { IPostComment, IComment } from '../models/comment';
 
 const instance = axios.create({
@@ -48,16 +48,16 @@ export const postComment: ApiCall<
   return data;
 };
 
-interface ISearchListQuery extends IBaseListQuery {
-  [key: string]: any;
-  tags?: string[];
-  subject?: string;
-  language?: string;
-}
 /* 검색 */
-export const searchQuestions = async (query: ISearchListQuery) => {
+export const searchQuestions = async (
+  listQuery: IBaseListQuery,
+  searchQuery: ISearchQuestionQuery,
+) => {
   const { data } = await instance.post<ApiGetListResponse<IQuestion>>(
-    `/search?${qs.stringify(query, { arrayFormat: 'bracket' })}`,
+    `/search?${qs.stringify(
+      { ...listQuery, ...searchQuery },
+      { arrayFormat: 'bracket' },
+    )}`,
   );
   return data;
 };

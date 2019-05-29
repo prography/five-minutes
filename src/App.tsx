@@ -19,6 +19,7 @@ const Home = lazy(() => import('./pages/Home'));
 const Ask = lazy(() => import('./pages/Ask'));
 const Question = lazy(() => import('./pages/Question'));
 const Profile = lazy(() => import('./pages/Profile'));
+const Search = lazy(() => import('./pages/Search'));
 
 export interface IAppProps {
   meStatus: Status;
@@ -52,6 +53,7 @@ class App extends Component<IAppProps> {
                     component={Question}
                   />
                   <Route path="/profile/:userId" component={Profile} />
+                  <Route path="/search" component={Search} />
                 </Switch>
               </Suspense>
             </PageLayout>

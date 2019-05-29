@@ -14,7 +14,6 @@ import {
 } from '../constants/ActionTypes';
 import { createEntity, ActionTypes } from '../utils/redux';
 import * as userApi from '../api/user';
-import { IBaseListQuery } from '../models/api';
 
 export const getUserActions = createEntity(
   GET_USER,
@@ -29,14 +28,11 @@ export const getUserQuestionsActions = createEntity(
   GET_USER_QUESTIONS_SUCCESS,
   GET_USER_QUESTIONS_FAILURE,
 )(userApi.getUserQuestions);
-export const loadUserQuestions = (
-  id: string,
-  isInit: boolean,
-) => ({
+export const loadUserQuestions = (id: string, isInit: boolean) => ({
   type: LOAD_USER_QUESTIONS,
   payload: {
     id,
-    isInit
+    isInit,
   },
 });
 export type LoadUserQuestions = ReturnType<typeof loadUserQuestions>;
@@ -46,14 +42,11 @@ export const getUserCommentsActions = createEntity(
   GET_USER_COMMENTS_SUCCESS,
   GET_USER_COMMENTS_FAILURE,
 )(userApi.getUserComments);
-export const loadUserComments = (
-  id: string,
-  isInit: boolean,
-) => ({
+export const loadUserComments = (id: string, isInit: boolean) => ({
   type: LOAD_USER_COMMENTS,
   payload: {
     id,
-    isInit
+    isInit,
   },
 });
 export type LoadUserComments = ReturnType<typeof loadUserComments>;
