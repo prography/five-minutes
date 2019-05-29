@@ -53,7 +53,7 @@ export const searchQuestions = async (
   listQuery: IBaseListQuery,
   searchQuery: ISearchQuestionQuery,
 ) => {
-  const { data } = await instance.post<ApiGetListResponse<IQuestion>>(
+  const { data } = await instance.get<ApiGetListResponse<IQuestion>>(
     `/search?${qs.stringify(
       { ...listQuery, ...searchQuery },
       { arrayFormat: 'bracket' },

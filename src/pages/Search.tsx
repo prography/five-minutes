@@ -1,8 +1,8 @@
 import React from 'react';
-import { Pagination } from '../components';
+import { SearchResult } from '../containers';
 
 const Search = () => {
-  return <Pagination maxPage={120} onPageChange={() => {}} />;
+  return <SearchResult />;
 };
 
 export default Search;

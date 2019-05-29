@@ -72,7 +72,11 @@ export const loadSearchedQuestions = (
 ) => ({
   type: LOAD_SEARCHED_QUESTIONS,
   payload: {
-    listQuery,
+    listQuery: {
+      page: 1,
+      perPage: 10,
+      ...listQuery,
+    },
     searchQuery,
   },
 });

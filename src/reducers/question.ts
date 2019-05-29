@@ -146,7 +146,7 @@ export default function reducer(
       case SEARCH_QUESTIONS: {
         const [listQuery, searchQuery] = action.payload;
         draft.search = {
-          ...initialState.search,
+          ...state.search,
           ...listQuery,
           searchQuery: searchQuery,
           status: 'FETCHING',

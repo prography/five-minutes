@@ -5,7 +5,7 @@ interface ILikeModel {
   likedUsers: IUser[];
   dislikedUsers: IUser[];
 }
-type LikeApi<R> = (id: string) => Promise<ApiResponse<R>>;
+export type LikeApi<R> = (id: string) => Promise<ApiResponse<R>>;
 
 const useLike = <R extends ILikeModel>(
   id: string,

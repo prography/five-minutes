@@ -1,13 +1,6 @@
 import React, { useState, useMemo, useCallback, memo } from 'react';
 import styled from 'styled-components';
 
-interface IPaginationProps {
-  initialPage?: number;
-  pageRange?: number;
-  maxPage: number;
-  onPageChange: (page: number) => void;
-}
-
 const PageList = styled.ul`
   list-style-type: none;
 `;
@@ -43,13 +36,12 @@ const PageNumber = styled.button<{
   margin-left: -1px;
   padding: 0.6rem 0.8rem;
 
-  transition: all 0.1s;
-
   &:hover {
     color: ${props =>
       props.active
         ? props.theme.palette.darkGray
         : props.theme.palette.primary.main};
+    transition: color 0.1s;
     cursor: pointer;
   }
   &:disabled {
@@ -59,17 +51,32 @@ const PageNumber = styled.button<{
 `;
 
 const SKIP = '...' as const;
+interface IPaginationProps {
+  initialPage?: number;
+  pageRange?: number;
+  perPage: number;
+  totalCount: number;
+  onPageChange: (page: number) => void;
+}
 
 const Pagination: React.SFC<IPaginationProps> = ({
   initialPage = 1,
   pageRange = 5,
-  maxPage,
+  perPage,
+  totalCount,
   onPageChange,
 }) => {
   const [page, setPage] = useState(initialPage);
+  const maxPage = perPage === 0 ? 0 : Math.ceil(totalCount / perPage);
   const pages: (number | typeof SKIP)[] = useMemo(() => {
+    if (maxPage === 0) {
+      return [];
+    }
     if (maxPage === 1) {
       return [maxPage];
+    }
+    if (pageRange + 2 >= maxPage) {
+      return [...Array(maxPage)].map((_, i) => i + 1);
     }
     let pageNums = [page];
     for (let i = 1; i < pageRange && pageNums.length < pageRange; ++i) {
@@ -85,7 +92,11 @@ const Pagination: React.SFC<IPaginationProps> = ({
   }, [page, pageRange, maxPage]);
   const handlePageClick = (page: number) => () => {
     setPage(page);
+    onPageChange(page);
   };
+  if (!pages.length) {
+    return null;
+  }
   return (
     <PageList>
       <Page>

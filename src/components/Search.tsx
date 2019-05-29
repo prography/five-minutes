@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Paper, { PaperProps } from '@material-ui/core/Paper';
 import InputBase, { InputBaseProps } from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-import { history, queryHelper } from '../utils/history';
+import { history, questionQueryHelper } from '../utils/history';
 
 const useStyles = makeStyles(
   createStyles({
@@ -24,6 +24,9 @@ const useStyles = makeStyles(
       height: 28,
       margin: 4,
     },
+    form: {
+      width: '100%',
+    },
   }),
 );
 
@@ -37,7 +40,9 @@ const Search: React.SFC<IInputProps> = ({
 }) => {
   const classes = useStyles();
   const [focused, setFocused] = useState(false);
-  const [search, setSearch] = useState(queryHelper.searchQuery.subject || '');
+  const [search, setSearch] = useState(
+    questionQueryHelper.searchQuery.subject || '',
+  );
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
@@ -45,11 +50,13 @@ const Search: React.SFC<IInputProps> = ({
   );
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    history.push(`/search?${queryHelper.makeQuery({ subject: search })}`);
+    history.push(
+      `/search?${questionQueryHelper.makeQuery({ subject: search })}`,
+    );
   };
 
   useEffect(() => {
-    setSearch(queryHelper.searchQuery.subject || '');
+    setSearch(questionQueryHelper.searchQuery.subject || '');
   }, [history.location.search]);
 
   return (
@@ -59,9 +66,10 @@ const Search: React.SFC<IInputProps> = ({
       square
       {...paperProps}
     >
-      <form onSubmit={handleSearch}>
-        <SearchIcon />
+      <SearchIcon />
+      <form className={classes.form} onSubmit={handleSearch}>
         <InputBase
+          fullWidth
           value={search}
           onChange={handleChange}
           onFocus={() => setFocused(true)}

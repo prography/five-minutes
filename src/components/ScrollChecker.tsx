@@ -26,7 +26,9 @@ const ScrollChecker: React.SFC<IScrollCheckerProps> = ({
           },
         },
         '',
-        location.pathname,
+        `${location.pathname}${
+          history.location.search ? `${history.location.search}` : ''
+        }`,
       );
     });
   }, []);
@@ -49,14 +51,11 @@ const ScrollChecker: React.SFC<IScrollCheckerProps> = ({
     }, 100),
     [],
   );
-  // PUSH일 때는 top으로, POP일 때는 scrollSync를 시도.
+  // POP일 때는 scrollSync를 시도.
   // 기본 attempt는 일단 20으로 지정.
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
       const { state } = window.history;
-      if (action === 'PUSH') {
-        window.scrollTo(0, 0);
-      }
       if (action === 'POP' && state && state.scroll) {
         const { x, y, attempt = MAX_SYNC_ATTEMPT } = state.scroll;
         syncScroll(x, y, attempt);

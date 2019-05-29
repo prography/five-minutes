@@ -103,17 +103,19 @@ function* watchSearch() {
     const action: RequestSearchQuestions = yield take([
       LOAD_SEARCHED_QUESTIONS,
     ]);
-    const { page, perPage, prevSearchQuery } = yield select(
+    const { prevlistQuery, prevSearchQuery } = yield select(
       (state: IRootState) => ({
-        page: state.question.search.page,
-        perPage: state.question.search.perPage,
+        prevlistQuery: {
+          page: state.question.search.page,
+          perPage: state.question.search.perPage,
+        },
         prevSearchQuery: state.question.search.searchQuery,
       }),
     );
     // 이전 search 사용
     const { listQuery, searchQuery = prevSearchQuery } = action.payload;
 
-    yield fork(search, { page, perPage, ...listQuery }, searchQuery);
+    yield fork(search, { ...prevlistQuery, ...listQuery }, searchQuery);
   }
 }
 function* watchPost() {
