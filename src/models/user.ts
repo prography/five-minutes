@@ -16,7 +16,7 @@ export interface IUser extends ISchemaBase {
   image: string;
   questions: IQuestion[];
   comments: IComment[];
-  tags: IUserTag[];
+  tags: ITag[];
   likedQuestions: IQuestionLike[];
   likedComments: ICommentLike[];
 }

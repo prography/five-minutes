@@ -1,8 +1,18 @@
 import React from 'react';
-import { SearchResult } from '../containers';
+import { SearchSidebar, SearchResult } from '../containers';
+import { MainLayout, RightSidebar } from '../styles/common';
 
 const Search = () => {
-  return <SearchResult />;
+  return (
+    <>
+      <MainLayout>
+        <SearchResult />
+      </MainLayout>
+      <RightSidebar>
+        <SearchSidebar />
+      </RightSidebar>
+    </>
+  );
 };
 
 export default Search;

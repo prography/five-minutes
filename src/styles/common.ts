@@ -5,14 +5,35 @@ export const WithBackground = styled.div`
 `;
 
 export const PageLayout = styled.div`
+  margin: 3rem auto;
+`;
+export const MainLayout = styled.div`
   width: 60%;
   min-width: 800px;
-  margin: 3rem auto;
-
+  margin: auto;
   @media screen and (max-width: 800px) {
     width: 95%;
     min-width: 300px;
-    margin: 3rem auto;
+  }
+`;
+export const LeftSidebar = styled.div`
+  float: left;
+  width: calc(20% - 20px);
+
+  margin-left: 20px;
+
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+export const RightSidebar = styled.div`
+  float: left;
+  width: calc(20% - 20px);
+
+  margin-right: 20px;
+
+  @media screen and (max-width: 800px) {
+    display: none;
   }
 `;
 

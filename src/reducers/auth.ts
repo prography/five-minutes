@@ -9,6 +9,7 @@ import {
   ME,
   ME_SUCCESS,
   ME_FAILURE,
+  SET_WATCHED_TAGS,
 } from '../constants/ActionTypes';
 
 export interface IAuthMe {
@@ -91,6 +92,10 @@ const authReducer = (
       case SIGNIN_FAILURE: {
         draft.signin.status = 'FAILURE';
         draft.me.isLoggedIn = false;
+        return draft;
+      }
+      case SET_WATCHED_TAGS: {
+        draft.me.user.tags = action.payload;
         return draft;
       }
       case LOGOUT: {

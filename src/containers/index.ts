@@ -12,7 +12,9 @@ import QuestionList from './QuestionList';
 import QuestionListItem from './QuestionListItem';
 import QuestionView from './QuestionView';
 import SearchResult from './SearchResult';
+import SearchSidebar from './SearchSidebar';
 import UserProfile from './UserProfile';
+import WatchedTags from './WathcedTags';
 import TagSelect from './TagSelect';
 
 export {
@@ -30,6 +32,8 @@ export {
   QuestionListItem,
   QuestionView,
   SearchResult,
+  SearchSidebar,
   UserProfile,
+  WatchedTags,
   TagSelect,
 };

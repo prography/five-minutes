@@ -10,9 +10,7 @@ import {
 import {
   SIGNIN,
   SIGNIN_FAILURE,
-  SIGNIN_SUCCESS,
   LOGOUT,
-  CLOSE_MODAL,
   ME,
   ME_FAILURE,
   ME_SUCCESS,
@@ -28,7 +26,6 @@ import * as authApi from '../api/auth';
 import * as authUtil from '../utils/auth';
 import { closeModal, ModalAction } from '../actions/modal';
 import { notifier } from '../utils/renoti';
-import { history } from '../utils/history';
 
 function* signin(action: Signin) {
   try {

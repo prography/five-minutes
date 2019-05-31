@@ -4,6 +4,7 @@ import { IUser } from '../models/user';
 import { IQuestion } from '../models/question';
 import { IComment } from '../models/comment';
 import { IBaseListQuery } from '../models/api';
+import { ITag } from '../models/tag';
 
 const instance = axios.create({
   baseURL: '/api/users',
@@ -30,6 +31,22 @@ export const getUserComments = async (
 ) => {
   const { data } = await instance.get<ApiGetListResponse<IComment>>(
     `/${userId}/comments?${qs.stringify({ page, perPage })}`,
+  );
+  return data;
+};
+
+export const addTag = async (userId: string, tag: string) => {
+  const { data } = await instance.put<ApiResponse<{ user: IUser }>>(
+    `/${userId}/tags/add`,
+    { tag },
+  );
+  return data;
+};
+
+export const removeTag = async (userId: string, tag: string) => {
+  const { data } = await instance.put<ApiResponse<{ user: IUser }>>(
+    `/${userId}/tags/remove`,
+    { tag },
   );
   return data;
 };

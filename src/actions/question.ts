@@ -13,6 +13,7 @@ import {
   SEARCH_QUESTIONS_SUCCESS,
   SEARCH_QUESTIONS_FAILURE,
   LOAD_SEARCHED_QUESTIONS,
+  SET_QUESTION_SEARCH_MODE,
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
@@ -80,11 +81,23 @@ export const loadSearchedQuestions = (
     searchQuery,
   },
 });
-export type RequestSearchQuestions = ReturnType<typeof loadSearchedQuestions>;
+export const setQuestionSearchMode = (isTagSearch: boolean) => ({
+  type: SET_QUESTION_SEARCH_MODE,
+  payload: isTagSearch,
+});
+
+export type RequestSearchQuestions = {
+  type: typeof LOAD_SEARCHED_QUESTIONS;
+  payload: {
+    listQuery: Partial<IBaseListQuery>;
+    searchQuery?: ISearchQuestionQuery;
+  };
+};
 
 export type QuestionAction =
   | ActionTypes<typeof postQuestionActions>
   | ActionTypes<typeof getQuestionsActions>
   | ActionTypes<typeof getQuestionActions>
   | ActionTypes<typeof searchQuestionsActions>
+  | ReturnType<typeof setQuestionSearchMode>
   | AddComment;

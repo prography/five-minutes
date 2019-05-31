@@ -6,9 +6,11 @@ import {
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
   LOGOUT,
+  SET_WATCHED_TAGS,
 } from '../constants/ActionTypes';
 import { createAsyncActionCreator, ActionTypes } from '../utils/redux';
 import { ISigninUser, IUser } from '../models/user';
+import { ITag } from '../models/tag';
 
 export const meActions = createAsyncActionCreator(ME, ME_SUCCESS, ME_FAILURE)<
   null,
@@ -24,6 +26,12 @@ export const signinActions = createAsyncActionCreator(
 )<ISigninUser, IUser, string>();
 export type Signin = ReturnType<typeof signinActions.request>;
 
+export const setWatchedTags = (tags: ITag[]) => ({
+  type: SET_WATCHED_TAGS,
+  payload: tags,
+});
+export type SetWatchedTags = ReturnType<typeof setWatchedTags>;
+
 export const logout = () => ({
   type: LOGOUT,
 });
@@ -32,4 +40,5 @@ export type Logout = ReturnType<typeof logout>;
 export type AuthAction =
   | ActionTypes<typeof meActions>
   | ActionTypes<typeof signinActions>
+  | SetWatchedTags
   | Logout;

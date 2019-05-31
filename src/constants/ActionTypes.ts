@@ -9,6 +9,8 @@ export const SIGNIN = 'SIGNIN' as const;
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS' as const;
 export const SIGNIN_FAILURE = 'SIGNIN_FAILURE' as const;
 
+export const SET_WATCHED_TAGS = 'SET_WATCHED_TAGS' as const;
+
 export const LOGOUT = 'LOGOUT' as const;
 
 /* User */
@@ -45,6 +47,7 @@ export const GET_QUESTIONS = 'GET_QUESTIONS' as const;
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS' as const;
 export const GET_QUESTIONS_FAILURE = 'GET_QUESTIONS_FAILURE' as const;
 
+export const SET_QUESTION_SEARCH_MODE = 'SET_QUESTION_SEARCH_MODE' as const;
 export const LOAD_SEARCHED_QUESTIONS = 'LOAD_SEARCHED_QUESTIONS' as const;
 export const SEARCH_QUESTIONS = 'SEARCH_QUESTIONS' as const;
 export const SEARCH_QUESTIONS_SUCCESS = 'SEARCH_QUESTIONS_SUCCESS' as const;

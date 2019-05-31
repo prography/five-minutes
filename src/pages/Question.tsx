@@ -6,7 +6,7 @@ import { AnswerForm, AnswerList, QuestionView } from '../containers';
 import { AuthBlock } from '../components';
 import { getQuestionActions } from '../actions/question';
 import { IRootState } from '../reducers';
-import { ShadowBox } from '../styles/common';
+import { ShadowBox, MainLayout } from '../styles/common';
 
 interface IParams {
   questionId: string;
@@ -35,17 +35,19 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   }
   if (!question) return null;
   return (
-    <ShadowBox style={{ padding: '2rem' }}>
-      <QuestionView {...question} codeRef={codeRef} setCodeRef={setCodeRef} />
-      <AnswerList codeRef={codeRef} {...question} />
-      {isLoggedIn ? (
-        <AnswerForm {...question} />
-      ) : (
-        <AuthBlock>
-          <h2>로그인을 하셔야 답변을 다실 수 있습니다.</h2>
-        </AuthBlock>
-      )}
-    </ShadowBox>
+    <MainLayout>
+      <ShadowBox style={{ padding: '2rem' }}>
+        <QuestionView {...question} codeRef={codeRef} setCodeRef={setCodeRef} />
+        <AnswerList codeRef={codeRef} {...question} />
+        {isLoggedIn ? (
+          <AnswerForm {...question} />
+        ) : (
+          <AuthBlock>
+            <h2>로그인을 하셔야 답변을 다실 수 있습니다.</h2>
+          </AuthBlock>
+        )}
+      </ShadowBox>
+    </MainLayout>
   );
 };
 

@@ -6,6 +6,11 @@ import {
   GET_QUESTION,
   GET_QUESTIONS,
   LOAD_SEARCHED_QUESTIONS,
+  SIGNIN_SUCCESS,
+  LOGOUT,
+  ME_SUCCESS,
+  SET_WATCHED_TAGS,
+  SET_QUESTION_SEARCH_MODE,
 } from '../constants/ActionTypes';
 import {
   PostQuestion,
@@ -17,12 +22,14 @@ import {
   getQuestionsActions,
   RequestSearchQuestions,
   searchQuestionsActions,
+  setQuestionSearchMode,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
 import { history } from '../utils/history';
 import { fetchEntity } from '../utils/saga';
 import { ISearchQuestionQuery, IBaseListQuery } from '../models/api';
+import { ITag } from '../models/tag';
 
 const selectQuestionList = (state: IRootState) =>
   state.question.getList.questions;
@@ -98,30 +105,56 @@ function* watchGetList() {
     yield call(getList, action);
   }
 }
+function* watchPost() {
+  while (true) {
+    const action: PostQuestion = yield take(POST_QUESTION);
+    yield call(post, action);
+  }
+}
 function* watchSearch() {
   while (true) {
-    const action: RequestSearchQuestions = yield take([
-      LOAD_SEARCHED_QUESTIONS,
-    ]);
-    const { prevlistQuery, prevSearchQuery } = yield select(
+    const action = yield take([LOAD_SEARCHED_QUESTIONS]);
+    const { prevlistQuery, prevSearchQuery, isTagSearch, tags } = yield select(
       (state: IRootState) => ({
         prevlistQuery: {
           page: state.question.search.page,
           perPage: state.question.search.perPage,
         },
         prevSearchQuery: state.question.search.searchQuery,
+        isTagSearch: state.question.search.isTagSearch,
+        tags: state.auth.me.user.tags,
       }),
     );
     // 이전 search 사용
     const { listQuery, searchQuery = prevSearchQuery } = action.payload;
-
+    // 태그 검색시 tag추가
+    if (isTagSearch && tags) {
+      searchQuery.tags = tags.map((tag: ITag) => tag.name);
+    }
     yield fork(search, { ...prevlistQuery, ...listQuery }, searchQuery);
   }
 }
-function* watchPost() {
+// Watched Tags 바뀔 때 search 다시
+function* watchWatchedTags() {
   while (true) {
-    const action: PostQuestion = yield take(POST_QUESTION);
-    yield call(post, action);
+    yield take([SET_WATCHED_TAGS, SET_QUESTION_SEARCH_MODE]);
+    if (history.location.search) {
+      yield put<RequestSearchQuestions>({
+        type: LOAD_SEARCHED_QUESTIONS,
+        payload: {
+          listQuery: {
+            page: 1,
+          },
+        },
+      });
+    }
+  }
+}
+// 로그인/로그아웃에 따라 searchmode 변경
+function* watchAuth() {
+  while (true) {
+    const action = yield take([SIGNIN_SUCCESS, ME_SUCCESS, LOGOUT]);
+    yield put(setQuestionSearchMode(action.type !== LOGOUT));
   }
 }
 export default function* root() {
@@ -130,5 +163,7 @@ export default function* root() {
     fork(watchGetList),
     fork(watchPost),
     fork(watchSearch),
+    fork(watchWatchedTags),
+    fork(watchAuth),
   ]);
 }
