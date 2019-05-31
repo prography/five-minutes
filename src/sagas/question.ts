@@ -1,4 +1,4 @@
-import { all, call, take, fork, put, select } from 'redux-saga/effects';
+import { all, call, take, fork, put, select, cancel } from 'redux-saga/effects';
 import identity from 'lodash/identity';
 import pickBy from 'lodash/pickBy';
 import {
@@ -23,6 +23,7 @@ import {
   RequestSearchQuestions,
   searchQuestionsActions,
   setQuestionSearchMode,
+  loadSearchedQuestions,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
@@ -138,15 +139,11 @@ function* watchSearch() {
 function* watchWatchedTags() {
   while (true) {
     yield take([SET_WATCHED_TAGS, SET_QUESTION_SEARCH_MODE]);
-    if (history.location.search) {
-      yield put<RequestSearchQuestions>({
-        type: LOAD_SEARCHED_QUESTIONS,
-        payload: {
-          listQuery: {
-            page: 1,
-          },
-        },
-      });
+    const hasSearched = yield select(
+      (state: IRootState) => state.question.search.status === 'INIT',
+    );
+    if (history.location.search && !hasSearched) {
+      yield put<RequestSearchQuestions>(loadSearchedQuestions({}));
     }
   }
 }

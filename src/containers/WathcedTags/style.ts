@@ -19,7 +19,8 @@ export const ContainerContents = styled.div`
 export const TagWrapper = styled.span`
   display: inline-block;
   margin-right: 10px;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   svg {
     &:hover {
       cursor: pointer;

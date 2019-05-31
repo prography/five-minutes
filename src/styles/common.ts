@@ -5,10 +5,14 @@ export const WithBackground = styled.div`
 `;
 
 export const PageLayout = styled.div`
-  margin: 3rem auto;
+  width: 100%;
+  padding: 3rem 10px;
+
+  box-sizing: border-box;
 `;
 export const MainLayout = styled.div`
-  width: 60%;
+  flex: 1 1 800px;
+  width: 800px;
   min-width: 800px;
   margin: auto;
   @media screen and (max-width: 800px) {
@@ -16,23 +20,17 @@ export const MainLayout = styled.div`
     min-width: 300px;
   }
 `;
-export const LeftSidebar = styled.div`
-  float: left;
-  width: calc(20% - 20px);
+export const LayoutWithSidebar = styled.div`
+  width: 1400px;
+  margin: auto;
 
-  margin-left: 20px;
-
-  @media screen and (max-width: 800px) {
-    display: none;
-  }
+  display: flex;
+  justify-content: space-between;
 `;
-export const RightSidebar = styled.div`
-  float: left;
-  width: calc(20% - 20px);
-
-  margin-right: 20px;
-
-  @media screen and (max-width: 800px) {
+export const Sidebar = styled.div<{ left?: boolean }>`
+  flex: 0 0 300px;
+  margin: 0 20px;
+  @media screen and (max-width: ${props => (props.left ? '600px' : '900px')}) {
     display: none;
   }
 `;

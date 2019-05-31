@@ -26,9 +26,9 @@ const Search = () => {
           <WatchedTags />
         </WatchedWrapper>
         {isTagSearch ? (
-          <Button onClick={setAllSearchMode}>전체 검색</Button>
+          <Button onClick={setAllSearchMode}>관심태그 검색</Button>
         ) : (
-          <Button onClick={setTagSearchMode}>관심태그 검색</Button>
+          <Button onClick={setTagSearchMode}>전체 검색</Button>
         )}
       </div>
     </>

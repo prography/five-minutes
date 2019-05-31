@@ -27,17 +27,17 @@ export const AnswerItem = styled.div`
 
 export const AnswerLike = styled.div`
   text-align: center;
-  flex: 0 0 100px;
+  flex: 0 0 80px;
   border-right: 1px solid ${props => props.theme.palette.gray};
   padding-top: 1rem;
 `;
 export const AnswerMain = styled.div`
-  flex: 1 0;
-  padding: 0 20px;
+  flex: 1 1;
+  padding: 0 10px;
 `;
 
 export const AnswerSide = styled.div`
-  min-width: 150px;
+  flex: 0 0 100px;
 `;
 
 export const AnswerUser = styled.div`

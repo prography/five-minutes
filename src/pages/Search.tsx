@@ -1,17 +1,18 @@
 import React from 'react';
 import { SearchSidebar, SearchResult } from '../containers';
-import { MainLayout, RightSidebar } from '../styles/common';
+import { MainLayout, Sidebar, LayoutWithSidebar } from '../styles/common';
 
 const Search = () => {
   return (
-    <>
+    <LayoutWithSidebar>
+      <Sidebar />
       <MainLayout>
         <SearchResult />
       </MainLayout>
-      <RightSidebar>
+      <Sidebar>
         <SearchSidebar />
-      </RightSidebar>
-    </>
+      </Sidebar>
+    </LayoutWithSidebar>
   );
 };
 

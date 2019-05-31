@@ -45,7 +45,11 @@ const LikeButton: React.SFC<ILikeButtonProps> = ({
 }) => {
   return (
     <LikeOrDislike likeType={likeType} active={active} {...buttonProps}>
-      {likeType === 'like' ? <ThumbUp /> : <ThumbDown />}
+      {likeType === 'like' ? (
+        <ThumbUp fontSize="small" />
+      ) : (
+        <ThumbDown fontSize="small" />
+      )}
       {typeof count !== 'undefined' && <div>{count}</div>}
     </LikeOrDislike>
   );

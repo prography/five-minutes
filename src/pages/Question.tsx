@@ -36,7 +36,7 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   if (!question) return null;
   return (
     <MainLayout>
-      <ShadowBox style={{ padding: '2rem' }}>
+      <ShadowBox>
         <QuestionView {...question} codeRef={codeRef} setCodeRef={setCodeRef} />
         <AnswerList codeRef={codeRef} {...question} />
         {isLoggedIn ? (

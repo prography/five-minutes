@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
 export const WatchedWrapper = styled.div<{ active?: boolean }>`
-  filter: ${props => props.active && 'grayscale(50%)'};
+  opacity: ${props => (props.active ? 1 : 0.4)};
 `;
