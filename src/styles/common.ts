@@ -43,9 +43,10 @@ export const ShadowBox = styled.div`
   background: #ffffff;
   box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.02);
   width: 100%;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   &:hover {
-    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.13);
+    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.1);
+    transform : scale(1.01);
   }
 `;
 
