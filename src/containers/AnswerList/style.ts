@@ -51,6 +51,6 @@ export const AnswerUser = styled.div`
 `;
 
 export const AnswerInfo = styled.div`
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: ${props => props.theme.palette.darkGray};
 `;

@@ -81,6 +81,7 @@ export const loadSearchedQuestions = (
     searchQuery,
   },
 });
+
 export const setQuestionSearchMode = (isTagSearch: boolean) => ({
   type: SET_QUESTION_SEARCH_MODE,
   payload: isTagSearch,

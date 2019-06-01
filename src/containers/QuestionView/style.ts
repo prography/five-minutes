@@ -3,7 +3,7 @@ export const Container = styled.div`
   font-size: 1rem;
   line-height: 1.5;
 `;
-export const Subject = styled.h1`
+export const Subject = styled.h2`
   flex: 1;
 `;
 export const Body = styled.div`

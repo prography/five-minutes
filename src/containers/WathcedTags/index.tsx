@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
-import Button from '@material-ui/core/Button';
+import React, { useState, useCallback, useEffect } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Close';
+import BuildIcon from '@material-ui/icons/Build';
 import { TagSelect } from '..';
-import { Tag, Divider } from '../../components';
+import { AntSwitch, Tag, Divider } from '../../components';
 import { addTag, removeTag } from '../../api/user';
 import {
   Container,
@@ -11,17 +11,22 @@ import {
   ContainerContents,
   TagSelectWrapper,
   TagWrapper,
+  EditIcon,
 } from './style';
 import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../../reducers';
 import { setWatchedTags } from '../../actions/auth';
+import { setQuestionSearchMode } from '../../actions/question';
 
 const WatchedTags = () => {
-  const { isLoggedIn, id, tags } = useSelector((state: IRootState) => ({
-    isLoggedIn: state.auth.me.isLoggedIn,
-    id: state.auth.me.user.id,
-    tags: state.auth.me.user.tags,
-  }));
+  const { isLoggedIn, id, tags, isTagSearch } = useSelector(
+    (state: IRootState) => ({
+      isLoggedIn: state.auth.me.isLoggedIn,
+      id: state.auth.me.user.id,
+      tags: state.auth.me.user.tags,
+      isTagSearch: state.question.search.isTagSearch,
+    }),
+  );
   const dispatch = useDispatch();
 
   const [isEdit, setIsEdit] = useState(false);
@@ -44,22 +49,44 @@ const WatchedTags = () => {
     [id, dispatch],
   );
   const toggleEditMode = useCallback(() => setIsEdit(prev => !prev), []);
+  const setTagSearchMode = (isTagSearch: boolean) => () => {
+    dispatch(setQuestionSearchMode(!isTagSearch));
+  };
+  // 태그 검색 해제됐을 때 edit 모드면 해제
+  useEffect(() => {
+    if (!isTagSearch && isEdit) {
+      toggleEditMode();
+    }
+  }, [isTagSearch]);
+
   if (!isLoggedIn) return null;
   return (
     <>
       <Container>
         <ContainerTitle>
-          <div style={{ flex: 1 }}>관심 태그</div>
+          <div style={{ flex: 1 }}>
+            관심 태그{' '}
+            <AntSwitch
+              checked={isTagSearch}
+              onChange={setTagSearchMode(isTagSearch)}
+            />
+          </div>
           {
             <div>
-              <Button onClick={toggleEditMode}>
-                {isEdit ? '완료' : '수정'}
-              </Button>
+              <IconButton
+                onClick={toggleEditMode}
+                size="small"
+                disabled={!isTagSearch}
+              >
+                <EditIcon isEditing={isEdit}>
+                  <BuildIcon fontSize="inherit" />
+                </EditIcon>
+              </IconButton>
             </div>
           }
         </ContainerTitle>
         <Divider />
-        <ContainerContents>
+        <ContainerContents isActive={isTagSearch}>
           {isEdit && (
             <TagSelectWrapper>
               <TagSelect tags={[]} value={[]} setTags={onTagSelect} />

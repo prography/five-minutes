@@ -80,7 +80,7 @@ const Answer: React.SFC<IAnswerProps> = ({
             {user.nickname}
           </AnswerUser>
         </ProfileLink>
-        <AnswerInfo>{date} 작성됨</AnswerInfo>
+        <AnswerInfo>{date}</AnswerInfo>
       </AnswerSide>
     </AnswerItem>
   );

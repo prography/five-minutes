@@ -1,3 +1,4 @@
+import AntSwitch from './AntSwitch';
 import AuthBlock from './AuthBlock';
 import Button from './Button';
 import Codemirror from './Codemirror';
@@ -5,8 +6,8 @@ import CustomLink from './CustomLink';
 import Dimmer from './Dimmer';
 import Divider from './Divider';
 import ErrorBoundary from './ErrorBoundary';
-import LikeButton from './LikeButton';
 import LikeAndDislike from './LikeAndDislike';
+import LikeButton from './LikeButton';
 import Logo from './Logo';
 import Message from './Message';
 import NoResult from './NoResult';
@@ -22,6 +23,7 @@ import Tag from './Tag';
 import TagList from './TagList';
 
 export {
+  AntSwitch,
   AuthBlock,
   Button,
   Codemirror,
@@ -33,8 +35,8 @@ export {
   LikeButton,
   Logo,
   Message,
-  NoResult,
   Pagination,
+  NoResult,
   PrevLocation,
   ProfileLink,
   ProfileMenu,

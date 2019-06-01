@@ -115,22 +115,29 @@ function* watchPost() {
 function* watchSearch() {
   while (true) {
     const action = yield take([LOAD_SEARCHED_QUESTIONS]);
-    const { prevlistQuery, prevSearchQuery, isTagSearch, tags } = yield select(
-      (state: IRootState) => ({
-        prevlistQuery: {
-          page: state.question.search.page,
-          perPage: state.question.search.perPage,
-        },
-        prevSearchQuery: state.question.search.searchQuery,
-        isTagSearch: state.question.search.isTagSearch,
-        tags: state.auth.me.user.tags,
-      }),
-    );
+    const {
+      prevlistQuery,
+      prevSearchSubject,
+      isTagSearch,
+      tags,
+    } = yield select((state: IRootState) => ({
+      prevlistQuery: {
+        page: state.question.search.page,
+        perPage: state.question.search.perPage,
+      },
+      prevSearchSubject: state.question.search.searchQuery.subject,
+      isTagSearch: state.question.search.isTagSearch,
+      tags: state.auth.me.user.tags.map(tag => tag.name),
+    }));
     // 이전 search 사용
-    const { listQuery, searchQuery = prevSearchQuery } = action.payload;
-    // 태그 검색시 tag추가
-    if (isTagSearch && tags) {
-      searchQuery.tags = tags.map((tag: ITag) => tag.name);
+    const { listQuery, searchQuery = {} } = action.payload;
+    // 없는 필드 존재시 기존 검색 활용
+    // TODO: 하나하나 액션으로 빼기
+    if (typeof searchQuery.subject === 'undefined') {
+      searchQuery.subject = prevSearchSubject;
+    }
+    if (!searchQuery.tags) {
+      searchQuery.tags = isTagSearch ? tags : [];
     }
     yield fork(search, { ...prevlistQuery, ...listQuery }, searchQuery);
   }
@@ -142,7 +149,8 @@ function* watchWatchedTags() {
     const hasSearched = yield select(
       (state: IRootState) => state.question.search.status === 'INIT',
     );
-    if (history.location.search && !hasSearched) {
+    // TODO: 다른 방법으로 search 인지 확인하기
+    if (history.location.pathname === '/search' && !hasSearched) {
       yield put<RequestSearchQuestions>(loadSearchedQuestions({}));
     }
   }

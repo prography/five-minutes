@@ -28,7 +28,7 @@ export const LayoutWithSidebar = styled.div`
   justify-content: space-between;
 `;
 export const Sidebar = styled.div<{ left?: boolean }>`
-  flex: 0 0 300px;
+  flex: 0 1 300px;
   margin: 0 20px;
   @media screen and (max-width: ${props => (props.left ? '600px' : '900px')}) {
     display: none;
