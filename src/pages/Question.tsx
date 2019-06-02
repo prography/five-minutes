@@ -3,10 +3,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { EditorFromTextArea } from 'codemirror';
 import { AnswerForm, AnswerList, QuestionView } from '../containers';
-import { AuthBlock } from '../components';
+import { AuthBlock, LoadingBar } from '../components';
 import { getQuestionActions } from '../actions/question';
 import { IRootState } from '../reducers';
-import { ShadowBox, MainLayout } from '../styles/common';
+import { MainLayout, Box } from '../styles/common';
 
 interface IParams {
   questionId: string;
@@ -31,12 +31,12 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   );
 
   if (status === 'FETCHING') {
-    return <div>loading...</div>;
+    return <LoadingBar />;
   }
   if (!question) return null;
   return (
     <MainLayout>
-      <ShadowBox>
+      <Box>
         <QuestionView {...question} codeRef={codeRef} setCodeRef={setCodeRef} />
         <AnswerList codeRef={codeRef} {...question} />
         {isLoggedIn ? (
@@ -46,7 +46,7 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
             <h2>로그인을 하셔야 답변을 다실 수 있습니다.</h2>
           </AuthBlock>
         )}
-      </ShadowBox>
+      </Box>
     </MainLayout>
   );
 };

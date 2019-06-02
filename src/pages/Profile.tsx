@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import { useDispatch } from 'react-redux';
 import { UserProfile } from '../containers';
-import { MainLayout, ShadowBox } from '../styles/common';
+import { MainLayout, Box } from '../styles/common';
 import { loadUser } from '../actions/user';
 
 export interface IProfileProps
@@ -18,9 +18,9 @@ const Profile: React.SFC<IProfileProps> = ({ location, match }) => {
   }, [userId]);
   return (
     <MainLayout>
-      <ShadowBox>
+      <Box>
         <UserProfile currentTab={typeof tab === 'string' ? tab : 'Questions'} />
-      </ShadowBox>
+      </Box>
     </MainLayout>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { memo } from 'react';
 import TextField, { TextFieldProps } from '@material-ui/core/TextField';
 import { Divider } from '../../components';
 import useMarkdown from '../../hooks/useMarkdown';

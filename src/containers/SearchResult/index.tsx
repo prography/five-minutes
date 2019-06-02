@@ -1,15 +1,10 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { questionQueryHelper, history } from '../../utils/history';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  loadSearchedQuestions,
-  updateListQuery,
-  updateSearchQuery,
-} from '../../actions/question';
+import { questionQueryHelper, history } from '../../utils/history';
+import { loadSearchedQuestions } from '../../actions/question';
 import { IRootState } from '../../reducers';
 import { QuestionListItem } from '..';
-import { Pagination } from '../../components';
-import { IQuestion } from '../../models/question';
+import { Pagination, LoadingBar } from '../../components';
 
 const SearchResult = () => {
   const { page, ...searchQuery } = questionQueryHelper.searchQuery;
@@ -32,7 +27,7 @@ const SearchResult = () => {
     );
   }, []);
 
-  if (status === 'FETCHING') return <div>loading...</div>;
+  if (status === 'FETCHING') return <LoadingBar />;
   return (
     <div>
       {items.map(item => (

@@ -11,6 +11,7 @@ const useStyles = makeStyles(
       padding: '2px 4px',
       display: 'flex',
       alignItems: 'center',
+      boxSizing: 'border-box',
     },
     input: {
       marginLeft: 8,

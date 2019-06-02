@@ -8,6 +8,7 @@ import Divider from './Divider';
 import ErrorBoundary from './ErrorBoundary';
 import LikeAndDislike from './LikeAndDislike';
 import LikeButton from './LikeButton';
+import LoadingBar from './LoadingBar';
 import Logo from './Logo';
 import Message from './Message';
 import NoResult from './NoResult';
@@ -33,6 +34,7 @@ export {
   ErrorBoundary,
   LikeAndDislike,
   LikeButton,
+  LoadingBar,
   Logo,
   Message,
   Pagination,

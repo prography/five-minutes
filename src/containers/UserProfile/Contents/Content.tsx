@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import ContentList from './ContentList';
 import { List, Tab } from './style';
 import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../../../reducers';
 import { loadUserQuestions, loadUserComments } from '../../../actions/user';
-import { IQuestion } from '../../../models/question';
 
 interface IContentProps {
   currentTab: 'Questions' | 'Answers';

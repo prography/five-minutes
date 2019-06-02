@@ -34,8 +34,5 @@ export const Center = styled.div`
 `;
 
 export const ContentListWrapper = styled.div`
-  & > div {
-    margin-bottom: 0;
-    border-bottom: 1px solid ${props => props.theme.palette.gray};
-  }
+  margin-top: 2rem;
 `;

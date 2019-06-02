@@ -3,13 +3,12 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { History } from 'history';
 import { NotiPortal } from 'renoti';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { Header, Modal } from './containers';
 import {
-  Dimmer,
   ScrollChecker,
   ProtectedRoute,
   PrevLocation,
+  LoadingBar,
 } from './components';
 import { notifier } from './utils/renoti';
 import { IRootState } from './reducers';
@@ -36,13 +35,7 @@ class App extends Component<IAppProps> {
         <Header />
         <PrevLocation>
           <ScrollChecker history={history}>
-            <Suspense
-              fallback={
-                <Dimmer>
-                  <CircularProgress />
-                </Dimmer>
-              }
-            >
+            <Suspense fallback={<LoadingBar />}>
               <PageLayout>
                 <Switch>
                   <Route exact path="/" component={Home} />

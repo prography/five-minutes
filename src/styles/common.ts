@@ -10,6 +10,13 @@ export const PageLayout = styled.div`
 
   box-sizing: border-box;
 `;
+export const LayoutWithSidebar = styled.div`
+  width: 1400px;
+  margin: auto;
+
+  display: flex;
+  justify-content: space-between;
+`;
 export const MainLayout = styled.div`
   flex: 1 1 800px;
   width: 800px;
@@ -20,13 +27,6 @@ export const MainLayout = styled.div`
     min-width: 300px;
   }
 `;
-export const LayoutWithSidebar = styled.div`
-  width: 1400px;
-  margin: auto;
-
-  display: flex;
-  justify-content: space-between;
-`;
 export const Sidebar = styled.div<{ left?: boolean }>`
   flex: 0 1 300px;
   margin: 0 20px;
@@ -35,18 +35,19 @@ export const Sidebar = styled.div<{ left?: boolean }>`
   }
 `;
 
-export const ShadowBox = styled.div`
+export const Box = styled.div`
+  width: 100%;
   margin: auto;
   padding: 1.4rem;
-
   box-sizing: border-box;
+
   background: #ffffff;
+`;
+export const ShadowBox = styled(Box)`
   box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.02);
-  width: 100%;
   transition: all 0.3s ease;
   &:hover {
     box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.1);
-    transform : scale(1.01);
   }
 `;
 
