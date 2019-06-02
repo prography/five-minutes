@@ -14,6 +14,8 @@ import {
   SEARCH_QUESTIONS_FAILURE,
   LOAD_SEARCHED_QUESTIONS,
   SET_QUESTION_SEARCH_MODE,
+  UPDATE_LIST_QUERY,
+  UPDATE_SEARCH_QUERY,
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
@@ -80,6 +82,22 @@ export const loadSearchedQuestions = (
     },
     searchQuery,
   },
+});
+
+export const updateListQuery = (listQuery: Partial<IBaseListQuery>) => ({
+  type: UPDATE_LIST_QUERY,
+  payload: {
+    listQuery: {
+      page: 1,
+      perPage: 10,
+      ...listQuery,
+    },
+  },
+});
+
+export const updateSearchQuery = (searchQuery: ISearchQuestionQuery) => ({
+  type: UPDATE_SEARCH_QUERY,
+  payload: { searchQuery },
 });
 
 export const setQuestionSearchMode = (isTagSearch: boolean) => ({

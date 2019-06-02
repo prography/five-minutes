@@ -1,7 +1,11 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { questionQueryHelper, history } from '../../utils/history';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadSearchedQuestions } from '../../actions/question';
+import {
+  loadSearchedQuestions,
+  updateListQuery,
+  updateSearchQuery,
+} from '../../actions/question';
 import { IRootState } from '../../reducers';
 import { QuestionListItem } from '..';
 import { Pagination } from '../../components';
@@ -21,6 +25,7 @@ const SearchResult = () => {
   useEffect(() => {
     dispatch(loadSearchedQuestions({ page: parseInt(page, 10) }, searchQuery));
   }, [history.location.search]);
+
   const handlePageChange = useCallback((page: number) => {
     history.push(
       `/search?${questionQueryHelper.mergeQuery({ page: `${page}` })}`,

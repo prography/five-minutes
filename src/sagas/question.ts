@@ -11,6 +11,8 @@ import {
   ME_SUCCESS,
   SET_WATCHED_TAGS,
   SET_QUESTION_SEARCH_MODE,
+  UPDATE_LIST_QUERY,
+  UPDATE_SEARCH_QUERY,
 } from '../constants/ActionTypes';
 import {
   PostQuestion,
@@ -24,6 +26,7 @@ import {
   searchQuestionsActions,
   setQuestionSearchMode,
   loadSearchedQuestions,
+  updateListQuery,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
@@ -114,32 +117,28 @@ function* watchPost() {
 }
 function* watchSearch() {
   while (true) {
-    const action = yield take([LOAD_SEARCHED_QUESTIONS]);
     const {
-      prevlistQuery,
-      prevSearchSubject,
-      isTagSearch,
-      tags,
-    } = yield select((state: IRootState) => ({
-      prevlistQuery: {
-        page: state.question.search.page,
-        perPage: state.question.search.perPage,
-      },
-      prevSearchSubject: state.question.search.searchQuery.subject,
+      type,
+      payload: { listQuery = {}, searchQuery = {} },
+    } = yield take([LOAD_SEARCHED_QUESTIONS, UPDATE_LIST_QUERY]);
+
+    let listQueryReq: IBaseListQuery = listQuery;
+    let searchQueryReq: ISearchQuestionQuery = searchQuery;
+    if (type === UPDATE_LIST_QUERY) {
+      const prevSearchSubject = yield select(
+        (state: IRootState) => state.question.search.searchQuery.subject,
+      );
+      searchQueryReq.subject = prevSearchSubject;
+    }
+    // TODO: /tagged/javascript 이런식의 태그검색 처리 로직 넣기
+    const { isTagSearch, tags } = yield select((state: IRootState) => ({
       isTagSearch: state.question.search.isTagSearch,
       tags: state.auth.me.user.tags.map(tag => tag.name),
     }));
-    // 이전 search 사용
-    const { listQuery, searchQuery = {} } = action.payload;
-    // 없는 필드 존재시 기존 검색 활용
-    // TODO: 하나하나 액션으로 빼기
-    if (typeof searchQuery.subject === 'undefined') {
-      searchQuery.subject = prevSearchSubject;
+    if (isTagSearch) {
+      searchQueryReq.tags = tags;
     }
-    if (!searchQuery.tags) {
-      searchQuery.tags = isTagSearch ? tags : [];
-    }
-    yield fork(search, { ...prevlistQuery, ...listQuery }, searchQuery);
+    yield fork(search, listQueryReq, searchQueryReq);
   }
 }
 // Watched Tags 바뀔 때 search 다시
@@ -151,7 +150,7 @@ function* watchWatchedTags() {
     );
     // TODO: 다른 방법으로 search 인지 확인하기
     if (history.location.pathname === '/search' && !hasSearched) {
-      yield put<RequestSearchQuestions>(loadSearchedQuestions({}));
+      yield put(updateListQuery({ page: 1 }));
     }
   }
 }
