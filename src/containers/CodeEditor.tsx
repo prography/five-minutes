@@ -29,7 +29,7 @@ const CodeEditor: React.SFC<ICodeEditorProps> = ({
 }) => {
   const defaultValue = useMemo(() => ({ label: mode, value: mode }), []);
   const handleModeChange = useCallback((option: ValueType<IOptionValue>) => {
-    if (option && !Array.isArray(option)) {
+    if (option && !('length' in option)) {
       setMode(option.value);
     }
   }, []);

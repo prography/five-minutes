@@ -9,7 +9,9 @@ import { history } from './utils/history';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import 'highlight.js/styles/github.css';
 import './styles/normalize.css';
+import './styles/markdown.css';
 import './index.css';
 import 'renoti/dist/Renoti.css';
 import './styles/renoti.css'; // overriding
