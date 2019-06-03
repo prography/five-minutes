@@ -40,6 +40,12 @@ const CommandMenu: React.SFC<ICommandProps> = ({
   }, [command]);
   // 현재 focus 중인 index
   const [commandIndex, setCommandIndex] = useState(0);
+
+  // matchCommand의 길이가 바뀌면 0으로 초기화
+  useEffect(() => {
+    setCommandIndex(0);
+  }, [matchCommands.length]);
+
   // prev command값 저장 (MAX_ATTEMT 비교)
   const prevCommand = usePrevious(command);
 
@@ -63,12 +69,28 @@ const CommandMenu: React.SFC<ICommandProps> = ({
   // Enter 키 및 TODO: 방향키
   const handleKeydown = useCallback(
     (e: KeyboardEvent) => {
-      if (KEYMAP[e.keyCode] === 'ENTER') {
-        e.preventDefault();
-        if (matchCommands.length > 0) {
-          execCommand(matchCommands[commandIndex].type);
-        } else {
-          clearCommand();
+      switch (KEYMAP[e.keyCode]) {
+        case 'ENTER': {
+          e.preventDefault();
+          if (matchCommands.length > 0) {
+            execCommand(matchCommands[commandIndex].type);
+          } else {
+            clearCommand();
+          }
+          break;
+        }
+        case 'UP': {
+          e.preventDefault();
+          setCommandIndex(prev => Math.abs(prev - 1) % matchCommands.length);
+          break;
+        }
+        case 'DOWN': {
+          e.preventDefault();
+          setCommandIndex(prev => (prev + 1) % matchCommands.length);
+          break;
+        }
+        default: {
+          return;
         }
       }
     },
@@ -77,21 +99,23 @@ const CommandMenu: React.SFC<ICommandProps> = ({
   useWindowEvent('keydown', handleKeydown);
   return (
     <Commands>
-      {matchCommands.length > 0 ? (
-        <List>
-          {matchCommands.map(({ type, description }) => (
-            <ListItem
-              key={type}
-              selected={commandIndex === 0}
-              onClick={() => execCommand(type)}
-            >
-              <ListItemText primary={type} secondary={description} />
-            </ListItem>
-          ))}
-        </List>
-      ) : (
-        <span>결과가 없습니다.</span>
-      )}
+      <List>
+        {matchCommands.length > 0 ? (
+          <>
+            {matchCommands.map(({ type, description }, index) => (
+              <ListItem
+                key={type}
+                selected={commandIndex === index}
+                onClick={() => execCommand(type)}
+              >
+                <ListItemText primary={type} secondary={description} />
+              </ListItem>
+            ))}
+          </>
+        ) : (
+          <ListItem>결과가 없습니다.</ListItem>
+        )}
+      </List>
     </Commands>
   );
 };

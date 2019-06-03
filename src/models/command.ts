@@ -1,4 +1,4 @@
-export type CommandType = 'codeline';
+export type CommandType = 'codeline' | 'image';
 
 export interface ICommand {
   type: CommandType;

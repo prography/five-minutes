@@ -27,6 +27,7 @@ export const me: ApiCall<any, ApiResponse<IUser | null>> = async () => {
   const { data } = await instance.get('/me');
   return data;
 };
+
 /* 내 질문 / 답변 */
 
 export const meQuestions: ApiCall<

@@ -15,6 +15,17 @@ export const getUser = async (userId: string) => {
   return data;
 };
 
+export const updateUser = async (
+  userId: string,
+  updateUser: Partial<IUser>,
+) => {
+  const { data } = await instance.put<ApiResponse<IUser>>(
+    `/${userId}`,
+    updateUser,
+  );
+  return data;
+};
+
 export const getUserQuestions = async (
   userId: string,
   { page, perPage }: IBaseListQuery = { page: 1, perPage: 10 },

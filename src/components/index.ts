@@ -6,6 +6,7 @@ import CustomLink from './CustomLink';
 import Dimmer from './Dimmer';
 import Divider from './Divider';
 import ErrorBoundary from './ErrorBoundary';
+import ImageUploader from './ImageUploader';
 import LikeAndDislike from './LikeAndDislike';
 import LikeButton from './LikeButton';
 import LoadingBar from './LoadingBar';
@@ -32,6 +33,7 @@ export {
   Dimmer,
   Divider,
   ErrorBoundary,
+  ImageUploader,
   LikeAndDislike,
   LikeButton,
   LoadingBar,

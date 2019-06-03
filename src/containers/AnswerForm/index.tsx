@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Popper from '@material-ui/core/Popper';
 import Button from '@material-ui/core/Button';
 import { EditorFromTextArea } from 'codemirror';
@@ -7,7 +7,7 @@ import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useInput, useSetState, useApi } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
-import { Codemirror, Divider } from '../../components';
+import { Codemirror, Divider, ImageUploader } from '../../components';
 import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
@@ -16,6 +16,7 @@ import Toolbar from '../Editor/Toolbar';
 import { EditorWithToolbar } from './styles';
 import { postComment } from '../../api/question';
 import { addComment } from '../../actions/question';
+import { answerUploader } from '../../utils/cloudinary';
 
 interface IAnswerFormProps extends IQuestion {}
 
@@ -41,9 +42,40 @@ type CodelineState = {
 // 일단 하나만.
 const COMMANDS: ICommand[] = [
   { type: 'codeline', description: '코드 라인을 정합니다.' },
+  { type: 'image', description: '이미지를 추가합니다.' },
 ];
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
+  // Answer 폼
+  const [answer, setAnswer, setAnswerValue] = useInput('');
+  const [editorRef, setEditorRef] = useState<HTMLTextAreaElement>();
+
+  // 이미지 커맨드
+  const imageUploader = useRef<HTMLInputElement>(null);
+  const handleImageCommend = useCallback(() => {
+    imageUploader.current && imageUploader.current.click();
+  }, []);
+  const handleImageUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const file = e.target.files[0];
+        try {
+          const { url } = await answerUploader.uploadImage(file);
+          const pos = editorRef
+            ? editorRef.selectionEnd
+              ? editorRef.selectionEnd
+              : editorRef.value.length + 1
+            : 0;
+          setAnswerValue(
+            prev => `${prev.slice(0, pos)} ![image](${url}) ${prev.slice(pos)}`,
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    },
+    [editorRef],
+  );
   // 코드 라인 커맨드
   const [codelineState, setCodelineState] = useSetState<CodelineState>(
     initialCodelineState,
@@ -68,11 +100,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
     }
   }, [codelineState.code]);
 
-  // Answer 폼
-  const [answer, setAnswer, setAnswerValue] = useInput('');
-
   // Command 관리
-  const [editorRef, setEditorRef] = useState<HTMLTextAreaElement>();
   const [commands, setCommands] = useSetState(initialCommand);
   // Command clear
   const clearCommand = useCallback(
@@ -105,17 +133,21 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         }
         case 'SLASH': {
           if (!!e.shiftKey) return;
-          if (editorRef) {
+          // slash가 마지막일 때만 커맨드 오픈. 마지막 아니면 닫아버림
+          if (editorRef && editorRef.selectionEnd === editorRef.value.length) {
             const { top, left, height } = getCursorXY(
               editorRef,
-              editorRef.selectionEnd,
+              editorRef.selectionStart,
             );
             setCommands({
-              slashPos: (e.target as HTMLTextAreaElement).value.length, // mui 타입 오류
+              command: '',
+              slashPos: editorRef.selectionStart, // mui 타입 오류
               show: true,
               top: Math.min(top, editorRef.clientHeight - height) - 5,
               left: left + 5,
             });
+          } else {
+            setCommands(initialCommand);
           }
           return;
         }
@@ -127,7 +159,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   // 나오는 에러 방지
   useEffect(() => {
     if (commands.show) {
-      if (answer.length <= commands.slashPos) {
+      if (answer.length === 0 || answer.length < commands.slashPos) {
         setCommands(initialCommand);
         return;
       }
@@ -135,13 +167,18 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         command: answer.substring(commands.slashPos + 1),
       });
     }
-  }, [answer]);
+  }, [answer, editorRef]);
   // Command 실행
   const execCommand = useCallback(
     (command: CommandType) => {
       switch (command) {
         case 'codeline': {
           setCodelineState({ show: true });
+          break;
+        }
+        case 'image': {
+          handleImageCommend();
+          break;
         }
       }
       clearCommand(true);
@@ -164,6 +201,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
       dispatch(addComment(result));
     } catch (err) {}
   };
+  console.log(commands);
   const { show, code: codelineCode } = codelineState;
   return (
     <>
@@ -186,6 +224,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           </div>
         </div>
       )}
+      <ImageUploader ref={imageUploader} onChange={handleImageUpload} />
       <EditorWithToolbar>
         <Toolbar commands={COMMANDS} execCommand={execCommand} />
         <Editor
