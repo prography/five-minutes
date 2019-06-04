@@ -1,19 +1,24 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import marked, { MarkedOptions } from 'marked';
 import { highlight, highlightAuto, getLanguage } from 'highlight.js';
 
-const useMarkdown = (value: string, option: MarkedOptions = {}) => {
+marked.setOptions({
+  highlight: (code, lang) => {
+    return !!(lang && getLanguage(lang))
+      ? highlight(lang, code).value
+      : highlightAuto(code).value;
+  },
+});
+
+const useMarkdown = (value: string, option?: MarkedOptions) => {
+  const [markedValue, setMarkedValue] = useState(marked(value));
   useEffect(() => {
-    marked.setOptions({
-      ...option,
-      highlight: (code, lang) => {
-        return !!(lang && getLanguage(lang))
-          ? highlight(lang, code).value
-          : highlightAuto(code).value;
-      },
-    });
-  }, [option]);
-  const markedValue = useMemo(() => marked(value), [value]);
+    if (option) {
+      marked.setOptions(option);
+    }
+    setMarkedValue(marked(value));
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
   return markedValue;
 };
 

@@ -9,6 +9,7 @@ import { IRootState } from '../../../reducers';
 import { ProfilePhoto, ImageUploader } from '../../../components';
 import { profileUploader } from '../../../utils/cloudinary';
 import { updateUser } from '../../../api/user';
+import { useImageUploader } from '../../../hooks';
 
 const Info = () => {
   const { user, status, myId, questionCount, commentCount } = useSelector(
@@ -21,27 +22,23 @@ const Info = () => {
       commentCount: state.user.questions.totalCount,
     }),
   );
-  const uploaderRef = useRef<HTMLInputElement>(null);
-  const handleImageClick = useCallback(() => {
-    if (uploaderRef.current) {
-      uploaderRef.current.click();
-    }
-  }, []);
   // TODO : 유저 업데이트 및 본인 확인 (edit 페이지 따로 뺄까?)
+  const uploaderRef = useRef<HTMLInputElement>(null);
   const handleImageFile = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        const file = e.target.files[0];
-        try {
-          const { url } = await profileUploader.uploadImage(file);
-          const { result } = await updateUser(myId, { image: url });
-          console.log(result);
-        } catch (err) {
-          console.log(err);
-        }
+    async (err, url?: string) => {
+      try {
+        const { result } = await updateUser(myId, { image: url });
+        console.log(result);
+      } catch (err) {
+        console.log(err);
       }
     },
     [myId],
+  );
+  const [openImageUploader, handleImageChange] = useImageUploader(
+    uploaderRef,
+    profileUploader,
+    handleImageFile,
   );
   if (!user || status === 'FETCHING') return null;
   const isMe = myId === user.id;
@@ -51,8 +48,8 @@ const Info = () => {
       <Grid container direction="column" spacing={3}>
         <Grid item container spacing={3}>
           <Grid item xs={2}>
-            <ProfilePhoto width="100%" onClick={handleImageClick} />
-            <ImageUploader ref={uploaderRef} onChange={handleImageFile} />
+            <ProfilePhoto width="100%" onClick={openImageUploader} />
+            <ImageUploader ref={uploaderRef} onChange={handleImageChange} />
           </Grid>
           <Grid item xs={10} container direction="column" spacing={2}>
             <Grid item>
