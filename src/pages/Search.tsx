@@ -1,13 +1,14 @@
 import React from 'react';
 import { SearchSidebar, SearchResult } from '../containers';
 import { MainLayout, Sidebar, LayoutWithSidebar } from '../styles/common';
+import { RouteComponentProps } from 'react-router';
 
-const Search = () => {
+const Search: React.SFC<RouteComponentProps> = props => {
   return (
     <LayoutWithSidebar>
       <Sidebar />
       <MainLayout>
-        <SearchResult />
+        <SearchResult {...props} />
       </MainLayout>
       <Sidebar>
         <SearchSidebar />

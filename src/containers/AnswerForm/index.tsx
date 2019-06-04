@@ -5,7 +5,7 @@ import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
 import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useInput, useSetState, useApi } from '../../hooks';
+import { useInput, useSetState, useApi, useImageUploader } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror, Divider, ImageUploader } from '../../components';
 import { IQuestion } from '../../models/question';
@@ -52,53 +52,55 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
 
   // 이미지 커맨드
   const imageUploader = useRef<HTMLInputElement>(null);
-  const handleImageCommend = useCallback(() => {
-    imageUploader.current && imageUploader.current.click();
-  }, []);
   const handleImageUpload = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        const file = e.target.files[0];
-        try {
-          const { url } = await answerUploader.uploadImage(file);
-          const pos = editorRef
+    (err, url?: string) => {
+      if (url) {
+        const pos = editorRef
+          ? editorRef.selectionEnd
             ? editorRef.selectionEnd
-              ? editorRef.selectionEnd
-              : editorRef.value.length + 1
-            : 0;
-          setAnswerValue(
-            prev => `${prev.slice(0, pos)} ![image](${url}) ${prev.slice(pos)}`,
-          );
-        } catch (err) {
-          console.log(err);
-        }
+            : editorRef.value.length + 1
+          : 0;
+        setAnswerValue(
+          prev => `${prev.slice(0, pos)} ![image](${url}) ${prev.slice(pos)}`,
+        );
       }
     },
-    [editorRef],
+    [editorRef, setAnswerValue],
+  );
+  const [openImageUploader, handleImageChange] = useImageUploader(
+    imageUploader,
+    answerUploader,
+    handleImageUpload,
   );
   // 코드 라인 커맨드
   const [codelineState, setCodelineState] = useSetState<CodelineState>(
     initialCodelineState,
   );
-  const showCodeline = useCallback((show: boolean) => {
-    setCodelineState({ show });
-  }, []);
+  const showCodeline = useCallback(
+    (show: boolean) => {
+      setCodelineState({ show });
+    },
+    [setCodelineState],
+  );
   const setCodelineRef = useCallback(
     (editor: EditorFromTextArea) => setCodelineState({ codelineRef: editor }),
-    [],
+    [setCodelineState],
   );
   const clearCodelineState = useCallback(() => {
     setCodelineState(initialCodelineState);
-  }, []);
-  const onCodeSelect = useCallback((code, line) => {
-    setCodelineState({ code: code, codeline: line, show: false });
-  }, []);
+  }, [setCodelineState]);
+  const onCodeSelect = useCallback(
+    (code, line) => {
+      setCodelineState({ code: code, codeline: line, show: false });
+    },
+    [setCodelineState],
+  );
   useEffect(() => {
     const { code, codelineRef } = codelineState;
     if (codelineRef) {
       codelineRef.getDoc().setValue(code);
     }
-  }, [codelineState.code]);
+  }, [codelineState]);
 
   // Command 관리
   const [commands, setCommands] = useSetState(initialCommand);
@@ -117,14 +119,19 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
       // command init
       setCommands(initialCommand);
     },
-    [commands.slashPos],
+    [commands.slashPos, setAnswerValue, setCommands],
   );
   // Command helper keymapping
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       switch (KEYMAP[e.keyCode]) {
         case 'ESCAPE': {
-          !commands.command && clearCommand();
+          if (
+            !commands.command ||
+            (editorRef && editorRef.selectionStart === 0)
+          ) {
+            clearCommand();
+          }
           return;
         }
         case 'ESC': {
@@ -153,13 +160,13 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         }
       }
     },
-    [commands.command, editorRef],
+    [commands.command, editorRef, clearCommand, setCommands],
   );
   // slash 시작부터 command 업데이트. answer이 업데이트할 때만 실행하도록하는 이유는 show가 true일 때 answer이 아직 업데이트 안되어있을 때
   // 나오는 에러 방지
   useEffect(() => {
     if (commands.show) {
-      if (answer.length === 0 || answer.length < commands.slashPos) {
+      if (answer.length < commands.slashPos) {
         setCommands(initialCommand);
         return;
       }
@@ -167,7 +174,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         command: answer.substring(commands.slashPos + 1),
       });
     }
-  }, [answer, editorRef]);
+  }, [answer, editorRef, commands.show, commands.slashPos, setCommands]);
   // Command 실행
   const execCommand = useCallback(
     (command: CommandType) => {
@@ -177,13 +184,13 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           break;
         }
         case 'image': {
-          handleImageCommend();
+          openImageUploader();
           break;
         }
       }
       clearCommand(true);
     },
-    [clearCommand],
+    [openImageUploader, setCodelineState, clearCommand],
   );
 
   // comment 등록
@@ -201,7 +208,6 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
       dispatch(addComment(result));
     } catch (err) {}
   };
-  console.log(commands);
   const { show, code: codelineCode } = codelineState;
   return (
     <>
@@ -224,7 +230,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           </div>
         </div>
       )}
-      <ImageUploader ref={imageUploader} onChange={handleImageUpload} />
+      <ImageUploader ref={imageUploader} onChange={handleImageChange} />
       <EditorWithToolbar>
         <Toolbar commands={COMMANDS} execCommand={execCommand} />
         <Editor

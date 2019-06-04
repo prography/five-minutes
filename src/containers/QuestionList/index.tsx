@@ -32,7 +32,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
     if (loadNew) {
       getQuestions({ page: 1, perPage: 10 });
     }
-  }, []);
+  }, [loadNew, getQuestions]);
   // 현재 페이지 저장
   const currentList = useRef({
     page,
@@ -55,7 +55,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
     if (hasNext && status !== 'FETCHING') {
       getQuestions({ page: page + 1, perPage: 10 });
     }
-  }, []);
+  }, [getQuestions]);
 
   const [ref, setRef, observer] = useIntersect(onIntersect);
 
@@ -63,7 +63,7 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
     if (hasNext && status === 'SUCCESS') {
       ref && observer && observer.observe(ref);
     }
-  }, [hasNext, status]);
+  }, [hasNext, status, observer, ref]);
   if (status === 'SUCCESS' && questions.length === 0) {
     return <NoResult />;
   }

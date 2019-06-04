@@ -33,14 +33,14 @@ const useLike = <R extends ILikeModel>(
       const { result } = await likeApi(id);
       setLiked(result.likedUsers);
     } catch (err) {}
-  }, [liked, likeApi, me]);
+  }, [id, likeApi, me]);
   const handleDislike = useCallback(async () => {
     if (!me) return null; // 로그인 안된 유저 처리
     try {
       const { result } = await dislikeApi(id);
       setDisliked(result.dislikedUsers);
     } catch (err) {}
-  }, [disliked, dislikeApi, me]);
+  }, [id, dislikeApi, me]);
 
   return {
     liked,

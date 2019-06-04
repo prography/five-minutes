@@ -27,12 +27,12 @@ const CodeEditor: React.SFC<ICodeEditorProps> = ({
   setMode,
   setCodeEditor,
 }) => {
-  const defaultValue = useMemo(() => ({ label: mode, value: mode }), []);
+  const defaultValue = useMemo(() => ({ label: mode, value: mode }), [mode]);
   const handleModeChange = useCallback((option: ValueType<IOptionValue>) => {
     if (option && !('length' in option)) {
       setMode(option.value);
     }
-  }, []);
+  }, [setMode]);
   return (
     <>
       <Codemirror mode={mode} setCodeEditor={setCodeEditor} />

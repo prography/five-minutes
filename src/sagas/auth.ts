@@ -18,7 +18,6 @@ import {
 import {
   AuthAction,
   Signin,
-  Logout,
   signinActions,
   meActions,
 } from '../actions/auth';

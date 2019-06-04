@@ -21,7 +21,7 @@ const AuthBlock: React.SFC<IAuthBlockProps> = ({ children }) => {
   const dispatch = useDispatch();
   const openSigninModal = useCallback(() => {
     dispatch(openModal('signin'));
-  }, []);
+  }, [dispatch]);
   return (
     <Container>
       {children}

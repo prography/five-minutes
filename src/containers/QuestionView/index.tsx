@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import Divider from '@material-ui/core/Divider';
 import { EditorFromTextArea } from 'codemirror';
 import { Codemirror, TagList, LikeAndDislike } from '../../components';

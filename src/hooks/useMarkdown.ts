@@ -12,7 +12,7 @@ const useMarkdown = (value: string, option: MarkedOptions = {}) => {
           : highlightAuto(code).value;
       },
     });
-  }, []);
+  }, [option]);
   const markedValue = useMemo(() => marked(value), [value]);
   return markedValue;
 };

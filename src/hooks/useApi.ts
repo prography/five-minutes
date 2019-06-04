@@ -1,9 +1,6 @@
 import { useCallback } from 'react';
 import { useSetState } from '.';
 
-// TODO: 타이핑 개선.
-// extends ApiCall<T, P> 로 제네릭 주면 좋을듯 (useInitialFetch 처럼)
-type AsyncApi = (...args: any[]) => Promise<any>;
 interface IUseApiState {
   status: Status;
   error: string;
@@ -46,7 +43,7 @@ const useApi: IUseApi = (api: any, defaultData?: any) => {
         });
       }
     },
-    [api],
+    [api, setState],
   );
   return {
     ...state,

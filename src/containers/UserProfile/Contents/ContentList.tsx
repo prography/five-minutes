@@ -30,7 +30,7 @@ const ContentList: React.SFC<IContentListProps> = ({
     if (hasNext && status === 'SUCCESS') {
       ref && observer && observer.observe(ref);
     }
-  }, [hasNext && status]);
+  }, [hasNext, status, observer, ref]);
   if (items.length === 0) return null;
   return (
     <>

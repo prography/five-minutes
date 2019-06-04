@@ -6,26 +6,21 @@ import GithubImg from '../../../assets/icon/github.png';
 import Tags from './Tags';
 import { WatchedTags } from '../../';
 import { IRootState } from '../../../reducers';
-import { ProfilePhoto, CustomLink, ImageUploader } from '../../../components';
+import { ProfilePhoto, ImageUploader } from '../../../components';
 import { profileUploader } from '../../../utils/cloudinary';
 import { updateUser } from '../../../api/user';
 
 const Info = () => {
-  const {
-    user,
-    status,
-    error,
-    myId,
-    questionCount,
-    commentCount,
-  } = useSelector((state: IRootState) => ({
-    user: state.user.get.user,
-    status: state.user.get.status,
-    error: state.user.get.error,
-    myId: state.auth.me.user.id,
-    questionCount: state.user.questions.totalCount,
-    commentCount: state.user.questions.totalCount,
-  }));
+  const { user, status, myId, questionCount, commentCount } = useSelector(
+    (state: IRootState) => ({
+      user: state.user.get.user,
+      status: state.user.get.status,
+      error: state.user.get.error,
+      myId: state.auth.me.user.id,
+      questionCount: state.user.questions.totalCount,
+      commentCount: state.user.questions.totalCount,
+    }),
+  );
   const uploaderRef = useRef<HTMLInputElement>(null);
   const handleImageClick = useCallback(() => {
     if (uploaderRef.current) {
@@ -50,7 +45,7 @@ const Info = () => {
   );
   if (!user || status === 'FETCHING') return null;
   const isMe = myId === user.id;
-  const { nickname, image, tags, githubUrl } = user;
+  const { nickname, tags, githubUrl } = user;
   return (
     <>
       <Grid container direction="column" spacing={3}>
@@ -74,7 +69,7 @@ const Info = () => {
         <Grid item container justify="flex-end">
           {githubUrl && (
             <a href={githubUrl}>
-              <img src={GithubImg} width={32} />
+              <img alt="profile" src={GithubImg} width={32} />
             </a>
           )}
         </Grid>

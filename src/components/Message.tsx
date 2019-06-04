@@ -5,8 +5,6 @@ import yellow from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/red';
 import blue from '@material-ui/core/colors/blue';
 
-import { Color } from '@material-ui/core';
-
 type MessageType = 'default' | 'error' | 'info' | 'success';
 const colorByType = {
   default: blue,

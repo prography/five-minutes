@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, memo } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import styled from 'styled-components';
 
 const PageList = styled.ul`
@@ -7,11 +7,12 @@ const PageList = styled.ul`
 const Page = styled.li`
   display: inline;
 `;
-const PageNumber = styled.button<{
+interface IPageNumberProps {
   active?: boolean;
   isLeft?: boolean;
   isRight?: boolean;
-}>`
+}
+const PageNumber = styled.button<IPageNumberProps>`
   font-weight: bold;
 
   color: ${props =>

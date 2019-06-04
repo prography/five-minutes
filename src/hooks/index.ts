@@ -1,5 +1,6 @@
 import useApi from './useApi';
 import useDateFormat from './useDateFormat';
+import useImageUploader from './useImageUploader';
 import useInitialFetch from './useInitialFetch';
 import useInput from './useInput';
 import useIntersect from './useIntersect';
@@ -15,6 +16,7 @@ import useWindowEvent from './useWindowEvent';
 export {
   useApi,
   useDateFormat,
+  useImageUploader,
   useInitialFetch,
   useInput,
   useIntersect,

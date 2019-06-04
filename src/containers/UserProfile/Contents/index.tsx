@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import queryString from 'query-string';
 import Content from './Content';
 import * as St from './style';

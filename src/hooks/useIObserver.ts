@@ -7,11 +7,12 @@ const useIObserver = (
 ) => {
   useEffect(() => {
     const observer = new IntersectionObserver(callback, option);
-    target.current && observer.observe(target.current);
-    if (target.current) {
-      return () => observer.unobserve(target.current!);
+    const current = target.current;
+    current && observer.observe(current);
+    if (current) {
+      return () => observer.unobserve(current);
     }
-  }, []);
+  }, [callback, option, target]);
 };
 
 export default useIObserver;

@@ -33,7 +33,7 @@ const useInitialFetch = <T extends any[], R>(
           error: err.response ? err.response.data : '',
         });
       });
-  }, []);
+  }, [api, params, setState]);
 
   return [state];
 };

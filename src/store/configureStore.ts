@@ -1,6 +1,5 @@
 import { applyMiddleware, compose, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { createBrowserHistory } from 'history';
 import 'regenerator-runtime/runtime'; // generator를 es2015로 runtime에 바꿔줌.
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';

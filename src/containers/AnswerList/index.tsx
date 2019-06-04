@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState, useEffect } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Divider } from '../../components';
 import Answer from './Answer';
 import { IQuestion } from '../../models/question';

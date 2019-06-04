@@ -1,7 +1,6 @@
 import { createBrowserHistory, History } from 'history';
 import qs from 'query-string';
 import { pick, removeEmpty } from './object';
-import { ISearchQuestionQuery, IBaseListQuery } from '../models/api';
 
 export const history = createBrowserHistory();
 

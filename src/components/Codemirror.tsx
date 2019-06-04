@@ -45,7 +45,7 @@ const Codemirror: React.SFC<ICodemirrorProps> = ({
       });
       setCodeEditor && setCodeEditor(mirror.current);
     }
-  }, []);
+  }, [options, setCodeEditor]);
   useEffect(() => {
     if (mode) {
       const path = getModePath(mode);

@@ -1,13 +1,17 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { questionQueryHelper, history } from '../../utils/history';
+import { questionQueryHelper } from '../../utils/history';
 import { loadSearchedQuestions } from '../../actions/question';
 import { IRootState } from '../../reducers';
 import { QuestionListItem } from '..';
 import { Pagination, LoadingBar } from '../../components';
+import { RouteComponentProps } from 'react-router';
 
-const SearchResult = () => {
-  const { page, ...searchQuery } = questionQueryHelper.searchQuery;
+const SearchResult: React.SFC<RouteComponentProps> = ({
+  history,
+  location,
+}) => {
+  const { page } = questionQueryHelper.searchQuery;
   const dispatch = useDispatch();
   const { status, perPage, items, totalCount } = useSelector(
     (state: IRootState) => ({
@@ -18,14 +22,18 @@ const SearchResult = () => {
     }),
   );
   useEffect(() => {
+    const { page, ...searchQuery } = questionQueryHelper.searchQuery;
     dispatch(loadSearchedQuestions({ page: parseInt(page, 10) }, searchQuery));
-  }, [history.location.search]);
+  }, [dispatch, location.search]);
 
-  const handlePageChange = useCallback((page: number) => {
-    history.push(
-      `/search?${questionQueryHelper.mergeQuery({ page: `${page}` })}`,
-    );
-  }, []);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      history.push(
+        `/search?${questionQueryHelper.mergeQuery({ page: `${page}` })}`,
+      );
+    },
+    [history],
+  );
 
   if (status === 'FETCHING') return <LoadingBar />;
   return (

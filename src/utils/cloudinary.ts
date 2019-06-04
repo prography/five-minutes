@@ -58,7 +58,7 @@ class QuestionPreset extends Preset {
 type FolderType = 'profile' | 'question' | 'answer';
 
 // TODO: 환경변수 설정
-class Cloudinary {
+export class Cloudinary {
   cloudname: string = 'godsenal';
   uploadApi: string;
   preset!: Preset;

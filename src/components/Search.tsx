@@ -4,6 +4,7 @@ import Paper, { PaperProps } from '@material-ui/core/Paper';
 import InputBase, { InputBaseProps } from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { history, questionQueryHelper } from '../utils/history';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 const useStyles = makeStyles(
   createStyles({
@@ -31,11 +32,12 @@ const useStyles = makeStyles(
   }),
 );
 
-interface IInputProps {
+interface IInputProps extends RouteComponentProps {
   paperProps?: PaperProps;
   inputProps?: InputBaseProps;
 }
 const Search: React.SFC<IInputProps> = ({
+  location,
   paperProps = {},
   inputProps = {},
 }) => {
@@ -58,7 +60,7 @@ const Search: React.SFC<IInputProps> = ({
 
   useEffect(() => {
     setSearch(questionQueryHelper.searchQuery.subject || '');
-  }, [history.location.search]);
+  }, [location.search]);
 
   return (
     <Paper
@@ -84,4 +86,4 @@ const Search: React.SFC<IInputProps> = ({
   );
 };
 
-export default Search;
+export default withRouter(Search);

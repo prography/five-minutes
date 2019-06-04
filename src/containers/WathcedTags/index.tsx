@@ -57,7 +57,7 @@ const WatchedTags = () => {
     if (!isTagSearch && isEdit) {
       toggleEditMode();
     }
-  }, [isTagSearch]);
+  }, [isTagSearch, isEdit, toggleEditMode]);
 
   if (!isLoggedIn) return null;
   return (

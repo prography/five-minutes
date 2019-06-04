@@ -27,7 +27,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   const [tags, setTags] = useState<string[]>([]);
 
   // 질문 올리는 Api
-  const { status, api, error } = useApi(questionApi.postQuestion);
+  const { status } = useApi(questionApi.postQuestion);
 
   const isLoading = status === 'FETCHING';
 

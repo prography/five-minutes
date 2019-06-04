@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useEffect } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { ValueType } from 'react-select/lib/types';
 import { SelectComponentsProps } from 'react-select/lib/Select';
@@ -19,7 +19,7 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
       (value: IOptionValue) => value.value,
     );
     setTags(newTags);
-  }, []);
+  }, [setTags]);
   // tag 찾는 api를 호출하는 함수
   const searchOptions = useCallback(
     async (inputValue: string, callback: (options: IOptionValue[]) => void) => {
@@ -39,7 +39,7 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
     [],
   );
   // 함수형에서 debounce를 걸때는 유의하자.
-  const debouncedSearch = useMemo(() => debounce(searchOptions, 500), []);
+  const debouncedSearch = useMemo(() => debounce(searchOptions, 500), [searchOptions]);
   // 이런식으로 이 함수를 따로 빼줘야 되는데 왜그럴까?
   const loadOptions = useCallback(
     (inputValue: string, callback: (options: IOptionValue[]) => void) => {
@@ -48,7 +48,7 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
       }
       debouncedSearch(inputValue, callback);
     },
-    [],
+    [debouncedSearch],
   );
   return (
     <AsyncCreatableSelect

@@ -46,7 +46,7 @@ const useIntersect: UseIntersect = (onIntersect, option = baseOption) => {
       observer.current.observe(ref);
     }
     return () => observer.current && observer.current.disconnect();
-  }, [ref, option.root, option.threshold, option.rootMargin, checkIntersect]);
+  }, [ref, option, checkIntersect]);
   return [ref, setRef, observer.current];
 };
 

@@ -37,7 +37,7 @@ const CommandMenu: React.SFC<ICommandProps> = ({
         return false;
       }
     });
-  }, [command]);
+  }, [command, commands]);
   // 현재 focus 중인 index
   const [commandIndex, setCommandIndex] = useState(0);
 
@@ -57,14 +57,14 @@ const CommandMenu: React.SFC<ICommandProps> = ({
     } else {
       attemptRef.current = Math.max(attemptRef.current - 1, 0);
     }
-  }, [command]);
+  }, [command, prevCommand.length, matchCommands.length]);
 
   // 종료 조건 확인
   useEffect(() => {
     if (attemptRef.current > MAX_ATTEMPT) {
       clearCommand();
     }
-  }, [attemptRef.current, clearCommand]);
+  }, [clearCommand]);
 
   // Enter 키 및 TODO: 방향키
   const handleKeydown = useCallback(

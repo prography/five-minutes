@@ -9,7 +9,6 @@ import { Title } from '../../../styles/common';
 import { signinActions } from '../../../actions/auth';
 import { IRootState } from '../../../reducers';
 import { Dispatch } from 'redux';
-import { ISigninUser } from '../../../models/user';
 import { Message } from '../../../components';
 import { usePrevious } from '../../../hooks';
 
@@ -22,7 +21,6 @@ interface SigninProps {
 
 const Signin: React.SFC<SigninProps> = ({
   openModal,
-  closeModal,
   signinStatus,
   dispatch,
 }) => {
@@ -33,7 +31,7 @@ const Signin: React.SFC<SigninProps> = ({
     if (prevStatus !== signinStatus && signinStatus === 'FAILURE') {
       setShowError(true);
     }
-  }, [signinStatus]);
+  }, [prevStatus, signinStatus]);
 
   const isFetching = signinStatus === 'FETCHING';
   return (

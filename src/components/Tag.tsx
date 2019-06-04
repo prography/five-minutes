@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { CustomLink } from '.';
 import { ITag } from '../models/tag';
 
 const Wrapper = styled.span`

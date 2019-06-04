@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Formik, FastField, FormikProps } from 'formik';
 import Button from '@material-ui/core/Button';
-import { string, object, Schema } from 'yup';
+import { string, Schema } from 'yup';
 import CustomMuiField from '../CustomMuiField';
 import { ModalType } from '../../../models/modal';
 import { Form, FakeLink, InputWrapper } from '../style';

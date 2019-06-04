@@ -22,7 +22,7 @@ const useWindowEvent: UseWindowEvent = (type, listener, option) => {
     };
     window.addEventListener(type, memoListener, option);
     return () => window.removeEventListener(type, memoListener);
-  }, [type, listenerRef.current]);
+  }, [type, option]);
 };
 
 export default useWindowEvent;

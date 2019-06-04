@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
-import { ProfilePhoto, ProfileLink } from '.';
+import { ProfilePhoto } from '.';
 import { IUser } from '../models/user';
 import { history } from '../utils/history';
 
@@ -28,7 +28,7 @@ const ProfileMenu: React.SFC<IProfileMenuProps> = ({ id, logout }) => {
   const handleLogout = useCallback(() => {
     handleClose();
     logout();
-  }, []);
+  }, [handleClose, logout]);
   return (
     <>
       <Button

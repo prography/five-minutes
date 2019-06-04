@@ -1,8 +1,6 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
 import Dialog, { DialogProps } from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Editor, EditorFromTextArea } from 'codemirror';
 import { Codemirror } from '../../components';
@@ -35,10 +33,10 @@ const CodeSelect: React.SFC<ICodeSelectProps> = ({
         }
       });
     }
-  }, [codeRef]);
+  }, [onCodeSelect, codeRef]);
   const close = useCallback(() => {
     showCodeSelect(false);
-  }, []);
+  }, [showCodeSelect]);
   return (
     <Dialog onClose={close} {...dialogProps}>
       <DialogTitle>라인을 선택해주세요.</DialogTitle>

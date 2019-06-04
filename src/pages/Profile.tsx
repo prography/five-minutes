@@ -15,7 +15,7 @@ const Profile: React.SFC<IProfileProps> = ({ location, match }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUser(userId));
-  }, [userId]);
+  }, [userId, dispatch]);
   return (
     <MainLayout>
       <Box>

@@ -25,7 +25,7 @@ export interface IHeaderProps extends RouteComponentProps {
 const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
   const handleLogout = useCallback(() => {
     dispatch(logout());
-  }, []);
+  }, [dispatch]);
   return (
     <Container>
       <Grid container spacing={2}>

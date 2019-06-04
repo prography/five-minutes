@@ -1,4 +1,4 @@
-import React, { useState, useMemo, memo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, memo, useEffect } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import {
   Codemirror,
@@ -32,7 +32,6 @@ const Answer: React.SFC<IAnswerProps> = ({
   likedUsers = [],
   dislikedUsers = [],
   createdAt,
-  updatedAt,
 }) => {
   const [codelineRef, setCodelineRef] = useState<EditorFromTextArea>();
   // 답변의 코드라인 설정
@@ -41,12 +40,12 @@ const Answer: React.SFC<IAnswerProps> = ({
       return codeRef.getDoc().getLine(codeline) || '';
     }
     return '';
-  }, [codeRef]);
+  }, [codeRef, codeline]);
   useEffect(() => {
     if (codelineRef) {
       codelineRef.setValue(code);
     }
-  }, [code]);
+  }, [codelineRef, code]);
 
   // 마크다운 content
   const mdContent = useMarkdown(content);

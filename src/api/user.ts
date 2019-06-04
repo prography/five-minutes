@@ -4,7 +4,6 @@ import { IUser } from '../models/user';
 import { IQuestion } from '../models/question';
 import { IComment } from '../models/comment';
 import { IBaseListQuery } from '../models/api';
-import { ITag } from '../models/tag';
 
 const instance = axios.create({
   baseURL: '/api/users',

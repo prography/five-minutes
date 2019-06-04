@@ -13,7 +13,7 @@ const useDateFormat: UseDateFormat = (date, dateFormat) => {
     return differenceInWeeks(new Date(), date) >= 1
       ? format(date, DEFAULT_FORMAT)
       : `${distanceInWordsToNow(date, { locale: ko })}전`;
-  }, [date]);
+  }, [date, dateFormat]);
   return formatted;
 };
 

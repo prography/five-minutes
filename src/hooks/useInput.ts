@@ -1,8 +1,6 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
-const useInput = (
-  initialValue: string,
-): [string, typeof onChange, typeof setValue] => {
+const useInput = (initialValue: string) => {
   const [value, setValue] = useState(initialValue);
 
   const onChange = useCallback(
@@ -15,7 +13,7 @@ const useInput = (
     },
     [],
   );
-  return [value, onChange, setValue];
+  return [value, onChange, setValue] as const;
 };
 
 export default useInput;

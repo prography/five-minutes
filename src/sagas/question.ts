@@ -1,4 +1,4 @@
-import { all, call, take, fork, put, select, cancel } from 'redux-saga/effects';
+import { all, call, take, fork, put, select } from 'redux-saga/effects';
 import identity from 'lodash/identity';
 import pickBy from 'lodash/pickBy';
 import {
@@ -12,7 +12,6 @@ import {
   SET_WATCHED_TAGS,
   SET_QUESTION_SEARCH_MODE,
   UPDATE_LIST_QUERY,
-  UPDATE_SEARCH_QUERY,
 } from '../constants/ActionTypes';
 import {
   PostQuestion,
@@ -22,10 +21,8 @@ import {
   postQuestionActions,
   getQuestionActions,
   getQuestionsActions,
-  RequestSearchQuestions,
   searchQuestionsActions,
   setQuestionSearchMode,
-  loadSearchedQuestions,
   updateListQuery,
 } from '../actions/question';
 import * as questionApi from '../api/question';
@@ -33,7 +30,6 @@ import { IRootState } from '../reducers';
 import { history } from '../utils/history';
 import { fetchEntity } from '../utils/saga';
 import { ISearchQuestionQuery, IBaseListQuery } from '../models/api';
-import { ITag } from '../models/tag';
 
 const selectQuestionList = (state: IRootState) =>
   state.question.getList.questions;

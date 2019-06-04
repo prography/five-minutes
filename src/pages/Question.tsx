@@ -19,9 +19,9 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   const { questionId } = match.params;
   useEffect(() => {
     dispatch(getQuestionActions.request(questionId));
-  }, [questionId]);
+  }, [questionId, dispatch]);
 
-  const { status, question, error, isLoggedIn } = useSelector(
+  const { status, question, isLoggedIn } = useSelector(
     (state: IRootState) => ({
       status: state.question.get.status,
       question: state.question.get.question,

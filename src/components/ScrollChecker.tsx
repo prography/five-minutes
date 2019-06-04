@@ -31,7 +31,7 @@ const ScrollChecker: React.SFC<IScrollCheckerProps> = ({
         }`,
       );
     });
-  }, []);
+  }, [history.location.search]);
   useWindowEvent('scroll', onScroll);
   // scroll Sync를 requestAnimationFrame 단위로 시도.
   // y가 전체 height보다 작고 x와 y가 다르면 재귀적으로 계속 시도해봄.
@@ -62,7 +62,7 @@ const ScrollChecker: React.SFC<IScrollCheckerProps> = ({
       }
     });
     return unlisten;
-  }, []);
+  }, [history, syncScroll]);
   return <>{children}</>;
 };
 

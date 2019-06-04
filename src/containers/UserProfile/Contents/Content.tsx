@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import ContentList from './ContentList';
 import { List, Tab } from './style';
 import { useSelector, useDispatch } from 'react-redux';
