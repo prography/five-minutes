@@ -4,11 +4,7 @@ import {
   GET_TAGS_SUCCESS,
 } from '../constants/ActionTypes';
 import { ITag } from '../models/tag';
-import {
-  ActionTypes,
-  createAsyncActionCreator,
-  mapActionCreator,
-} from '../utils/redux';
+import { ActionTypes, createAsyncActionCreator } from '../utils/redux';
 
 export const getTagsActions = createAsyncActionCreator(
   GET_TAGS,
