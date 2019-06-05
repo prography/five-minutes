@@ -60,6 +60,6 @@
   ],
   "proxy": "http://35.212.191.174",
   "devDependencies": {
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.1"
   }
 }
