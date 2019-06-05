@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import marked, { MarkedOptions } from 'marked';
 import { highlight, highlightAuto, getLanguage } from 'highlight.js';
 
@@ -11,15 +11,13 @@ marked.setOptions({
 });
 
 const useMarkdown = (value: string, option?: MarkedOptions) => {
-  const [markedValue, setMarkedValue] = useState(marked(value));
   useEffect(() => {
     if (option) {
       marked.setOptions(option);
     }
-    setMarkedValue(marked(value));
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
-  return markedValue;
+  return useMemo(() => marked(value), [value]);
 };
 
 export default useMarkdown;

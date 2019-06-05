@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import LinearProgress, {
   LinearProgressProps,
@@ -10,11 +10,12 @@ const Top = styled.div`
   left: 0;
   width: 100vw;
 `;
+const LoadingBar: React.SFC<LinearProgressProps> = props => {
+  return (
+    <Top>
+      <LinearProgress color="primary" {...props} />
+    </Top>
+  );
+};
 
-const LoadingBar: React.SFC<LinearProgressProps> = props => (
-  <Top>
-    <LinearProgress color="primary" {...props} />
-  </Top>
-);
-
-export default LoadingBar;
+export default memo(LoadingBar);

@@ -13,12 +13,4 @@ export const Commands = styled.div`
 
 export const EditorWithToolbar = styled.div`
   margin-top: 2rem;
-  * {
-    box-sizing: border-box;
-  }
-  fieldset {
-    border-radius: 0px;
-    border-width: 1px !important;
-    border-color: ${props => props.theme.palette.gray} !important;
-  }
 `;

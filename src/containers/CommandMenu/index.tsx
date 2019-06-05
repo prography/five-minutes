@@ -11,22 +11,24 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { KEYMAP } from '../../utils/keyboard';
 import { Commands } from './style';
 import { useWindowEvent, usePrevious } from '../../hooks';
-import { ICommand, CommandType } from '../../models/command';
+import { CommandType } from '../../models/command';
+import selectCommands from '../../constants/command';
 
 // slash 후 match commands가 MAX_ATTEMPT 이후로도 0면 커맨드를 종료한다.
 const MAX_ATTEMPT = 5;
 export interface ICommandProps {
   command: string;
-  commands: ICommand[];
+  commandTypes: CommandType[];
   clearCommand: () => void;
   execCommand: (command: CommandType) => void;
 }
 const CommandMenu: React.SFC<ICommandProps> = ({
   command,
-  commands,
+  commandTypes,
   clearCommand,
   execCommand,
 }) => {
+  const commands = useMemo(() => selectCommands(commandTypes), [commandTypes]);
   // 슬래쉬 다음 input 값에 대해 regex로 필터링
   const matchCommands = useMemo(() => {
     return commands.filter(({ type }) => {

@@ -11,7 +11,7 @@ import { Codemirror, Divider, ImageUploader } from '../../components';
 import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
-import { ICommand, CommandType } from '../../models/command';
+import { CommandType } from '../../models/command';
 import Toolbar from '../Editor/Toolbar';
 import { EditorWithToolbar } from './styles';
 import { postComment } from '../../api/question';
@@ -39,11 +39,8 @@ type CodelineState = {
   code: string;
   show: boolean;
 };
-// 일단 하나만.
-const COMMANDS: ICommand[] = [
-  { type: 'codeline', description: '코드 라인을 정합니다.' },
-  { type: 'image', description: '이미지를 추가합니다.' },
-];
+
+const COMMAND_TYPES = ['codeline' as const, 'image' as const];
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   // Answer 폼
@@ -232,15 +229,12 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
       )}
       <ImageUploader ref={imageUploader} onChange={handleImageChange} />
       <EditorWithToolbar>
-        <Toolbar commands={COMMANDS} execCommand={execCommand} />
+        <Toolbar commandTypes={COMMAND_TYPES} execCommand={execCommand} />
         <Editor
           value={answer}
           inputRef={setEditorRef}
           onChange={setAnswer}
           onKeyDown={handleKeyDown}
-          rows={4}
-          margin="none"
-          variant="outlined"
           placeholder="내용을 입력해주세요."
         />
       </EditorWithToolbar>
@@ -263,7 +257,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         disablePortal={false}
       >
         <CommandMenu
-          commands={COMMANDS}
+          commandTypes={COMMAND_TYPES}
           command={commands.command}
           execCommand={execCommand}
           clearCommand={clearCommand}

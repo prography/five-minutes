@@ -19,3 +19,14 @@ export const ToolItem = styled.span`
     color: #20639b;
   }
 `;
+
+export const EditorContainer = styled.div`
+  * {
+    box-sizing: border-box;
+  }
+  fieldset {
+    border-radius: 0px;
+    border-width: 1px !important;
+    border-color: ${props => props.theme.palette.gray} !important;
+  }
+`;
