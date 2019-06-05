@@ -56,34 +56,34 @@ const { getTags, getTagsSuccess } = mapActionCreator({
 
 Object로 함수이름 mapping 하고 싶을 때 사용
 */
-type ActionTuple<T, F extends (...args: any[]) => any> = [T, F];
-export const mapActionCreator = <
-  T extends { [K in keyof T]: ActionTuple<T[K][0], T[K][1]> }
->(
-  types: T,
-) => {
-  const actions = (Object.entries(types) as Array<
-    [keyof T, ActionTuple<T[keyof T][0], T[keyof T][1]>]
-  >).reduce(
-    (acc, [func, [type, payloadFunc]]) => {
-      acc = {
-        ...acc,
-        [func]: (...args: Parameters<typeof payloadFunc>) =>
-          ({
-            type,
-            payload: payloadFunc(args),
-          } as const),
-      };
-      return acc;
-    },
-    {} as {
-      [K in keyof T]: (
-        ...args: Parameters<T[K][1]>
-      ) => {
-        type: T[K][0];
-        payload: ReturnType<T[K][1]>;
-      }
-    },
-  );
-  return actions;
-};
+// type ActionTuple<T, F extends (...args: any[]) => any> = [T, F];
+// export const mapActionCreator = <
+//   T extends { [K in keyof T]: ActionTuple<T[K][0], T[K][1]> }
+// >(
+//   types: T,
+// ) => {
+//   const actions = (Object.entries(types) as Array<
+//     [keyof T, ActionTuple<T[keyof T][0], T[keyof T][1]>]
+//   >).reduce(
+//     (acc, [func, [type, payloadFunc]]) => {
+//       acc = {
+//         ...acc,
+//         [func]: (...args: Parameters<typeof payloadFunc>) =>
+//           ({
+//             type,
+//             payload: payloadFunc(args),
+//           } as const),
+//       };
+//       return acc;
+//     },
+//     {} as {
+//       [K in keyof T]: (
+//         ...args: Parameters<T[K][1]>
+//       ) => {
+//         type: T[K][0];
+//         payload: ReturnType<T[K][1]>;
+//       }
+//     },
+//   );
+//   return actions;
+// };
