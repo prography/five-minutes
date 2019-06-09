@@ -71,7 +71,7 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
               )}
           </Grid>
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={1} container alignItems="center">
           <CustomLink to="/ask">
             <Button fullWidth variant="contained" color="primary">
               코드 올리기

@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
 import { IconButton } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@material-ui/icons/Clear';
 import { useInput, useSetState, useApi, useImageUploader } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror, Divider, ImageUploader } from '../../components';
@@ -17,8 +17,9 @@ import { EditorWithToolbar } from './styles';
 import { postComment } from '../../api/question';
 import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
+import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion {}
+interface IAnswerFormProps extends IQuestion { }
 
 const initialCommand = {
   command: '',
@@ -190,6 +191,11 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
     [openImageUploader, setCodelineState, clearCommand],
   );
 
+  const clearAll = useCallback(() => {
+    setAnswerValue('');
+    clearCodelineState();
+    clearCommand();
+  }, [setAnswerValue, clearCodelineState, clearCommand]);
   // comment 등록
   const dispatch = useDispatch();
   const { api } = useApi(postComment);
@@ -203,7 +209,11 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         },
       });
       dispatch(addComment(result));
-    } catch (err) {}
+      clearAll();
+      notifier.notify({ type: 'success', message: '답변이 등록되었습니다!' });
+    } catch (err) {
+      notifier.notify({ type: 'error', message: '에러가 발생하였습니다. 다시 시도해주세요.' });
+    }
   };
   const { show, code: codelineCode } = codelineState;
   return (

@@ -38,8 +38,9 @@ const CodeSelect: React.SFC<ICodeSelectProps> = ({
     showCodeSelect(false);
   }, [showCodeSelect]);
   return (
-    <Dialog onClose={close} {...dialogProps}>
+    <Dialog fullWidth maxWidth="sm" onClose={close} {...dialogProps}>
       <DialogTitle>라인을 선택해주세요.</DialogTitle>
+      <DialogContent>라인을 더블클릭 하거나 엔터를 눌러주세요.</DialogContent>
       <DialogContent>
         {code && (
           <Codemirror

@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { InfoContainer } from './style';
 import GithubImg from '../../../assets/icon/github.png';
 import { IRootState } from '../../../reducers';
 import { ProfilePhoto, CustomLink, TagList } from '../../../components';
@@ -20,11 +21,11 @@ const Info: React.SFC<RouteComponentProps> = ({ location }) => {
       commentCount: state.user.questions.totalCount,
     }),
   );
-  if (!user || status === 'FETCHING') return null;
+  if (!user || status === 'FETCHING') return <InfoContainer />;
   const isMe = myId === user.id;
-  const { nickname, tags, githubUrl, image } = user;
+  const { nickname, tags, githubUrl, image = '' } = user;
   return (
-    <>
+    <InfoContainer>
       <Grid container direction="column" spacing={3}>
         <Grid item container spacing={3}>
           <Grid item xs={2}>
@@ -53,7 +54,7 @@ const Info: React.SFC<RouteComponentProps> = ({ location }) => {
           )}
         </Grid>
       </Grid>
-    </>
+    </InfoContainer>
   );
 };
 

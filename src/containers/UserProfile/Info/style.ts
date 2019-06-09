@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+export const InfoContainer = styled.div`
+  width: 100%;
+  min-height: 220px;
+`
+
 export const Container = styled.div`
   max-width: 300px;
   border: 1px solid ${props => props.theme.palette.gray};

@@ -75,7 +75,7 @@ const Answer: React.SFC<IAnswerProps> = ({
       <AnswerSide>
         <ProfileLink id={user.id}>
           <AnswerUser>
-            <ProfilePhoto />
+            <ProfilePhoto src={user.image || ''} />
             {user.nickname}
           </AnswerUser>
         </ProfileLink>

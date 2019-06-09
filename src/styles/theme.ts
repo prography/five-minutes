@@ -4,7 +4,7 @@ import { DefaultTheme } from 'styled-components';
 const palette = {
   primary: {
     main: '#1e69b5',
-    dark: '#2e2e2e',
+    dark: '#2962ff',
     contrastText: '#fefefe',
   },
   secondary: {

@@ -7,10 +7,14 @@ const Photo = styled.img`
 `;
 
 const ProfilePhoto: React.SFC<React.ImgHTMLAttributes<HTMLImageElement>> = ({
-  width = 28,
+  width = 36,
   ...props
 }) => {
-  return <Photo src={profilephoto} alt="프로필사진" width={width} height={width} {...props} />;
+  const handleError = (e: React.ChangeEvent<HTMLImageElement>) => {
+    e.target.src = profilephoto;
+    (e.target as any).error = null;
+  }
+  return <Photo src={profilephoto} alt="프로필사진" width={width} height={width} {...props} onError={handleError} />;
 };
 
 export default ProfilePhoto;
