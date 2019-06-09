@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Formik, FastField, FormikProps } from 'formik';
 import Button from '@material-ui/core/Button';
 import { string, Schema } from 'yup';
+import { isEmpty } from 'lodash';
 import CustomMuiField from '../CustomMuiField';
 import { ModalType } from '../../../models/modal';
 import { Form, FakeLink, InputWrapper } from '../style';
@@ -89,12 +90,17 @@ const Signup: React.SFC<SignupProps> = ({ openModal, closeModal }) => {
         onSubmit={async (values, actions) => {
           // server-side validation
           try {
+            const errors = await actions.validateForm();
+            if (!isEmpty(errors)) {
+              return actions.setErrors(errors);
+            }
             const { result } = await api(values);
             if (result) {
               openModal('signin');
             }
           } catch (err) {
-            actions.validateForm();
+            // TODO: 에러 처리
+            actions.setFieldError('email', '중복된 사용자입니다.');
           }
         }}
         render={props => (
