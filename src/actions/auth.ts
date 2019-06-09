@@ -7,6 +7,7 @@ import {
   SIGNIN_FAILURE,
   LOGOUT,
   SET_WATCHED_TAGS,
+  SET_USER_PROFILE,
 } from '../constants/ActionTypes';
 import { createAsyncActionCreator, ActionTypes } from '../utils/redux';
 import { ISigninUser, IUser } from '../models/user';
@@ -32,6 +33,13 @@ export const setWatchedTags = (tags: ITag[]) => ({
 });
 export type SetWatchedTags = ReturnType<typeof setWatchedTags>;
 
+export const setUserProfile = (user: Partial<IUser>) => ({
+  type: SET_USER_PROFILE,
+  payload: user,
+});
+
+export type SetUserProfile = ReturnType<typeof setUserProfile>;
+
 export const logout = () => ({
   type: LOGOUT,
 });
@@ -41,4 +49,5 @@ export type AuthAction =
   | ActionTypes<typeof meActions>
   | ActionTypes<typeof signinActions>
   | SetWatchedTags
+  | SetUserProfile
   | Logout;

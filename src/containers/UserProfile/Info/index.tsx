@@ -1,57 +1,36 @@
-import React, { useRef, useCallback } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { RouteComponentProps, withRouter } from 'react-router';
 import GithubImg from '../../../assets/icon/github.png';
-import Tags from './Tags';
-import { WatchedTags } from '../../';
 import { IRootState } from '../../../reducers';
-import { ProfilePhoto, ImageUploader } from '../../../components';
-import { profileUploader } from '../../../utils/cloudinary';
-import { updateUser } from '../../../api/user';
-import { useImageUploader } from '../../../hooks';
+import { ProfilePhoto, CustomLink, TagList } from '../../../components';
 
-const Info = () => {
-  const { user, status, myId, questionCount, commentCount } = useSelector(
+const Info: React.SFC<RouteComponentProps> = ({ location }) => {
+  // TODO: Shallow Equality check 적용
+  const myId = useSelector((state: IRootState) => state.auth.me.user.id);
+  const { user, status, questionCount, commentCount } = useSelector(
     (state: IRootState) => ({
       user: state.user.get.user,
       status: state.user.get.status,
       error: state.user.get.error,
-      myId: state.auth.me.user.id,
       questionCount: state.user.questions.totalCount,
       commentCount: state.user.questions.totalCount,
     }),
   );
-  // TODO : 유저 업데이트 및 본인 확인 (edit 페이지 따로 뺄까?)
-  const uploaderRef = useRef<HTMLInputElement>(null);
-  const handleImageFile = useCallback(
-    async (err, url?: string) => {
-      try {
-        const { result } = await updateUser(myId, { image: url });
-        console.log(result);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    [myId],
-  );
-  const [openImageUploader, handleImageChange] = useImageUploader(
-    uploaderRef,
-    profileUploader,
-    handleImageFile,
-  );
   if (!user || status === 'FETCHING') return null;
   const isMe = myId === user.id;
-  const { nickname, tags, githubUrl } = user;
+  const { nickname, tags, githubUrl, image } = user;
   return (
     <>
       <Grid container direction="column" spacing={3}>
         <Grid item container spacing={3}>
           <Grid item xs={2}>
-            <ProfilePhoto width="100%" onClick={openImageUploader} />
-            <ImageUploader ref={uploaderRef} onChange={handleImageChange} />
+            <ProfilePhoto width="100" src={image} />
           </Grid>
-          <Grid item xs={10} container direction="column" spacing={2}>
+          <Grid item xs={7} container direction="column" spacing={2}>
             <Grid item>
               <Typography variant="h3">{nickname}</Typography>
             </Grid>
@@ -60,9 +39,12 @@ const Info = () => {
               <div>답변 수 : {commentCount}</div>
             </Grid>
           </Grid>
+          <Grid item xs={3}>
+            {isMe && <CustomLink to={`${location.pathname}/edit`}><Button color="primary" variant="outlined" fullWidth>프로필 수정</Button></CustomLink>}
+          </Grid>
         </Grid>
 
-        <Grid item>{isMe ? <WatchedTags /> : <Tags tags={tags} />}</Grid>
+        <Grid item><TagList tags={tags} /></Grid>
         <Grid item container justify="flex-end">
           {githubUrl && (
             <a href={githubUrl}>
@@ -75,4 +57,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default withRouter(Info);

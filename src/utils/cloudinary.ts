@@ -26,8 +26,8 @@ class ProfilePreset extends Preset {
     const url = response.secure_url;
     // Create a thumbnail of the uploaded image, with 150px width
     const tokens = url.split('/');
-    tokens.splice(-2, 0, 'w_128, c_scale');
-    return { url, tokens };
+    tokens.splice(6, 0, 'c_fill,w_100,h_100');
+    return { url: tokens.join('/'), tokens };
   }
 }
 class AnswerPreset extends Preset {
@@ -38,7 +38,7 @@ class AnswerPreset extends Preset {
     const url = response.secure_url;
     // Create a thumbnail of the uploaded image, with 150px width
     const tokens = url.split('/');
-    tokens.splice(-2, 0, 'w_150,c_scale');
+    tokens.splice(6, 0, 'w_150,c_scale');
     return { url, tokens };
   }
 }
@@ -66,7 +66,7 @@ export class Cloudinary {
   constructor(folderType: FolderType) {
     this.uploadApi = `https://api.cloudinary.com/v1_1/${
       this.cloudname
-    }/image/upload`;
+      }/image/upload`;
     if (folderType === 'profile') {
       this.preset = new ProfilePreset('g9lqwf8d');
     }

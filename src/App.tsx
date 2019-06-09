@@ -18,6 +18,7 @@ const Home = lazy(() => import('./pages/Home'));
 const Ask = lazy(() => import('./pages/Ask'));
 const Question = lazy(() => import('./pages/Question'));
 const Profile = lazy(() => import('./pages/Profile'));
+const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
 const Search = lazy(() => import('./pages/Search'));
 
 export interface IAppProps {
@@ -45,6 +46,7 @@ class App extends Component<IAppProps> {
                     path="/question/:questionId"
                     component={Question}
                   />
+                  <ProtectedRoute path="/profile/:userId/edit" component={ProfileEdit} />
                   <Route path="/profile/:userId" component={Profile} />
                   <Route path="/search" component={Search} />
                 </Switch>

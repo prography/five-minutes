@@ -60,15 +60,15 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
                 <ProfileMenu {...user} logout={handleLogout} />
               </Menu>
             ) : (
-              <>
-                <Button onClick={() => dispatch(openModal('signin'))}>
-                  로그인
+                <>
+                  <Button onClick={() => dispatch(openModal('signin'))}>
+                    로그인
                 </Button>
-                <Button onClick={() => dispatch(openModal('signup'))}>
-                  회원가입
+                  <Button onClick={() => dispatch(openModal('signup'))}>
+                    회원가입
                 </Button>
-              </>
-            )}
+                </>
+              )}
           </Grid>
         </Grid>
         <Grid item xs={1}>

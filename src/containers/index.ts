@@ -4,6 +4,7 @@ import CodeEditor from './CodeEditor';
 import CodeSelect from './CodeSelect';
 import CommandMenu from './CommandMenu';
 import Editor from './Editor';
+import EditProfile from './EditProfile';
 import Header from './Header';
 import Modal from './Modal';
 import Question from './Question';
@@ -24,6 +25,7 @@ export {
   CodeSelect,
   CommandMenu,
   Editor,
+  EditProfile,
   Header,
   Modal,
   Question,

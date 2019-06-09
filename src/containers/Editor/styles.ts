@@ -5,6 +5,7 @@ export const ToolbarContainer = styled.div`
   padding: 8px;
   border: 1px solid ${props => props.theme.palette.gray};
   border-bottom: none;
+  box-sizing: border-box;
 `;
 
 export const ToolItem = styled.span`

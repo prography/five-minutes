@@ -9,6 +9,7 @@ export const SIGNIN = 'SIGNIN' as const;
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS' as const;
 export const SIGNIN_FAILURE = 'SIGNIN_FAILURE' as const;
 
+export const SET_USER_PROFILE = 'SET_USER_PROFILE' as const;
 export const SET_WATCHED_TAGS = 'SET_WATCHED_TAGS' as const;
 
 export const LOGOUT = 'LOGOUT' as const;
@@ -28,6 +29,7 @@ export const LOAD_USER_COMMENTS = 'LOAD_USER_COMMENTS' as const;
 export const GET_USER_COMMENTS = 'GET_USER_COMMENTS' as const;
 export const GET_USER_COMMENTS_SUCCESS = 'GET_USER_COMMENTS_SUCCESS' as const;
 export const GET_USER_COMMENTS_FAILURE = 'GET_USER_COMMENTS_FAILURE' as const;
+
 /* Modal */
 
 export const OPEN_MODAL = 'OPEN_MODAL' as const;

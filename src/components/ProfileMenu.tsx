@@ -12,7 +12,7 @@ import { history } from '../utils/history';
 export interface IProfileMenuProps extends IUser {
   logout: () => void;
 }
-const ProfileMenu: React.SFC<IProfileMenuProps> = ({ id, logout }) => {
+const ProfileMenu: React.SFC<IProfileMenuProps> = ({ id, image, logout }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -36,7 +36,7 @@ const ProfileMenu: React.SFC<IProfileMenuProps> = ({ id, logout }) => {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <ProfilePhoto />
+        <ProfilePhoto src={image} />
       </Button>
       <Popper
         id="simple-menu"
