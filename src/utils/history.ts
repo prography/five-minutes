@@ -19,7 +19,7 @@ class QueryHelper<T extends string[]> {
       this.history.location.search,
     );
     const getTypeSafePage = (
-      p: string | string[] | null | undefined,
+      p: any,
       initial: string,
     ) => {
       if (!p) return initial;
