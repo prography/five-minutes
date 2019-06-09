@@ -38,8 +38,8 @@ class AnswerPreset extends Preset {
     const url = response.secure_url;
     // Create a thumbnail of the uploaded image, with 150px width
     const tokens = url.split('/');
-    tokens.splice(6, 0, 'w_150,c_scale');
-    return { url, tokens };
+    tokens.splice(6, 0, 'w_800,c_fill');
+    return { url: tokens.join('/'), tokens };
   }
 }
 class QuestionPreset extends Preset {
@@ -50,8 +50,8 @@ class QuestionPreset extends Preset {
     const url = response.secure_url;
     // Create a thumbnail of the uploaded image, with 150px width
     const tokens = url.split('/');
-    tokens.splice(-2, 0, 'w_150,c_scale');
-    return { url, tokens };
+    tokens.splice(6, 0, 'w_800,c_fill');
+    return { url: tokens.join('/'), tokens };
   }
 }
 

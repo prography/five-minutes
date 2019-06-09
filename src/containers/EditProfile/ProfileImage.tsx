@@ -1,5 +1,4 @@
 import React, { useRef, useCallback } from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import CameraIcon from '@material-ui/icons/CameraAltOutlined';
 import { useImageUploader } from '../../hooks';
 import { profileUploader } from '../../utils/cloudinary';
