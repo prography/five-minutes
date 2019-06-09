@@ -35,17 +35,18 @@ const Codemirror: React.SFC<ICodemirrorProps> = ({
   setCodeEditor,
   ...options
 }) => {
+  const initialOptions = useRef(options);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const mirror = useRef<EditorFromTextArea | null>(null);
   useEffect(() => {
     if (textarea.current) {
       mirror.current = CodeMirror.fromTextArea(textarea.current, {
-        ...options,
+        ...initialOptions.current,
         lineNumbers: true,
       });
       setCodeEditor && setCodeEditor(mirror.current);
     }
-  }, [options, setCodeEditor]);
+  }, [setCodeEditor]);
   useEffect(() => {
     if (mode) {
       const path = getModePath(mode);
