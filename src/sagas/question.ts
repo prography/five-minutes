@@ -12,6 +12,7 @@ import {
   SET_WATCHED_TAGS,
   SET_QUESTION_SEARCH_MODE,
   UPDATE_LIST_QUERY,
+  LOAD_TAGGED_QUESTIONS,
 } from '../constants/ActionTypes';
 import {
   PostQuestion,
@@ -24,6 +25,7 @@ import {
   searchQuestionsActions,
   setQuestionSearchMode,
   updateListQuery,
+  LoadTaggedQuestions,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
@@ -137,6 +139,15 @@ function* watchSearch() {
     yield fork(search, listQueryReq, searchQueryReq);
   }
 }
+function* watchTagSearch() {
+  while (true) {
+    const { payload }: LoadTaggedQuestions = yield take(LOAD_TAGGED_QUESTIONS);
+    const { listQuery, tag } = payload;
+    if (tag) {
+      yield fork(search, listQuery, { tags: [tag] });
+    }
+  }
+}
 // Watched Tags 바뀔 때 search 다시
 function* watchWatchedTags() {
   while (true) {
@@ -163,6 +174,7 @@ export default function* root() {
     fork(watchGetList),
     fork(watchPost),
     fork(watchSearch),
+    fork(watchTagSearch),
     fork(watchWatchedTags),
     fork(watchAuth),
   ]);

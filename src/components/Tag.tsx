@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
+import { CustomLink } from '.';
 import { ITag } from '../models/tag';
 
 const Wrapper = styled.span`
@@ -20,7 +21,11 @@ const Wrapper = styled.span`
 
 // TODO: 태그 검색으로 Link 추가.
 const Tag: React.SFC<ITag> = ({ name }) => {
-  return <Wrapper>{name}</Wrapper>;
+  return (
+    <CustomLink to={`/tagged/${name}`}>
+      <Wrapper>{name}</Wrapper>
+    </CustomLink>
+  );
 };
 
 export default memo(Tag);

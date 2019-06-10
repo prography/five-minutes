@@ -9,7 +9,7 @@ const palette = {
   },
   secondary: {
     main: '#54b2ce',
-    dark: '#2e2e2e',
+    dark: '#2c839c',
     contrastText: '#fefefe',
   },
   tertiary: {

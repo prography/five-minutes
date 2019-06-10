@@ -16,6 +16,7 @@ import {
   SET_QUESTION_SEARCH_MODE,
   UPDATE_LIST_QUERY,
   UPDATE_SEARCH_QUERY,
+  LOAD_TAGGED_QUESTIONS,
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
@@ -69,6 +70,7 @@ export const searchQuestionsActions = createEntity(
   SEARCH_QUESTIONS_SUCCESS,
   SEARCH_QUESTIONS_FAILURE,
 )(questionApi.searchQuestions);
+// search?~~
 export const loadSearchedQuestions = (
   listQuery: Partial<IBaseListQuery>,
   searchQuery?: ISearchQuestionQuery,
@@ -83,6 +85,23 @@ export const loadSearchedQuestions = (
     searchQuery,
   },
 });
+
+// tagged/c++
+export const loadTaggedQuestions = (
+  listQuery: Partial<IBaseListQuery>,
+  tag?: string,
+) => ({
+  type: LOAD_TAGGED_QUESTIONS,
+  payload: {
+    listQuery: {
+      page: 1,
+      perPage: 10,
+      ...listQuery,
+    },
+    tag,
+  },
+});
+export type LoadTaggedQuestions = ReturnType<typeof loadTaggedQuestions>;
 
 export const updateListQuery = (listQuery: Partial<IBaseListQuery>) => ({
   type: UPDATE_LIST_QUERY,
@@ -105,6 +124,8 @@ export const setQuestionSearchMode = (isTagSearch: boolean) => ({
   payload: isTagSearch,
 });
 
+export type SetQuestionSearchMode = ReturnType<typeof setQuestionSearchMode>;
+
 export type RequestSearchQuestions = {
   type: typeof LOAD_SEARCHED_QUESTIONS;
   payload: {
@@ -118,5 +139,6 @@ export type QuestionAction =
   | ActionTypes<typeof getQuestionsActions>
   | ActionTypes<typeof getQuestionActions>
   | ActionTypes<typeof searchQuestionsActions>
-  | ReturnType<typeof setQuestionSearchMode>
+  | LoadTaggedQuestions
+  | SetQuestionSearchMode
   | AddComment;

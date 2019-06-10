@@ -63,7 +63,8 @@ declare module 'react-redux' {
    */
   export function useSelector<TState, TSelected>(
     selector: (state: TState) => TSelected,
-  ): TSelected;
+    equalityFn?: (left: TSelected, right: TSelected) => boolean
+): TSelected;
 
   /**
    * A hook to access the redux store.
