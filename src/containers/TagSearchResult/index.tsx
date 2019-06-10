@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEqual } from 'lodash';
 import { questionQueryHelper, history } from '../../utils/history';
@@ -15,6 +15,7 @@ const TagSearchResult: React.SFC<ITagSearchResultProps> = ({
   location,
   tag,
 }) => {
+  const [mounted, setMounted] = useState(false);
   const { page } = questionQueryHelper.searchQuery;
   const dispatch = useDispatch();
   const { status, perPage, items, totalCount } = useSelector(
@@ -26,6 +27,9 @@ const TagSearchResult: React.SFC<ITagSearchResultProps> = ({
     }),
     isEqual,
   );
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   useEffect(() => {
     const { page } = questionQueryHelper.searchQuery;
     dispatch(loadTaggedQuestions({ page: parseInt(page, 10) }, tag));
@@ -41,7 +45,8 @@ const TagSearchResult: React.SFC<ITagSearchResultProps> = ({
     },
     [location.pathname],
   );
-
+  // Ensure component mounted before show spinner
+  if (!mounted) return null;
   if (status === 'FETCHING') return <LoadingBar />;
   return (
     <div>

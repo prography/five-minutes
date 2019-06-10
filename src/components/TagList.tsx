@@ -9,7 +9,7 @@ const TagList: React.SFC<ITagListProps> = ({ tags }) => {
   return (
     <>
       {tags.map(tag => (
-        <Tag key={tag.id} {...tag} />
+        <Tag key={tag.id} name={tag.name} />
       ))}
     </>
   );

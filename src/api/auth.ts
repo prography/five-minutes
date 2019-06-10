@@ -1,11 +1,7 @@
-import axios from 'axios';
+import instance from '.';
 import { ISignupUser, IUser, ISigninUser } from '../models/user';
 import { IQuestion } from '../models/question';
 import { IComment } from '../models/comment';
-
-const instance = axios.create({
-  baseURL: '/api',
-});
 
 export const signup: ApiCall<
   [ISignupUser],

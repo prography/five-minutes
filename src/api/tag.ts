@@ -1,17 +1,14 @@
-import axios from 'axios';
+import instance from '.';
 import qs from 'query-string';
 import { ITag } from '../models/tag';
 import { IBaseListQuery } from '../models/api';
 
-const instance = axios.create({
-  baseURL: '/api/tags',
-});
 
 export const getTags: ApiCall<
   [IBaseListQuery],
   ApiGetListResponse<ITag>
 > = async ({ page, perPage }) => {
-  const { data } = await instance.get(`?${qs.stringify({ page, perPage })}`);
+  const { data } = await instance.get(`/tags/?${qs.stringify({ page, perPage })}`);
   return data;
 };
 
@@ -25,7 +22,7 @@ export const searchTags: ApiCall<
   ApiGetListResponse<ITag>
 > = async ({ page, perPage, name }) => {
   const { data } = await instance.get(
-    `/search?${qs.stringify({ page, perPage, name })}`,
+    `/tags/search?${qs.stringify({ page, perPage, name })}`,
   );
   return data;
 };

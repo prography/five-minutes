@@ -4,7 +4,6 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import SearchIcon from '@material-ui/icons/Search';
 import { CustomLink, Search, Logo, ProfileMenu } from '../../components';
 import { openModal } from '../../actions/modal';
 import { Container, LogoAdjust, Menu } from './style';
@@ -36,24 +35,10 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
             </CustomLink>
           </LogoAdjust>
         </Grid>
-        <Grid item container xs={6} justify="center">
-          <Grid
-            item
-            container
-            xs={10}
-            spacing={2}
-            justify="center"
-            alignItems="center"
-          >
-            <Grid item xs={11}>
-              <Search paperProps={{ style: { width: '100%' } }} />
-            </Grid>
-            <Grid item xs={1}>
-              <SearchIcon />
-            </Grid>
+        <Grid item container xs={9} spacing={2} justify="flex-end" alignItems="center">
+          <Grid item>
+            <Search paperProps={{ style: { width: '100%' } }} />
           </Grid>
-        </Grid>
-        <Grid item container xs={2} justify="flex-end">
           <Grid item>
             {isLoggedIn ? (
               <Menu>
@@ -70,13 +55,13 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
                 </>
               )}
           </Grid>
-        </Grid>
-        <Grid item xs={1} container alignItems="center">
-          <CustomLink to="/ask">
-            <Button fullWidth variant="contained" color="primary">
-              코드 올리기
+          <Grid item>
+            <CustomLink to="/ask">
+              <Button fullWidth variant="contained" color="primary">
+                코드 올리기
             </Button>
-          </CustomLink>
+            </CustomLink>
+          </Grid>
         </Grid>
       </Grid>
     </Container>

@@ -1,8 +1,11 @@
-import React, { SFC, useCallback } from 'react';
+import React, { SFC, useCallback, useMemo } from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
+import CheckIcon from '@material-ui/icons/Done';
 import { ITag } from '../../models/tag';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
@@ -36,9 +39,11 @@ const TagInfo: SFC<ITagInfoProps> = ({ name, count }) => {
     (state: IRootState) => state.auth.me.isLoggedIn,
   );
   const userId = useSelector((state: IRootState) => state.auth.me.user.id);
+  const userTags = useSelector((state: IRootState) => state.auth.me.user.tags);
+  const hasTag = useMemo(() => userTags.some(tag => tag.name === name), [userTags, name]);
   const dispatch = useDispatch();
   const { api, status } = useApi(addTag);
-  const handleAddTag = useCallback(async () => {
+  const handleTag = useCallback(async () => {
     try {
       const {
         result: { user },
@@ -78,14 +83,19 @@ const TagInfo: SFC<ITagInfoProps> = ({ name, count }) => {
             )}
             {isLoggedIn && (
               <Grid item>
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  disabled={status === 'FETCHING'}
-                  onClick={handleAddTag}
-                >
-                  내 관심태그에 추가
-                </Button>
+                {
+                  hasTag ? <Chip color="secondary" avatar={<Avatar><CheckIcon /></Avatar>} label="내 관심태그" />
+                    : (
+                      <Button
+                        color="secondary"
+                        variant="contained"
+                        disabled={status === 'FETCHING'}
+                        onClick={handleTag}
+                      >
+                        {'내 관심태그에 추가'}
+                      </Button>
+                    )
+                }
               </Grid>
             )}
           </Grid>

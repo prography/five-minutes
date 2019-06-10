@@ -15,6 +15,7 @@ import {
   SEARCH_QUESTIONS,
   SEARCH_QUESTIONS_SUCCESS,
   SEARCH_QUESTIONS_FAILURE,
+  LOAD_TAGGED_QUESTIONS,
   SET_QUESTION_SEARCH_MODE,
 } from '../constants/ActionTypes';
 import { ISearchQuestionQuery } from '../models/api';
@@ -40,6 +41,7 @@ export interface ISearchQuestionsState extends ApiGetListResponse<IQuestion> {
   status: Status;
   error: string;
   isTagSearch: boolean;
+  tagged: string;
   searchQuery: ISearchQuestionQuery;
 }
 export interface IQuestionState {
@@ -77,6 +79,7 @@ const initialState: IQuestionState = {
     nextPage: '',
     totalCount: 0,
     isTagSearch: false,
+    tagged: '',
     searchQuery: {
       subject: '',
       tags: [],
@@ -173,6 +176,10 @@ export default function reducer(
           status: 'FAILURE',
           error: action.payload,
         };
+        return draft;
+      }
+      case LOAD_TAGGED_QUESTIONS: {
+        draft.search.tagged = action.payload.tag || '';
         return draft;
       }
       case SET_QUESTION_SEARCH_MODE: {

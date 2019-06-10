@@ -1,30 +1,29 @@
 import React, { memo } from 'react';
-import styled from 'styled-components';
 import { CustomLink } from '.';
 import { ITag } from '../models/tag';
+import Chip, { ChipProps } from '@material-ui/core/Chip';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-const Wrapper = styled.span`
-  color: ${props => props.theme.palette.secondary.contrastText};
-  background-color: ${props => props.theme.palette.secondary.main};
-  font-size: 11px;
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    chip: {
+      margin: theme.spacing(0.5),
+      marginLeft: 0,
+    },
+  }),
+);
 
-  margin-right: 0.3rem;
-  padding: 0.5rem;
 
-  border-radius: 5px;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #4597af;
-  }
-`;
-
-// TODO: 태그 검색으로 Link 추가.
-const Tag: React.SFC<ITag> = ({ name }) => {
+const Tag: React.SFC<Pick<ITag, 'name'> & ChipProps> = ({ name, ...props }) => {
+  const classes = useStyles();
+  const withoutLink = props.onClick || props.onDelete;
+  const TagChip = <Chip className={classes.chip} color="secondary" clickable label={name} {...props} />;
   return (
-    <CustomLink to={`/tagged/${name}`}>
-      <Wrapper>{name}</Wrapper>
-    </CustomLink>
+    <>
+      {
+        withoutLink ? TagChip : <CustomLink to={`/tagged/${name}`}>{TagChip}</CustomLink>
+      }
+    </>
   );
 };
 

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   max-width: 300px;
-  border: 1px solid ${props => props.theme.palette.gray};
 `;
 export const ContainerTitle = styled.div`
   width: 100%;

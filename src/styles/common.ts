@@ -12,6 +12,7 @@ export const PageLayout = styled.div`
 `;
 export const LayoutWithSidebar = styled.div`
   width: 1400px;
+  max-width: 100%;
   margin: auto;
 
   display: flex;
@@ -30,7 +31,7 @@ export const MainLayout = styled.div`
 export const Sidebar = styled.div<{ left?: boolean }>`
   flex: 0 1 300px;
   margin: 0 20px;
-  @media screen and (max-width: ${props => (props.left ? '600px' : '900px')}) {
+  @media screen and (max-width: ${props => (props.left ? '1400px' : '1100px')}) {
     display: none;
   }
 `;

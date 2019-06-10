@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Close';
 import BuildIcon from '@material-ui/icons/Build';
+import Paper from '@material-ui/core/Paper';
 import { TagSelect } from '..';
 import { AntSwitch, Tag, Divider } from '../../components';
 import { addTag, removeTag } from '../../api/user';
@@ -10,7 +10,6 @@ import {
   ContainerTitle,
   ContainerContents,
   TagSelectWrapper,
-  TagWrapper,
   EditIcon,
 } from './style';
 import { useSelector, useDispatch } from 'react-redux';
@@ -63,48 +62,41 @@ const WatchedTags = () => {
   return (
     <>
       <Container>
-        <ContainerTitle>
-          <div style={{ flex: 1 }}>
-            관심 태그{' '}
-            <AntSwitch
-              checked={isTagSearch}
-              onChange={setTagSearchMode(isTagSearch)}
-            />
-          </div>
-          {
-            <div>
-              <IconButton
-                onClick={toggleEditMode}
-                size="small"
-                disabled={!isTagSearch}
-              >
-                <EditIcon isEditing={isEdit}>
-                  <BuildIcon fontSize="inherit" />
-                </EditIcon>
-              </IconButton>
+        <Paper>
+          <ContainerTitle>
+            <div style={{ flex: 1 }}>
+              관심 태그{' '}
+              <AntSwitch
+                checked={isTagSearch}
+                onChange={setTagSearchMode(isTagSearch)}
+              />
             </div>
-          }
-        </ContainerTitle>
-        <Divider />
-        <ContainerContents isActive={isTagSearch}>
-          {isEdit && (
-            <TagSelectWrapper>
-              <TagSelect tags={[]} value={[]} setTags={onTagSelect} />
-            </TagSelectWrapper>
-          )}
-          {tags.map(tag => (
-            <TagWrapper key={tag.id}>
-              <Tag {...tag} />
-              {isEdit && (
-                <DeleteIcon
-                  onClick={onTagDelete(tag.name)}
-                  style={{ verticalAlign: 'center' }}
-                  fontSize="inherit"
-                />
-              )}
-            </TagWrapper>
-          ))}
-        </ContainerContents>
+            {
+              <div>
+                <IconButton
+                  onClick={toggleEditMode}
+                  size="small"
+                  disabled={!isTagSearch}
+                >
+                  <EditIcon isEditing={isEdit}>
+                    <BuildIcon fontSize="inherit" />
+                  </EditIcon>
+                </IconButton>
+              </div>
+            }
+          </ContainerTitle>
+          <Divider />
+          <ContainerContents isActive={isTagSearch}>
+            {isEdit && (
+              <TagSelectWrapper>
+                <TagSelect tags={[]} value={[]} setTags={onTagSelect} />
+              </TagSelectWrapper>
+            )}
+            {tags.map(tag => (
+              <Tag key={tag.id} name={tag.name} onDelete={isEdit ? onTagDelete(tag.name) : undefined} />
+            ))}
+          </ContainerContents>
+        </Paper>
       </Container>
     </>
   );

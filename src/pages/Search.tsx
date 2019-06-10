@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router';
 const Search: React.SFC<RouteComponentProps> = props => {
   return (
     <LayoutWithSidebar>
-      <Sidebar />
+      <Sidebar left />
       <MainLayout>
         <SearchResult {...props} />
       </MainLayout>
