@@ -26,6 +26,7 @@ const CodeEditor: React.SFC<ICodeEditorProps> = ({
   mode = 'Plain Text',
   setMode,
   setCodeEditor,
+  ...props
 }) => {
   const defaultValue = useMemo(() => ({ label: mode, value: mode }), [mode]);
   const handleModeChange = useCallback(
@@ -38,7 +39,7 @@ const CodeEditor: React.SFC<ICodeEditorProps> = ({
   );
   return (
     <>
-      <Codemirror mode={mode} setCodeEditor={setCodeEditor} />
+      <Codemirror mode={mode} setCodeEditor={setCodeEditor} {...props} />
       <SelectWrapper>
         <SelectMode>
           <Select

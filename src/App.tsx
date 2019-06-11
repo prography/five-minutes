@@ -17,6 +17,7 @@ import { PageLayout } from './styles/common';
 const Home = lazy(() => import('./pages/Home'));
 const Ask = lazy(() => import('./pages/Ask'));
 const Question = lazy(() => import('./pages/Question'));
+const QuestionEdit = lazy(() => import('./pages/QuestionEdit'));
 const Profile = lazy(() => import('./pages/Profile'));
 const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
 const Search = lazy(() => import('./pages/Search'));
@@ -42,6 +43,11 @@ class App extends Component<IAppProps> {
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <ProtectedRoute exact path="/ask" component={Ask} />
+                  <ProtectedRoute
+                    exact
+                    path="/question/:questionId/edit"
+                    component={QuestionEdit}
+                  />
                   <Route
                     exact
                     path="/question/:questionId"

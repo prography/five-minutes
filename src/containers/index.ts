@@ -6,6 +6,7 @@ import CodeSelect from './CodeSelect';
 import CommandMenu from './CommandMenu';
 import Editor from './Editor';
 import EditProfile from './EditProfile';
+import EditQuestion from './EditQuestion';
 import Header from './Header';
 import Modal from './Modal';
 import PaginationList from './PaginationList';
@@ -31,6 +32,7 @@ export {
   CommandMenu,
   Editor,
   EditProfile,
+  EditQuestion,
   Header,
   Modal,
   PaginationList,

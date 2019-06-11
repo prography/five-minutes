@@ -15,7 +15,9 @@ export const getQuestions: ApiCall<
   [IBaseListQuery],
   ApiGetListResponse<IQuestion>
 > = async ({ page, perPage }) => {
-  const { data } = await instance.get(`/questions/?${qs.stringify({ page, perPage })}`);
+  const { data } = await instance.get(
+    `/questions/?${qs.stringify({ page, perPage })}`,
+  );
   return data;
 };
 export const postQuestion: ApiCall<
@@ -25,12 +27,23 @@ export const postQuestion: ApiCall<
   const { data } = await instance.post('/questions', post);
   return data;
 };
+export const updateQuestion = async (
+  id: IQuestion['id'],
+  question: Partial<IQuestion>,
+) => {
+  const { data } = await instance.put(`/questions/${id}`, question);
+  return data;
+};
 export const likeQuestion = async (id: string) => {
-  const { data } = await instance.put<ApiResponse<IQuestion>>(`/questions/${id}/like`);
+  const { data } = await instance.put<ApiResponse<IQuestion>>(
+    `/questions/${id}/like`,
+  );
   return data;
 };
 export const dislikeQuestion = async (id: string) => {
-  const { data } = await instance.put<ApiResponse<IQuestion>>(`/questions/${id}/dislike`);
+  const { data } = await instance.put<ApiResponse<IQuestion>>(
+    `/questions/${id}/dislike`,
+  );
   return data;
 };
 
@@ -40,7 +53,10 @@ export const postComment: ApiCall<
   [{ questionId: string; comment: IPostComment }],
   ApiResponse<IComment>
 > = async ({ questionId, comment }) => {
-  const { data } = await instance.post(`/questions/${questionId}/comments`, comment);
+  const { data } = await instance.post(
+    `/questions/${questionId}/comments`,
+    comment,
+  );
   return data;
 };
 

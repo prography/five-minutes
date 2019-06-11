@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { ValueType } from 'react-select/lib/types';
 import { SelectComponentsProps } from 'react-select/lib/Select';
@@ -11,15 +11,19 @@ export interface ITagSelectProps extends SelectComponentsProps {
   setTags: (tags: string[]) => void;
 }
 const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
-  const handleCreate = useCallback((newValue: ValueType<IOptionValue>) => {
-    if (!newValue || !Array.isArray(newValue)) {
-      return;
-    }
-    const newTags: string[] = newValue.map(
-      (value: IOptionValue) => value.value,
-    );
-    setTags(newTags);
-  }, [setTags]);
+  const [defaultValue] = useState(() => makeSelectable(tags));
+  const handleCreate = useCallback(
+    (newValue: ValueType<IOptionValue>) => {
+      if (!newValue || !Array.isArray(newValue)) {
+        return;
+      }
+      const newTags: string[] = newValue.map(
+        (value: IOptionValue) => value.value,
+      );
+      setTags(newTags);
+    },
+    [setTags],
+  );
   // tag 찾는 api를 호출하는 함수
   const searchOptions = useCallback(
     async (inputValue: string, callback: (options: IOptionValue[]) => void) => {
@@ -39,7 +43,9 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
     [],
   );
   // 함수형에서 debounce를 걸때는 유의하자.
-  const debouncedSearch = useMemo(() => debounce(searchOptions, 500), [searchOptions]);
+  const debouncedSearch = useMemo(() => debounce(searchOptions, 500), [
+    searchOptions,
+  ]);
   // 이런식으로 이 함수를 따로 빼줘야 되는데 왜그럴까?
   const loadOptions = useCallback(
     (inputValue: string, callback: (options: IOptionValue[]) => void) => {
@@ -54,6 +60,7 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
     <AsyncCreatableSelect
       isMulti
       cacheOptions
+      defaultValue={defaultValue}
       defaultOptions={[]}
       onChange={handleCreate}
       loadOptions={loadOptions}
