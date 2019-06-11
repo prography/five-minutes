@@ -8,18 +8,8 @@ import 'codemirror/addon/selection/active-line';
 import 'codemirror/lib/codemirror';
 import 'codemirror/lib/codemirror.css';
 import '../styles/codemirror.css';
-import { CLIKE } from '../constants/codemirror';
-// clike처리. 일단 임시로
-const getModePath = (mode: string) => {
-  if (Object.keys(CLIKE).includes(mode)) {
-    return 'clike';
-  }
-  return mode;
-};
-const getModeOption = (mode: string) => {
-  if (Object.keys(CLIKE).includes(mode)) return `text/${CLIKE[mode]}`;
-  return mode;
-};
+import { getModeInfoByName } from '../utils/codemirror';
+
 const Wrapper = styled.div`
   border: 1px solid #ccc;
 `;
@@ -49,11 +39,17 @@ const Codemirror: React.SFC<ICodemirrorProps> = ({
   }, [setCodeEditor]);
   useEffect(() => {
     if (mode) {
-      const path = getModePath(mode);
-      const option = getModeOption(mode);
-      import(`codemirror/mode/${path}/${path}`).then(() => {
+      const info = getModeInfoByName(mode);
+      if (!info) return;
+      const modeOption = info.mime
+        ? info.mime
+        : Array.isArray(info.mimes)
+        ? info.mimes[0]
+        : '';
+      if (!info.mode || info.mode === 'null') return; // Plain Text
+      import(`codemirror/mode/${info.mode}/${info.mode}`).then(() => {
         if (mirror.current) {
-          mirror.current.setOption('mode', option);
+          mirror.current.setOption('mode', modeOption);
         }
       });
     }

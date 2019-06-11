@@ -65,7 +65,7 @@ const Search: React.SFC<IInputProps> = ({
   return (
     <Paper
       className={classes.root}
-      elevation={focused ? 10 : 1}
+      elevation={focused ? 4 : 1}
       square
       {...paperProps}
     >

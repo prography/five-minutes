@@ -2,7 +2,6 @@ import React from 'react';
 import { FieldProps } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import TextField, { TextFieldProps } from '@material-ui/core/TextField';
-import Success from '@material-ui/icons/CheckCircleOutline';
 import Failure from '@material-ui/icons/HighlightOff';
 
 const CustomMuiField: React.SFC<FieldProps & TextFieldProps> = ({
@@ -21,6 +20,7 @@ const CustomMuiField: React.SFC<FieldProps & TextFieldProps> = ({
         }}
         helperText={
           <Typography
+            component="span"
             style={{
               minHeight: '1.4em',
               fontSize: '0.92em',

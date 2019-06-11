@@ -1,11 +1,11 @@
 import React, { useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import { MODES } from '../constants/codemirror';
 import Codemirror, { ICodemirrorProps } from '../components/Codemirror';
 import { ValueType } from 'react-select/lib/types';
 import { IOptionValue } from '../models/select';
 import { makeSelectable } from '../utils/select';
+import { getModeNames } from '../utils/codemirror';
 
 const SelectWrapper = styled.div`
   width: 100%;
@@ -18,21 +18,24 @@ const SelectMode = styled.div`
   text-align: center;
 `;
 
-const OPTIONS = makeSelectable(MODES);
+const OPTIONS = makeSelectable(getModeNames());
 interface ICodeEditorProps extends ICodemirrorProps {
   setMode: (value: string) => void;
 }
 const CodeEditor: React.SFC<ICodeEditorProps> = ({
-  mode = 'javascript',
+  mode = 'Plain Text',
   setMode,
   setCodeEditor,
 }) => {
   const defaultValue = useMemo(() => ({ label: mode, value: mode }), [mode]);
-  const handleModeChange = useCallback((option: ValueType<IOptionValue>) => {
-    if (option && !('length' in option)) {
-      setMode(option.value);
-    }
-  }, [setMode]);
+  const handleModeChange = useCallback(
+    (option: ValueType<IOptionValue>) => {
+      if (option && !('length' in option)) {
+        setMode(option.value);
+      }
+    },
+    [setMode],
+  );
   return (
     <>
       <Codemirror mode={mode} setCodeEditor={setCodeEditor} />

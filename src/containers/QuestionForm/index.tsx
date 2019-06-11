@@ -18,6 +18,7 @@ export interface QuestionForm {
   dispatch: Dispatch;
 }
 
+const INIT_MODE = 'Plain Text';
 const COMMAND_TYPES = ['image' as const];
 
 const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
@@ -29,7 +30,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
   // Form field
   const [subject, handleSubjectChange] = useInput('');
   const [content, handleContentChange, setContent] = useInput('');
-  const [mode, setMode] = useState('javascript');
+  const [mode, setMode] = useState(INIT_MODE);
   const [tags, setTags] = useState<string[]>([]);
 
   // 질문 content

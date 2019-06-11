@@ -13,11 +13,13 @@ export const Body = styled.div`
   display: flex;
 `;
 export const BodySide = styled.div`
-  flex: 0 0 80px;
   text-align: center;
+
+  flex: 0 0 80px;
 `;
 export const BodyMain = styled.div`
   flex: 1;
+  max-width: calc(100% - 80px);
 `;
 export const Content = styled.div`
   p {
