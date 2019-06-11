@@ -7,7 +7,7 @@ export const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
 
-  max-width: 400px;
+  max-width: 500px;
   margin: auto;
 `;
 // input 2개를 centering
