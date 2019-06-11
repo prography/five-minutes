@@ -1,37 +1,53 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import TextField from '@material-ui/core/TextField';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
-import { postQuestionActions } from '../../actions/question';
-import { useApi, useInput, useImageUploader } from '../../hooks';
+import isEqual from 'lodash/isEqual';
+import { useInput, useImageUploader } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
 import { Button, ImageUploader } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
-import * as questionApi from '../../api/question';
 import Toolbar from '../Editor/Toolbar';
 import { CommandType } from '../../models/command';
 import { questionUploader } from '../../utils/cloudinary';
-
-export interface QuestionForm {
-  dispatch: Dispatch;
-}
+import { IPostQuestion } from '../../models/question';
 
 const INIT_MODE = 'Plain Text';
 const COMMAND_TYPES = ['image' as const];
 
-const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
+const INITIAL_FORM: IPostQuestion = {
+  code: '',
+  content: '',
+  subject: '',
+  tags: [],
+  language: INIT_MODE,
+};
+export interface QuestionForm {
+  handleSubmit: (form: IPostQuestion) => void;
+  loading?: boolean;
+  initialForm?: IPostQuestion;
+}
+
+const QuestionForm: React.SFC<QuestionForm> = ({
+  initialForm = INITIAL_FORM,
+  loading = false,
+  handleSubmit,
+}) => {
+  const [titleMessage] = useState(() =>
+    isEqual(initialForm, INITIAL_FORM) ? '등록' : '수정',
+  );
   const codeEditor = useRef<EditorFromTextArea | null>(null);
   const setCodeEditor = useCallback((editor: EditorFromTextArea) => {
     codeEditor.current = editor;
   }, []);
 
   // Form field
-  const [subject, handleSubjectChange] = useInput('');
-  const [content, handleContentChange, setContent] = useInput('');
-  const [mode, setMode] = useState(INIT_MODE);
-  const [tags, setTags] = useState<string[]>([]);
+  const [subject, handleSubjectChange] = useInput(initialForm.subject);
+  const [content, handleContentChange, setContent] = useInput(
+    initialForm.content,
+  );
+  const [mode, setMode] = useState(initialForm.language);
+  const [tags, setTags] = useState<string[]>(initialForm.tags);
 
   // 질문 content
   const uploaderRef = useRef<HTMLInputElement>(null);
@@ -65,32 +81,23 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
     [openImageUploader],
   );
 
-  // 질문 올리는 Api
-  const { status } = useApi(questionApi.postQuestion);
-
-  const isLoading = status === 'FETCHING';
-
-  const handlePostQuestion = () => {
-    if (isLoading) {
+  const handleFormSubmit = () => {
+    if (loading) {
       return;
     }
-    let code = '';
-    if (codeEditor.current) {
-      code = codeEditor.current.getValue();
-    }
-    const newQuestion = {
+    const code = codeEditor.current ? codeEditor.current.getValue() : '';
+    const form = {
       subject,
       content,
       tags,
       code,
       language: mode,
     };
-    dispatch(postQuestionActions.request(newQuestion));
+    handleSubmit(form);
   };
-
   return (
     <>
-      <Title>코드 질문 올리기</Title>
+      <Title>코드 질문 {titleMessage}</Title>
       <Question title="제목">
         <TextField
           id="subject"
@@ -113,6 +120,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       </Question>
       <Question title="2. 코드를 올려주세요">
         <CodeEditor
+          value={initialForm.code}
           mode={mode}
           setMode={setMode}
           setCodeEditor={setCodeEditor}
@@ -130,15 +138,15 @@ const QuestionForm: React.SFC<QuestionForm> = ({ dispatch }) => {
       </Question>
       <ButtonWrapper>
         <Button
-          onClick={handlePostQuestion}
+          onClick={handleFormSubmit}
           style={{ width: 200 }}
-          loading={isLoading}
+          loading={loading}
         >
-          질문 올리기
+          질문 {titleMessage}
         </Button>
       </ButtonWrapper>
     </>
   );
 };
 
-export default connect()(QuestionForm);
+export default QuestionForm;

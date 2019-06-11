@@ -26,6 +26,9 @@ export interface IQuestionTag extends ISchemaBase {
 }
 
 /* 등록 등을 위한 서브 타입 */
-export type IPostQuestion = Pick<IQuestion, 'content' | 'code' | 'subject'> & {
+export type IPostQuestion = Pick<
+  IQuestion,
+  'content' | 'code' | 'subject' | 'language'
+> & {
   tags: string[];
 };
