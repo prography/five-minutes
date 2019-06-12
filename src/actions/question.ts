@@ -18,6 +18,7 @@ import {
   UPDATE_LIST_QUERY,
   UPDATE_SEARCH_QUERY,
   LOAD_TAGGED_QUESTIONS,
+  UPDATE_COMMENT,
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
@@ -67,9 +68,16 @@ export type GetQuestion = ReturnType<typeof getQuestionActions.request>;
 export const addComment = createActionCreator(ADD_COMMENT)<IComment>();
 
 export type AddComment = ReturnType<typeof addComment>;
+/* 현재 view question comment 수정 */
+export const updateComment = (comment: Partial<IComment> & Pick<IComment, 'id'>) => ({
+  type: UPDATE_COMMENT,
+  payload: comment,
+});
+
+export type UpdateComment = ReturnType<typeof updateComment>;
 
 /* store에 매치되는 질문 업데이트 */
-export const updateQuestion = (question: IQuestion) => ({
+export const updateQuestion = (question: Partial<IQuestion> & Pick<IQuestion, 'id'>) => ({
   type: UPDATE_QUESTION,
   payload: question,
 });
@@ -154,4 +162,5 @@ export type QuestionAction =
   | UpdateQuestion
   | LoadTaggedQuestions
   | SetQuestionSearchMode
-  | AddComment;
+  | AddComment
+  | UpdateComment;

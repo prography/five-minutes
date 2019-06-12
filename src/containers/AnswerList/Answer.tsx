@@ -1,6 +1,8 @@
-import React, { useState, useMemo, memo, useEffect } from 'react';
+import React, { useState, memo, useEffect } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
+import ResolveIcon from '@material-ui/icons/Done';
 import {
   Codemirror,
   ProfilePhoto,
@@ -10,7 +12,7 @@ import {
 import { IQuestion } from '../../models/question';
 import { IComment } from '../../models/comment';
 import { useMarkdown, useDateFormat } from '../../hooks';
-import { AnswerItem, AnswerLeft, AnswerRight, UserInfo, Date } from './style';
+import { AnswerItem, AnswerLeft, AnswerRight, UserInfo, Date, ResolveCheck } from './style';
 import { likeComment, dislikeComment } from '../../api/comment';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -25,6 +27,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IAnswerProps extends IComment, Pick<IQuestion, 'language'> {
   codeRef: EditorFromTextArea | undefined;
+  isMyQuestion?: boolean;
+  handleResolve?: (commentId: string) => void;
 }
 const Answer: React.SFC<IAnswerProps> = ({
   id,
@@ -32,29 +36,40 @@ const Answer: React.SFC<IAnswerProps> = ({
   codeline,
   content,
   language,
+  status,
   user,
   likedUsers = [],
   dislikedUsers = [],
   createdAt,
+  isMyQuestion = false,
+  handleResolve = () => { }
 }) => {
-  const [codelineRef, setCodelineRef] = useState<EditorFromTextArea>();
   // 답변의 코드라인 설정
-  const code = useMemo(() => {
-    if (codeRef) {
-      return codeRef.getDoc().getLine(codeline) || '';
-    }
-    return '';
-  }, [codeRef, codeline]);
+  const [code, setCode] = useState('');
   useEffect(() => {
-    if (codelineRef) {
-      codelineRef.setValue(code);
+    if (!codeRef) return;
+    const handler = (editor: any) => {
+      const currentCode = editor.getDoc().getLine(codeline);
+      if (currentCode !== code) {
+        setCode(currentCode);
+      }
+    };
+    codeRef.on('change', handler);
+    return () => codeRef.off('change', handler);
+  }, [codeRef, codeline, code, setCode]);
+  useEffect(() => {
+    if (!codeRef) return;
+    const currentCode = codeRef.getDoc().getLine(codeline);
+    if (currentCode !== code) {
+      setCode(currentCode);
     }
-  }, [codelineRef, code]);
-
+  }, [codeRef, code, setCode, codeline]);
   // 마크다운 content
   const mdContent = useMarkdown(content);
   const date = useDateFormat(createdAt);
 
+  const isResolved = status === 'RESOLVE';
+  const onResolveClick = () => { !isResolved && handleResolve(id) };
   // paper style
   const classes = useStyles();
   return (
@@ -69,6 +84,13 @@ const Answer: React.SFC<IAnswerProps> = ({
           </div>
           <Date>{date}</Date>
         </AnswerRight>
+        {isMyQuestion && (
+          <Tooltip title={isResolved ? '채택된 답변입니다.' : '답변을 채택합니다.'} aria-label="Resolve">
+            <ResolveCheck resolve={isResolved} onClick={onResolveClick}>
+              <ResolveIcon />
+            </ResolveCheck>
+          </Tooltip>
+        )}
       </UserInfo>
       <AnswerItem>
         <AnswerLeft>
@@ -86,7 +108,6 @@ const Answer: React.SFC<IAnswerProps> = ({
               readOnly
               value={code}
               mode={language}
-              setCodeEditor={setCodelineRef}
             />
           )}
           <p dangerouslySetInnerHTML={{ __html: mdContent }} />

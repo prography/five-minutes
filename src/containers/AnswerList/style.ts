@@ -15,6 +15,15 @@ export const AnswerRight = styled.div`
   padding: 0 10px;
   max-width: calc(100% - 100px);
 `;
+export const ResolveCheck = styled.button<{ resolve?: boolean }>`
+  flex: 0 0 80px;
+  text-align: center;
+  color: ${props => props.resolve ? props.theme.palette.primary.main : props.theme.palette.gray};
+
+  &:hover {
+    cursor: pointer;
+  }
+`
 export const Date = styled.div`
   font-size: 0.8em;
   color: ${props => props.theme.palette.darkGray};

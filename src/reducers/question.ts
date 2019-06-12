@@ -18,6 +18,7 @@ import {
   LOAD_TAGGED_QUESTIONS,
   SET_QUESTION_SEARCH_MODE,
   UPDATE_QUESTION,
+  UPDATE_COMMENT,
 } from '../constants/ActionTypes';
 import { ISearchQuestionQuery } from '../models/api';
 
@@ -138,6 +139,18 @@ export default function reducer(
         }
         return draft;
       }
+      case UPDATE_COMMENT: {
+        if (!draft.get.question) return draft;
+
+        const targetIdx = draft.get.question.comments.findIndex(comment => comment.id === action.payload.id);
+        if (targetIdx >= 0) {
+          draft.get.question.comments[targetIdx] = {
+            ...draft.get.question.comments[targetIdx],
+            ...action.payload,
+          };
+        }
+        return draft;
+      }
       case GET_QUESTIONS: {
         draft.getList.status = 'FETCHING';
         return draft;
@@ -156,7 +169,10 @@ export default function reducer(
       }
       case UPDATE_QUESTION: {
         if (draft.get.question && draft.get.question.id === action.payload.id) {
-          draft.get.question = action.payload;
+          draft.get.question = {
+            ...draft.get.question,
+            ...action.payload,
+          }
         }
         return draft;
       }

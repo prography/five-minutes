@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IParams {
   questionId: string;
 }
-export interface IQuestionProps extends RouteComponentProps<IParams> {}
+export interface IQuestionProps extends RouteComponentProps<IParams> { }
 const Question: React.SFC<IQuestionProps> = ({ match }) => {
   const classes = useStyles();
   // 원 질문글의 code Ref
@@ -43,7 +43,7 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
     error: state.question.get.error,
     isLoggedIn: state.auth.me.isLoggedIn,
   }));
-
+  const isMyQuestion = useSelector((state: IRootState) => question && question.user.id === state.auth.me.user.id);
   if (status === 'FETCHING') {
     return <LoadingBar />;
   }
@@ -51,18 +51,18 @@ const Question: React.SFC<IQuestionProps> = ({ match }) => {
   return (
     <MainLayout>
       <div className={classes.box}>
-        <QuestionView {...question} codeRef={codeRef} setCodeRef={setCodeRef} />
-        <AnswerList codeRef={codeRef} {...question} />
+        <QuestionView {...question} codeRef={codeRef} setCodeRef={setCodeRef} isMyQuestion={isMyQuestion} />
+        <AnswerList codeRef={codeRef} isMyQuestion={isMyQuestion} {...question} />
       </div>
       {isLoggedIn ? (
         <Paper className={classes.root}>
           <AnswerForm {...question} />
         </Paper>
       ) : (
-        <AuthBlock>
-          <h2>로그인을 하셔야 답변을 다실 수 있습니다.</h2>
-        </AuthBlock>
-      )}
+          <AuthBlock>
+            <h2>로그인을 하셔야 답변을 다실 수 있습니다.</h2>
+          </AuthBlock>
+        )}
     </MainLayout>
   );
 };

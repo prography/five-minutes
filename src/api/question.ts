@@ -51,6 +51,10 @@ export const dislikeQuestion = async (id: string) => {
   return data;
 };
 
+export const correctComment = async (questionId: string, commentId: string, code: string) => {
+  const { data } = await instance.put<ApiResponse<IComment>>(`/questions/${questionId}/comments/${commentId}/correct`, { code });
+  return data;
+}
 /* 답변 */
 
 export const postComment: ApiCall<

@@ -63,6 +63,7 @@ export const SEARCH_QUESTIONS_FAILURE = 'SEARCH_QUESTIONS_FAILURE' as const;
 /* Comment */
 
 export const ADD_COMMENT = 'ADD_COMMENT' as const;
+export const UPDATE_COMMENT = 'UPDATE_COMMENT' as const;
 
 /* Tag */
 

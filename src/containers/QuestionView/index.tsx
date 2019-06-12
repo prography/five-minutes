@@ -26,14 +26,13 @@ import {
 import { notifier } from '../../utils/renoti';
 import { history } from '../../utils/history';
 import { likeQuestion, dislikeQuestion } from '../../api/question';
-import { useSelector } from 'react-redux';
-import { IRootState } from '../../reducers';
 
 export interface IQuestionViewProps extends IQuestion {
   codeRef: EditorFromTextArea | undefined;
   setCodeRef: React.Dispatch<
     React.SetStateAction<EditorFromTextArea | undefined>
   >;
+  isMyQuestion?: boolean;
 }
 
 const QuestionView: React.SFC<IQuestionViewProps> = ({
@@ -49,12 +48,10 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
   setCodeRef,
   likedUsers = [],
   dislikedUsers = [],
+  isMyQuestion = false,
 }) => {
   const fmContent = useMarkdown(content);
   const fmDate = useDateFormat(createdAt);
-  const isMyQuestion = useSelector(
-    (state: IRootState) => state.auth.me.user.id === user.id,
-  );
   useEffect(() => {
     const { pathname, state = {} } = history.location;
     if (state.new) {
@@ -70,6 +67,9 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
       codeRef.on('gutterClick', (_, line) => console.log(line));
     }
   }, [codeRef]);
+  useEffect(() => {
+    codeRef && codeRef.setValue(code);
+  }, [codeRef, code]);
   return (
     <Container>
       <Header>

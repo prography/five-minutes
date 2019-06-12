@@ -3,11 +3,11 @@ import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import { useDispatch } from 'react-redux';
 import { UserProfile } from '../containers';
-import { MainLayout, Box } from '../styles/common';
+import { MainLayout } from '../styles/common';
 import { loadUser } from '../actions/user';
 
 export interface IProfileProps
-  extends RouteComponentProps<{ userId: string }> {}
+  extends RouteComponentProps<{ userId: string }> { }
 
 const Profile: React.SFC<IProfileProps> = ({ location, match }) => {
   const { userId } = match.params;
