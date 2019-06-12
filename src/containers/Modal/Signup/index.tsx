@@ -104,7 +104,12 @@ const Signup: React.SFC<SignupProps> = ({ openModal, closeModal }) => {
           }
         }}
         render={props => (
-          <Form onSubmit={props.handleSubmit}>
+          <Form
+            onSubmit={e => {
+              e.preventDefault();
+              props.handleSubmit();
+            }}
+          >
             <Title>회원가입</Title>
             <FastField
               validate={props.touched.email && validate(validations.email)}

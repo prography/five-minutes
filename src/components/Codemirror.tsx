@@ -12,6 +12,7 @@ import { getModeInfoByName } from '../utils/codemirror';
 
 const Wrapper = styled.div`
   border: 1px solid #ccc;
+  margin: 10px 0;
 `;
 const Textarea = styled.textarea`
   display: none;

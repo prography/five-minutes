@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     box: {
       width: '100%',
-      padding: theme.spacing(4),
       boxSizing: 'border-box',
     },
   }),

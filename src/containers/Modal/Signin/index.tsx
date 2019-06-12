@@ -44,8 +44,14 @@ const Signin: React.SFC<SigninProps> = ({
         onSubmit={values => {
           dispatch(signinActions.request(values));
         }}
-        render={props => (
-          <Form onSubmit={props.handleSubmit}>
+      >
+        {props => (
+          <Form
+            onSubmit={e => {
+              e.preventDefault();
+              props.handleSubmit();
+            }}
+          >
             <Title>로그인</Title>
             {showError && (
               <Message type="error">
@@ -67,6 +73,7 @@ const Signin: React.SFC<SigninProps> = ({
               component={CustomMuiField}
             />
             <Button
+              type="submit"
               disabled={isFetching}
               variant="contained"
               fullWidth
@@ -78,7 +85,7 @@ const Signin: React.SFC<SigninProps> = ({
             </Button>
           </Form>
         )}
-      />
+      </Formik>
       <p style={{ textAlign: 'center' }}>
         아직 계정이 없으신가요?{' '}
         <FakeLink onClick={() => openModal('signup')}>회원가입</FakeLink>

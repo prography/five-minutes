@@ -7,6 +7,8 @@ import { QuestionForm } from '..';
 import { useApi } from '../../hooks';
 import { updateQuestion } from '../../api/question';
 import { IPostQuestion } from '../../models/question';
+import { history } from '../../utils/history';
+import { notifier } from '../../utils/renoti';
 
 const EditQuestion = () => {
   const question = useSelector(
@@ -34,8 +36,17 @@ const EditQuestion = () => {
     async (question: IPostQuestion) => {
       try {
         const { result } = await api(id, question);
-        console.log(result);
-      } catch (err) {}
+        history.replace(`/question/${result.id}`);
+        notifier.notify({
+          type: 'success',
+          message: '수정이 완료되었습니다.',
+        });
+      } catch (err) {
+        notifier.notify({
+          type: 'error',
+          message: '수정에 실패하였습니다. 다시 시도해주세요.',
+        });
+      }
     },
     [api, id],
   );

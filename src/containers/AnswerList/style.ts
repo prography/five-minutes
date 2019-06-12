@@ -13,6 +13,7 @@ export const AnswerLeft = styled.div`
 export const AnswerRight = styled.div`
   flex: 1 1;
   padding: 0 10px;
+  max-width: calc(100% - 100px);
 `;
 export const Date = styled.div`
   font-size: 0.8em;
@@ -34,6 +35,7 @@ export const ListActions = styled.div``;
 
 export const AnswerItem = styled.div`
   width: 100%;
+  max-width: 100%;
   min-height: 100px;
   display: flex;
 
