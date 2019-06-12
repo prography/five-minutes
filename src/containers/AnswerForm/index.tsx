@@ -7,7 +7,7 @@ import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Clear';
 import { useInput, useSetState, useApi, useImageUploader } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
-import { Codemirror, Divider, ImageUploader } from '../../components';
+import { Codemirror, ImageUploader } from '../../components';
 import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
@@ -19,7 +19,7 @@ import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion { }
+interface IAnswerFormProps extends IQuestion {}
 
 const initialCommand = {
   command: '',
@@ -212,14 +212,16 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
       clearAll();
       notifier.notify({ type: 'success', message: '답변이 등록되었습니다!' });
     } catch (err) {
-      notifier.notify({ type: 'error', message: '에러가 발생하였습니다. 다시 시도해주세요.' });
+      notifier.notify({
+        type: 'error',
+        message: '에러가 발생하였습니다. 다시 시도해주세요.',
+      });
     }
   };
   const { show, code: codelineCode } = codelineState;
   return (
     <>
-      <h3>내 답변</h3>
-      <Divider withMargin />
+      <h3>답변 작성</h3>
       {codelineCode && (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>

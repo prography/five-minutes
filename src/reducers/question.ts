@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { QuestionAction } from '../actions/question';
-import { IQuestion } from '../models/question';
+import { IQuestion, IQuestionListItem } from '../models/question';
 import {
   POST_QUESTION,
   POST_QUESTION_FAILURE,
@@ -17,6 +17,7 @@ import {
   SEARCH_QUESTIONS_FAILURE,
   LOAD_TAGGED_QUESTIONS,
   SET_QUESTION_SEARCH_MODE,
+  UPDATE_QUESTION,
 } from '../constants/ActionTypes';
 import { ISearchQuestionQuery } from '../models/api';
 
@@ -32,12 +33,13 @@ export interface IGetQuestionState {
 }
 export interface IGetQuestionsState {
   status: Status;
-  questions: IQuestion[];
+  questions: IQuestionListItem[];
   page: number;
   hasNext: boolean;
   error: string;
 }
-export interface ISearchQuestionsState extends ApiGetListResponse<IQuestion> {
+export interface ISearchQuestionsState
+  extends ApiGetListResponse<IQuestionListItem> {
   status: Status;
   error: string;
   isTagSearch: boolean;
@@ -103,7 +105,10 @@ export default function reducer(
         draft.post.question = action.payload;
         // 새 question 추가시 리스트에도 추가. empty 아닐때만
         if (draft.getList.questions.length > 0) {
-          draft.getList.questions.unshift(action.payload);
+          draft.getList.questions.unshift({
+            ...action.payload,
+            comments_count: 0,
+          });
         }
         return draft;
       }
@@ -147,6 +152,12 @@ export default function reducer(
       case GET_QUESTIONS_FAILURE: {
         draft.getList.status = 'FAILURE';
         draft.getList.error = action.payload;
+        return draft;
+      }
+      case UPDATE_QUESTION: {
+        if (draft.get.question && draft.get.question.id === action.payload.id) {
+          draft.get.question = action.payload;
+        }
         return draft;
       }
       case SEARCH_QUESTIONS: {

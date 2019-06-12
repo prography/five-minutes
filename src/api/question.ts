@@ -1,6 +1,10 @@
 import instance from '.';
 import qs from 'query-string';
-import { IQuestion, IPostQuestion } from '../models/question';
+import {
+  IQuestion,
+  IQuestionListItem,
+  IPostQuestion,
+} from '../models/question';
 import { IBaseListQuery, ISearchQuestionQuery } from '../models/api';
 import { IPostComment, IComment } from '../models/comment';
 
@@ -13,7 +17,7 @@ export const getQuestion: ApiCall<
 };
 export const getQuestions: ApiCall<
   [IBaseListQuery],
-  ApiGetListResponse<IQuestion>
+  ApiGetListResponse<IQuestionListItem>
 > = async ({ page, perPage }) => {
   const { data } = await instance.get(
     `/questions/?${qs.stringify({ page, perPage })}`,
@@ -65,7 +69,7 @@ export const searchQuestions = async (
   listQuery: IBaseListQuery,
   searchQuery: ISearchQuestionQuery,
 ) => {
-  const { data } = await instance.get<ApiGetListResponse<IQuestion>>(
+  const { data } = await instance.get<ApiGetListResponse<IQuestionListItem>>(
     `/questions/search?${qs.stringify(
       { ...listQuery, ...searchQuery },
       { arrayFormat: 'bracket' },

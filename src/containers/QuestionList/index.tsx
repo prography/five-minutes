@@ -7,12 +7,12 @@ import { NoResult } from '../../components';
 import useIntersect, { OnIntersect } from '../../hooks/useIntersect';
 import { getQuestionsActions } from '../../actions/question';
 import { IRootState } from '../../reducers';
-import { IQuestion } from '../../models/question';
+import { IQuestionListItem } from '../../models/question';
 
 export interface IQuestionListProps {
   loadNew: boolean;
   status: Status;
-  questions: IQuestion[];
+  questions: IQuestionListItem[];
   error: string;
   page: number;
   hasNext: boolean;
@@ -49,13 +49,16 @@ const QuestionList: React.SFC<IQuestionListProps> = ({
     };
   }, [page, status, hasNext]);
   // 다음 페이지 없을 경우 observer 해제
-  const onIntersect: OnIntersect = useCallback((entry, observer) => {
-    observer.unobserve(entry.target);
-    const { page, status, hasNext } = currentList.current;
-    if (hasNext && status !== 'FETCHING') {
-      getQuestions({ page: page + 1, perPage: 10 });
-    }
-  }, [getQuestions]);
+  const onIntersect: OnIntersect = useCallback(
+    (entry, observer) => {
+      observer.unobserve(entry.target);
+      const { page, status, hasNext } = currentList.current;
+      if (hasNext && status !== 'FETCHING') {
+        getQuestions({ page: page + 1, perPage: 10 });
+      }
+    },
+    [getQuestions],
+  );
 
   const [ref, setRef, observer] = useIntersect(onIntersect);
 

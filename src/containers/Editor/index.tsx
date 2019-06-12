@@ -12,7 +12,7 @@ const Editor: React.SFC<EditorProps> = ({ value = '', variant, ...props }) => {
       <EditorContainer>
         <TextField
           id="contents"
-          rows={4}
+          rows={8}
           multiline
           margin="none"
           variant={(variant as any) || 'outlined'}

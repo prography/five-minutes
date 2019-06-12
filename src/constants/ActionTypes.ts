@@ -49,6 +49,8 @@ export const GET_QUESTIONS = 'GET_QUESTIONS' as const;
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS' as const;
 export const GET_QUESTIONS_FAILURE = 'GET_QUESTIONS_FAILURE' as const;
 
+export const UPDATE_QUESTION = 'UPDATE_QUESTION' as const;
+
 export const UPDATE_LIST_QUERY = 'UPDATE_LIST_QUERY' as const;
 export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY' as const;
 export const SET_QUESTION_SEARCH_MODE = 'SET_QUESTION_SEARCH_MODE' as const;

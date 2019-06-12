@@ -17,11 +17,11 @@ import {
 } from './style';
 import { CustomLink, TagList, ProfileLink } from '../../components';
 import { useDateFormat } from '../../hooks';
-import { IQuestion } from '../../models/question';
+import { IQuestionListItem } from '../../models/question';
 
 const MAX_TRUNCATE_LEN = 80;
 
-export interface IQuestionListItemProps extends IQuestion { }
+export type IQuestionListItemProps = IQuestionListItem;
 const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   id,
   subject,
@@ -31,13 +31,15 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   user,
   likedUsers = [],
   dislikedUsers = [],
-  comments = [],
+  comments_count = 0,
 }) => {
-  const truncated = useMemo(() => content.length >= MAX_TRUNCATE_LEN ? `${content}...` : content, [content]);
+  const truncated = useMemo(
+    () => (content.length >= MAX_TRUNCATE_LEN ? `${content}...` : content),
+    [content],
+  );
   const formattedDate = useDateFormat(createdAt);
   const likeCount = useMemo(() => likedUsers.length, [likedUsers]);
   const dislikeCount = useMemo(() => dislikedUsers.length, [dislikedUsers]);
-  const commentCount = useMemo(() => comments.length, [comments]);
   return (
     <Question>
       <Header>
@@ -67,7 +69,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
             </Count>
             <Count>
               <Comment fontSize="inherit" />
-              &nbsp;{commentCount}
+              &nbsp;{comments_count}
             </Count>
           </CountContainer>
         </FooterRight>

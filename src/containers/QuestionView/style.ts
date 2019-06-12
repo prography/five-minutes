@@ -27,6 +27,20 @@ export const Content = styled.div`
     margin: 0;
   }
 `;
+export const TagWrapper = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+`;
+export const Footer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+export const ActionWrapper = styled.div`
+  display: flex;
+`;
 export const Code = styled.div`
   font-size: 0.95em;
 `;

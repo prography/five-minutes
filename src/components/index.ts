@@ -15,6 +15,7 @@ import Message from './Message';
 import NoResult from './NoResult';
 import Pagination from './Pagination';
 import PrevLocation from './PrevLocation';
+import ProfileBox from './ProfileBox';
 import ProfileLink from './ProfileLink';
 import ProfileMenu from './ProfileMenu';
 import ProfilePhoto from './ProfilePhoto';
@@ -42,6 +43,7 @@ export {
   Pagination,
   NoResult,
   PrevLocation,
+  ProfileBox,
   ProfileLink,
   ProfileMenu,
   ProfilePhoto,

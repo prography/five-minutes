@@ -31,7 +31,8 @@ export const MainLayout = styled.div`
 export const Sidebar = styled.div<{ left?: boolean }>`
   flex: 0 1 300px;
   margin: 0 20px;
-  @media screen and (max-width: ${props => (props.left ? '1400px' : '1100px')}) {
+  @media screen and (max-width: ${props =>
+      props.left ? '1400px' : '1100px'}) {
     display: none;
   }
 `;

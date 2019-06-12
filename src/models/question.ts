@@ -15,6 +15,10 @@ export interface IQuestion extends ISchemaBase {
   tags: ITag[];
 }
 
+export type IQuestionListItem = Omit<IQuestion, 'comments'> & {
+  comments_count: number;
+};
+
 export interface IQuestionLike extends ISchemaBase {
   user: IUser;
   question: IQuestion;

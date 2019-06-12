@@ -1,15 +1,16 @@
 import React, { memo, useEffect } from 'react';
 import Divider from '@material-ui/core/Divider';
 import { EditorFromTextArea } from 'codemirror';
-import { Codemirror, TagList, LikeAndDislike } from '../../components';
+import {
+  Codemirror,
+  CustomLink,
+  TagList,
+  LikeAndDislike,
+  ProfileBox,
+} from '../../components';
 import { IQuestion } from '../../models/question';
 import { useDateFormat, useMarkdown } from '../../hooks';
-import {
-  Header,
-  Info,
-  Date,
-  Footer,
-} from '../../containers/QuestionListItem/style';
+import { Header, Info, Date } from '../../containers/QuestionListItem/style';
 import {
   Container,
   Subject,
@@ -18,10 +19,15 @@ import {
   Code,
   BodySide,
   BodyMain,
+  Footer,
+  ActionWrapper,
+  TagWrapper,
 } from './style';
 import { notifier } from '../../utils/renoti';
 import { history } from '../../utils/history';
 import { likeQuestion, dislikeQuestion } from '../../api/question';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../../reducers';
 
 export interface IQuestionViewProps extends IQuestion {
   codeRef: EditorFromTextArea | undefined;
@@ -46,7 +52,9 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
 }) => {
   const fmContent = useMarkdown(content);
   const fmDate = useDateFormat(createdAt);
-
+  const isMyQuestion = useSelector(
+    (state: IRootState) => state.auth.me.user.id === user.id,
+  );
   useEffect(() => {
     const { pathname, state = {} } = history.location;
     if (state.new) {
@@ -91,11 +99,20 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
               setCodeEditor={setCodeRef}
             />
           </Code>
+
+          <TagWrapper>
+            <TagList tags={tags} />
+          </TagWrapper>
+          <Footer>
+            <ActionWrapper>
+              {isMyQuestion && (
+                <CustomLink to={`/question/${id}/edit`}>수정</CustomLink>
+              )}
+            </ActionWrapper>
+            <ProfileBox {...user} />
+          </Footer>
         </BodyMain>
       </Body>
-      <Footer>
-        <TagList tags={tags} />
-      </Footer>
     </Container>
   );
 };

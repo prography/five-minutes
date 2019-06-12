@@ -8,6 +8,7 @@ import {
   GET_QUESTION,
   GET_QUESTION_SUCCESS,
   GET_QUESTION_FAILURE,
+  UPDATE_QUESTION,
   ADD_COMMENT,
   SEARCH_QUESTIONS,
   SEARCH_QUESTIONS_SUCCESS,
@@ -20,7 +21,11 @@ import {
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
-import { IPostQuestion, IQuestion } from '../models/question';
+import {
+  IPostQuestion,
+  IQuestion,
+  IQuestionListItem,
+} from '../models/question';
 import { IBaseListQuery, ISearchQuestionQuery } from '../models/api';
 import {
   ActionTypes,
@@ -45,7 +50,7 @@ export const getQuestionsActions = createAsyncActionCreator(
   GET_QUESTIONS_FAILURE,
 )<
   IBaseListQuery,
-  { items: IQuestion[]; page: number; hasNext: boolean },
+  { items: IQuestionListItem[]; page: number; hasNext: boolean },
   string
 >();
 export type GetQuestions = ReturnType<typeof getQuestionsActions.request>;
@@ -63,6 +68,13 @@ export const addComment = createActionCreator(ADD_COMMENT)<IComment>();
 
 export type AddComment = ReturnType<typeof addComment>;
 
+/* store에 매치되는 질문 업데이트 */
+export const updateQuestion = (question: IQuestion) => ({
+  type: UPDATE_QUESTION,
+  payload: question,
+});
+
+export type UpdateQuestion = ReturnType<typeof updateQuestion>;
 /* 질문 검색 */
 
 export const searchQuestionsActions = createEntity(
@@ -139,6 +151,7 @@ export type QuestionAction =
   | ActionTypes<typeof getQuestionsActions>
   | ActionTypes<typeof getQuestionActions>
   | ActionTypes<typeof searchQuestionsActions>
+  | UpdateQuestion
   | LoadTaggedQuestions
   | SetQuestionSearchMode
   | AddComment;

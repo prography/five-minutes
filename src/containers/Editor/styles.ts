@@ -29,5 +29,9 @@ export const EditorContainer = styled.div`
     border-radius: 0px;
     border-width: 1px !important;
     border-color: ${props => props.theme.palette.gray} !important;
+
+    &:focus {
+      border-width: 2px !important;
+    }
   }
 `;

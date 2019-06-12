@@ -11,6 +11,12 @@ const QuestionEdit: SFC<RouteComponentProps<{ questionId: string }>> = ({
 }) => {
   const { questionId } = match.params;
   const dispatch = useDispatch();
+  const userMatch = useSelector((state: IRootState) => {
+    return (
+      !!state.question.get.question &&
+      state.question.get.question.user.id === state.auth.me.user.id
+    );
+  });
   const lastGetQuestionId = useSelector((state: IRootState) =>
     state.question.get.question
       ? state.question.get.question.id.toString()
@@ -22,7 +28,7 @@ const QuestionEdit: SFC<RouteComponentProps<{ questionId: string }>> = ({
       dispatch(getQuestionActions.request(questionId));
     }
   }, [questionId, enterDirectly, dispatch]);
-
+  if (!userMatch) return null;
   if (enterDirectly) {
     return null;
   }

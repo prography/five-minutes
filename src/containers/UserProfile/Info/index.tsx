@@ -18,7 +18,7 @@ const Info: React.SFC<RouteComponentProps> = ({ location }) => {
       status: state.user.get.status,
       error: state.user.get.error,
       questionCount: state.user.questions.totalCount,
-      commentCount: state.user.questions.totalCount,
+      commentCount: state.user.comments.totalCount,
     }),
   );
   if (!user || status === 'FETCHING') return <InfoContainer />;
@@ -41,11 +41,19 @@ const Info: React.SFC<RouteComponentProps> = ({ location }) => {
             </Grid>
           </Grid>
           <Grid item xs={3}>
-            {isMe && <CustomLink to={`${location.pathname}/edit`}><Button color="primary" variant="outlined" fullWidth>프로필 수정</Button></CustomLink>}
+            {isMe && (
+              <CustomLink to={`${location.pathname}/edit`}>
+                <Button color="primary" variant="outlined" fullWidth>
+                  프로필 수정
+                </Button>
+              </CustomLink>
+            )}
           </Grid>
         </Grid>
 
-        <Grid item><TagList tags={tags} /></Grid>
+        <Grid item>
+          <TagList tags={tags} />
+        </Grid>
         <Grid item container justify="flex-end">
           {githubUrl && (
             <a href={githubUrl}>

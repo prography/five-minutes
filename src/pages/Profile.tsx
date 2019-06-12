@@ -18,9 +18,7 @@ const Profile: React.SFC<IProfileProps> = ({ location, match }) => {
   }, [userId, dispatch]);
   return (
     <MainLayout>
-      <Box>
-        <UserProfile currentTab={typeof tab === 'string' ? tab : 'Questions'} />
-      </Box>
+      <UserProfile currentTab={typeof tab === 'string' ? tab : 'Questions'} />
     </MainLayout>
   );
 };

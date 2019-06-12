@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react';
+import isEqual from 'lodash/isEqual';
+import uniqBy from 'lodash/uniqBy';
 import ContentList from './ContentList';
 import { List, Tab } from './style';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,16 +23,15 @@ const Content: React.SFC<IContentProps> = ({ currentTab }) => {
       },
       Answers: {
         // key값 중복 제거를 위해 question id대신 comment id 사용
-        items: state.user.comments.items.map(({ id, question }) => ({
-          ...question,
-          id,
-        })), // TODO: Reselect
+        items: uniqBy(state.user.comments.items, item => item.question.id).map(
+          comment => comment.question,
+        ),
         status: state.user.comments.status,
         hasNext: !!state.user.comments.nextPage,
         count: state.user.comments.totalCount,
       },
     };
-  });
+  }, isEqual);
   const dispatch = useDispatch();
   const fetchMore = useCallback(
     (tab: 'Questions' | 'Answers') => () => {
@@ -44,6 +45,11 @@ const Content: React.SFC<IContentProps> = ({ currentTab }) => {
     [userId, dispatch],
   );
   const { status, items, hasNext, count } = stateByTab[currentTab];
+  // TODO: api 업데이트
+  const parsedItems = items.map(item => ({
+    ...item,
+    comments_count: item.comments ? item.comments.length : 0,
+  }));
   return (
     <List>
       <div>
@@ -54,7 +60,7 @@ const Content: React.SFC<IContentProps> = ({ currentTab }) => {
         </div>
         <ContentList
           status={status}
-          items={items}
+          items={parsedItems}
           fetchMore={fetchMore(currentTab)}
           hasNext={hasNext}
         />

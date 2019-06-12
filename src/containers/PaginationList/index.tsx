@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import { QuestionListItem } from '..';
 import { Pagination } from '../../components';
-import { IQuestion } from '../../models/question';
+import { IQuestionListItem } from '../../models/question';
 
 interface IPaginationListProps {
   page: number;
   perPage: number;
-  items: IQuestion[];
+  items: IQuestionListItem[];
   totalCount: number;
   handlePageChange: (page: number) => void;
 }
