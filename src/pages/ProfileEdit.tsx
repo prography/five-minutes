@@ -8,7 +8,7 @@ import { MainLayout } from '../styles/common';
 const ProfileEdit: React.SFC<RouteComponentProps<{ userId: string }>> = ({ match }) => {
   const { userId } = match.params;
   const me = useSelector((state: IRootState) => state.auth.me.user);
-  if (!me || userId != me.id) {
+  if (!me || userId !== me.id) {
     return null;
   }
   return (

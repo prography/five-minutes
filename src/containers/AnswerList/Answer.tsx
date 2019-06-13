@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       marginTop: theme.spacing(2),
       padding: theme.spacing(3, 0.5),
+      boxShadow: '0 0 0 0',
     },
   }),
 );

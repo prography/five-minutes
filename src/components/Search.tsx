@@ -13,6 +13,7 @@ const useStyles = makeStyles(
       display: 'flex',
       alignItems: 'center',
       boxSizing: 'border-box',
+      boxShadow: '0 0 0 0',
     },
     input: {
       marginLeft: 8,

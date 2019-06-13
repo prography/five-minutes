@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: '15rem',
       padding: theme.spacing(1),
+      boxShadow: '0 0 0 0'
     },
     left: {
       flex: '1 0',
