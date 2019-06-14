@@ -23,3 +23,10 @@
 /* .CodeMirror pre:hover {
   background-color: rgba(0, 0, 0, 0.1);
 } */
+
+.codemirror-removed {
+  background-color: #ffeef0;
+}
+.codemirror-added {
+  background-color: #e6ffed;
+}

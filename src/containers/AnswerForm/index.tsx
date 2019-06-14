@@ -19,7 +19,7 @@ import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion {}
+interface IAnswerFormProps extends IQuestion { }
 
 const initialCommand = {
   command: '',
@@ -206,6 +206,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         comment: {
           content: answer,
           codeline: codelineState.codeline,
+          codestring: codelineState.code,
         },
       });
       dispatch(addComment(result));

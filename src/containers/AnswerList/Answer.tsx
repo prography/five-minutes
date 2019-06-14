@@ -35,6 +35,7 @@ const Answer: React.SFC<IAnswerProps> = ({
   id,
   codeRef,
   codeline,
+  codestring,
   content,
   language,
   status,
@@ -46,13 +47,16 @@ const Answer: React.SFC<IAnswerProps> = ({
   handleResolve = () => { }
 }) => {
   // 답변의 코드라인 설정
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState(codestring || '');
+  const [codelineCode, setCodelineCode] = useState('');
+  const [diffCode, setDiffCode] = useState('');
+  const [codelineRef, setCodeLineRef] = useState<EditorFromTextArea | null>(null);
   useEffect(() => {
     if (!codeRef) return;
     const handler = (editor: any) => {
       const currentCode = editor.getDoc().getLine(codeline);
       if (currentCode !== code) {
-        setCode(currentCode);
+        setCodelineCode(currentCode || '');
       }
     };
     codeRef.on('change', handler);
@@ -62,9 +66,25 @@ const Answer: React.SFC<IAnswerProps> = ({
     if (!codeRef) return;
     const currentCode = codeRef.getDoc().getLine(codeline);
     if (currentCode !== code) {
-      setCode(currentCode);
+      setCodelineCode(currentCode || '');
     }
   }, [codeRef, code, setCode, codeline]);
+  // 원본 코드 변경 여부
+  useEffect(() => {
+    if (code.trim() !== codelineCode.trim()) {
+      setDiffCode(`- aa${code}\n+ bb${codelineCode}`);
+      if (codelineRef) {
+        codelineRef.addLineClass(0, 'wrap', 'codemirror-removed');
+        codelineRef.addLineClass(1, 'wrap', 'codemirror-added');
+      }
+    }
+    else {
+      if (codelineRef) {
+        codelineRef.removeLineClass(0, 'wrap', 'codemirror-removed');
+        codelineRef.removeLineClass(1, 'wrap', 'codemirror-added');
+      }
+    }
+  }, [codelineRef, code, codelineCode])
   // 마크다운 content
   const mdContent = useMarkdown(content);
   const date = useDateFormat(createdAt);
@@ -104,13 +124,12 @@ const Answer: React.SFC<IAnswerProps> = ({
           />
         </AnswerLeft>
         <AnswerRight>
-          {code && (
-            <Codemirror
-              readOnly
-              value={code}
-              mode={language}
-            />
-          )}
+          {code && <Codemirror
+            setCodeEditor={setCodeLineRef}
+            readOnly
+            value={diffCode ? diffCode : code}
+            mode={language}
+          />}
           <p dangerouslySetInnerHTML={{ __html: mdContent }} />
         </AnswerRight>
       </AnswerItem>

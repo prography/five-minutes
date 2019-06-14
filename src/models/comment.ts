@@ -10,6 +10,7 @@ export interface IComment extends ISchemaBase {
   user: IUser;
   status: CommentStatus;
   codeline: number;
+  codestring: string;
   likedUsers: IUser[];
   dislikedUsers: IUser[];
 }
@@ -19,4 +20,4 @@ export interface ICommentLike extends ISchemaBase {
   comment: IComment;
 }
 
-export type IPostComment = Pick<IComment, 'content' | 'codeline'>;
+export type IPostComment = Pick<IComment, 'content' | 'codeline' | 'codestring'>;
