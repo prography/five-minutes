@@ -38,12 +38,7 @@ const ProfileMenu: React.SFC<IProfileMenuProps> = ({ id, image, logout }) => {
       >
         <ProfilePhoto src={image} />
       </Button>
-      <Popper
-        id="simple-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        disablePortal
-      >
+      <Popper id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)}>
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList>
