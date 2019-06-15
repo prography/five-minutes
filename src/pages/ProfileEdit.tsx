@@ -5,17 +5,19 @@ import { EditProfile } from '../containers';
 import { IRootState } from '../reducers';
 import { MainLayout } from '../styles/common';
 
-const ProfileEdit: React.SFC<RouteComponentProps<{ userId: string }>> = ({ match }) => {
+const ProfileEdit: React.SFC<RouteComponentProps<{ userId: string }>> = ({
+  match,
+}) => {
   const { userId } = match.params;
   const me = useSelector((state: IRootState) => state.auth.me.user);
-  if (!me || userId !== me.id) {
+  if (!me || parseInt(userId, 10) !== parseInt(me.id, 10)) {
     return null;
   }
   return (
     <MainLayout>
       <EditProfile user={me} />
     </MainLayout>
-  )
-}
+  );
+};
 
 export default ProfileEdit;
