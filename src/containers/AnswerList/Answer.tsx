@@ -145,6 +145,7 @@ const Answer: React.SFC<IAnswerProps> = ({
               readOnly
               value={diffCode ? diffCode : code}
               mode={language}
+              firstLineNumber={codeline + 1}
             />
           )}
           <p dangerouslySetInnerHTML={{ __html: mdContent }} />

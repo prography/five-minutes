@@ -19,7 +19,7 @@ import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion { }
+interface IAnswerFormProps extends IQuestion {}
 
 const initialCommand = {
   command: '',
@@ -94,9 +94,10 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
     [setCodelineState],
   );
   useEffect(() => {
-    const { code, codelineRef } = codelineState;
+    const { code, codelineRef, codeline } = codelineState;
     if (codelineRef) {
       codelineRef.getDoc().setValue(code);
+      codelineRef.setOption('firstLineNumber', codeline + 1);
     }
   }, [codelineState]);
 
