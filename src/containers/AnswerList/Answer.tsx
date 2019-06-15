@@ -12,7 +12,14 @@ import {
 import { IQuestion } from '../../models/question';
 import { IComment } from '../../models/comment';
 import { useMarkdown, useDateFormat } from '../../hooks';
-import { AnswerItem, AnswerLeft, AnswerRight, UserInfo, Date, ResolveCheck } from './style';
+import {
+  AnswerItem,
+  AnswerLeft,
+  AnswerRight,
+  UserInfo,
+  Date,
+  ResolveCheck,
+} from './style';
 import { likeComment, dislikeComment } from '../../api/comment';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -44,13 +51,15 @@ const Answer: React.SFC<IAnswerProps> = ({
   dislikedUsers = [],
   createdAt,
   isMyQuestion = false,
-  handleResolve = () => { }
+  handleResolve = () => {},
 }) => {
   // 답변의 코드라인 설정
   const [code, setCode] = useState(codestring || '');
-  const [codelineCode, setCodelineCode] = useState('');
+  const [codelineCode, setCodelineCode] = useState(codestring || '');
   const [diffCode, setDiffCode] = useState('');
-  const [codelineRef, setCodeLineRef] = useState<EditorFromTextArea | null>(null);
+  const [codelineRef, setCodeLineRef] = useState<EditorFromTextArea | null>(
+    null,
+  );
   useEffect(() => {
     if (!codeRef) return;
     const handler = (editor: any) => {
@@ -72,25 +81,32 @@ const Answer: React.SFC<IAnswerProps> = ({
   // 원본 코드 변경 여부
   useEffect(() => {
     if (code.trim() !== codelineCode.trim()) {
-      setDiffCode(`- aa${code}\n+ bb${codelineCode}`);
+      setDiffCode(`- ${code}\n+ ${codelineCode}`);
       if (codelineRef) {
         codelineRef.addLineClass(0, 'wrap', 'codemirror-removed');
         codelineRef.addLineClass(1, 'wrap', 'codemirror-added');
       }
     }
-    else {
-      if (codelineRef) {
+  }, [codelineRef, code, codelineCode]);
+  useEffect(() => {
+    if (codelineRef) {
+      if (diffCode) {
+        codelineRef.addLineClass(0, 'wrap', 'codemirror-removed');
+        codelineRef.addLineClass(1, 'wrap', 'codemirror-added');
+      } else {
         codelineRef.removeLineClass(0, 'wrap', 'codemirror-removed');
-        codelineRef.removeLineClass(1, 'wrap', 'codemirror-added');
+        codelineRef.removeLineClass(1, ' wrap', 'codemirror-added');
       }
     }
-  }, [codelineRef, code, codelineCode])
+  }, [codelineRef, diffCode]);
   // 마크다운 content
   const mdContent = useMarkdown(content);
   const date = useDateFormat(createdAt);
 
   const isResolved = status === 'RESOLVE';
-  const onResolveClick = () => { !isResolved && handleResolve(id) };
+  const onResolveClick = () => {
+    !isResolved && handleResolve(id);
+  };
   // paper style
   const classes = useStyles();
   return (
@@ -106,7 +122,10 @@ const Answer: React.SFC<IAnswerProps> = ({
           <Date>{date}</Date>
         </AnswerRight>
         {isMyQuestion && (
-          <Tooltip title={isResolved ? '채택된 답변입니다.' : '답변을 채택합니다.'} aria-label="Resolve">
+          <Tooltip
+            title={isResolved ? '채택된 답변입니다.' : '답변을 채택합니다.'}
+            aria-label="Resolve"
+          >
             <ResolveCheck resolve={isResolved} onClick={onResolveClick}>
               <ResolveIcon />
             </ResolveCheck>
@@ -124,12 +143,14 @@ const Answer: React.SFC<IAnswerProps> = ({
           />
         </AnswerLeft>
         <AnswerRight>
-          {code && <Codemirror
-            setCodeEditor={setCodeLineRef}
-            readOnly
-            value={diffCode ? diffCode : code}
-            mode={language}
-          />}
+          {code && (
+            <Codemirror
+              setCodeEditor={setCodeLineRef}
+              readOnly
+              value={diffCode ? diffCode : code}
+              mode={language}
+            />
+          )}
           <p dangerouslySetInnerHTML={{ __html: mdContent }} />
         </AnswerRight>
       </AnswerItem>
