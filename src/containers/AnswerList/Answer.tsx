@@ -82,10 +82,6 @@ const Answer: React.SFC<IAnswerProps> = ({
   useEffect(() => {
     if (code.trim() !== codelineCode.trim()) {
       setDiffCode(`- ${code}\n+ ${codelineCode}`);
-      if (codelineRef) {
-        codelineRef.addLineClass(0, 'wrap', 'codemirror-removed');
-        codelineRef.addLineClass(1, 'wrap', 'codemirror-added');
-      }
     }
   }, [codelineRef, code, codelineCode]);
   useEffect(() => {
