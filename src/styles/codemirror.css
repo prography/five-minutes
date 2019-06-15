@@ -27,6 +27,10 @@
 .codemirror-removed {
   background-color: #ffeef0;
 }
+.codemirror-removed .CodeMirror-linenumber {
+  display: none;
+}
+
 .codemirror-added {
   background-color: #e6ffed;
 }

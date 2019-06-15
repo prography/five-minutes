@@ -87,6 +87,10 @@ const Answer: React.SFC<IAnswerProps> = ({
   useEffect(() => {
     if (codelineRef) {
       if (diffCode) {
+        codelineRef.setOption(
+          'firstLineNumber',
+          diffCode.split('\n').length / 2 + 1,
+        );
         codelineRef.addLineClass(0, 'wrap', 'codemirror-removed');
         codelineRef.addLineClass(1, 'wrap', 'codemirror-added');
       } else {
