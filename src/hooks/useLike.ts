@@ -1,6 +1,8 @@
 import { useCallback, useState, useMemo } from 'react';
-import { useMe } from '.';
 import { IUser } from '../models/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from '../reducers';
+import { openModal } from '../actions/modal';
 interface ILikeModel {
   likedUsers: IUser[];
   dislikedUsers: IUser[];
@@ -14,33 +16,38 @@ const useLike = <R extends ILikeModel>(
   defaultLiked: IUser[] = [],
   defaultDisliked: IUser[] = [],
 ) => {
+  const userId = useSelector((state: IRootState) => state.auth.me.user.id);
+  const isLoggedIn = useSelector((state: IRootState) => state.auth.me.isLoggedIn);
+  const dispatch = useDispatch();
   const [liked, setLiked] = useState(defaultLiked);
   const [disliked, setDisliked] = useState(defaultDisliked);
-  const me = useMe(['id']);
   const likeCount = useMemo(() => liked.length, [liked]);
   const dislikeCount = useMemo(() => disliked.length, [disliked]);
-  const hasLiked = useMemo(() => me && liked.some(like => like.id === me.id), [
+  const hasLiked = useMemo(() => liked.some(like => like.id === userId), [
     liked,
-    me,
+    userId,
   ]);
   const hasDisliked = useMemo(
-    () => me && disliked.some(dislike => dislike.id === me.id),
-    [disliked, me],
+    () => disliked.some(dislike => dislike.id === userId),
+    [disliked, userId],
   );
+  const handleUnsingedUser = useCallback(() => {
+    dispatch(openModal('signin'));
+  }, [dispatch]);
   const handleLike = useCallback(async () => {
-    if (!me) return null; // 로그인 안된 유저 처리
+    if (!isLoggedIn) return handleUnsingedUser(); // 로그인 안된 유저 처리
     try {
       const { result } = await likeApi(id);
       setLiked(result.likedUsers);
-    } catch (err) {}
-  }, [id, likeApi, me]);
+    } catch (err) { }
+  }, [id, likeApi, isLoggedIn, handleUnsingedUser]);
   const handleDislike = useCallback(async () => {
-    if (!me) return null; // 로그인 안된 유저 처리
+    if (!isLoggedIn) return handleUnsingedUser(); // 로그인 안된 유저 처리
     try {
       const { result } = await dislikeApi(id);
       setDisliked(result.dislikedUsers);
-    } catch (err) {}
-  }, [id, dislikeApi, me]);
+    } catch (err) { }
+  }, [id, dislikeApi, isLoggedIn, handleUnsingedUser]);
 
   return {
     liked,
