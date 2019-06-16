@@ -1,4 +1,4 @@
-import { useCallback, RefObject } from 'react';
+import { useState, useCallback, RefObject } from 'react';
 import { Cloudinary } from '../utils/cloudinary';
 import { notifier } from '../utils/renoti';
 
@@ -12,12 +12,14 @@ const useImageUploader = <T extends Cloudinary>(
   imageUploader: T,
   callback?: ICallback,
 ) => {
+  const [isLoading, setIsLoading] = useState(false);
   const openImageSelector = useCallback(() => {
     inputRef.current && inputRef.current.click();
   }, [inputRef]);
   const handleChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
+        setIsLoading(true);
         const file = e.target.files[0];
         try {
           const { url } = await imageUploader.uploadImage(file);
@@ -29,12 +31,13 @@ const useImageUploader = <T extends Cloudinary>(
           });
           callback && callback(err);
         }
+        setIsLoading(false);
       }
     },
     [imageUploader, callback],
   );
 
-  return [openImageSelector, handleChange] as const;
+  return [openImageSelector, handleChange, isLoading] as const;
 };
 
 export default useImageUploader;

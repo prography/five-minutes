@@ -100,7 +100,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({
     },
     [setContent],
   );
-  const [openImageUploader, handleImageChange] = useImageUploader(
+  const [openImageUploader, handleImageChange, isLoading] = useImageUploader(
     uploaderRef,
     questionUploader,
     handleImageUpload,
@@ -160,6 +160,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({
           value={content}
           onChange={handleContentChange}
           onFocus={initError}
+          isLoading={isLoading}
           inputRef={contentRef}
         />
       </Question>

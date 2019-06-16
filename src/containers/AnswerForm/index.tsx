@@ -19,7 +19,7 @@ import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion {}
+interface IAnswerFormProps extends IQuestion { }
 
 const initialCommand = {
   command: '',
@@ -52,12 +52,10 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   const imageUploader = useRef<HTMLInputElement>(null);
   const handleImageUpload = useCallback(
     (err, url?: string) => {
-      if (url) {
-        const pos = editorRef
+      if (url && editorRef) {
+        const pos = editorRef.selectionEnd
           ? editorRef.selectionEnd
-            ? editorRef.selectionEnd
-            : editorRef.value.length + 1
-          : 0;
+          : editorRef.value.length + 1;
         setAnswerValue(
           prev => `${prev.slice(0, pos)} ![image](${url}) ${prev.slice(pos)}`,
         );
@@ -65,7 +63,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
     },
     [editorRef, setAnswerValue],
   );
-  const [openImageUploader, handleImageChange] = useImageUploader(
+  const [openImageUploader, handleImageChange, isImageLoading] = useImageUploader(
     imageUploader,
     answerUploader,
     handleImageUpload,
@@ -249,6 +247,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           inputRef={setEditorRef}
           onChange={setAnswer}
           onKeyDown={handleKeyDown}
+          isLoading={isImageLoading}
           placeholder="내용을 입력해주세요."
         />
       </EditorWithToolbar>
