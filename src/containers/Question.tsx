@@ -1,9 +1,11 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
+import { Message } from '../components';
 import { ShadowBox } from '../styles/common';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ hasError?: boolean }>`
   margin-top: 16px;
+  ${props => props.hasError && `border: 1px solid ${props.theme.palette.negative}`};
 `;
 const Title = styled.h1`
   font-size: 20px;
@@ -23,18 +25,23 @@ const Content = styled.div`
 `;
 interface IQuestionProps {
   title: string;
+  error?: string;
   subTitle?: string;
   children: React.ReactNode;
 }
-const Question: React.SFC<IQuestionProps> = ({ title, subTitle, children }) => {
+const Question: React.SFC<IQuestionProps> = ({ title, error, subTitle, children }) => {
   return (
-    <Wrapper>
-      <ShadowBox>
-        <Title>{title}</Title>
-        {subTitle && <SubTitle>{subTitle}</SubTitle>}
-        <Content>{children}</Content>
-      </ShadowBox>
-    </Wrapper>
+    <>
+      {!!error && <Message type="error">{error}</Message>}
+
+      <Wrapper hasError={!!error}>
+        <ShadowBox>
+          <Title>{title}</Title>
+          {subTitle && <SubTitle>{subTitle}</SubTitle>}
+          <Content>{children}</Content>
+        </ShadowBox>
+      </Wrapper>
+    </>
   );
 };
 

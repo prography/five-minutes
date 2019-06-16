@@ -10,6 +10,7 @@ import useMarkdown from './useMarkdown';
 import useMe from './useMe';
 import usePrevious from './usePrevious';
 import usePrevLocation from './usePrevLocation';
+import useScrollEl from './useScrollEl';
 import useSetState from './useSetState';
 import useWindowEvent from './useWindowEvent';
 
@@ -26,6 +27,7 @@ export {
   useMe,
   usePrevious,
   usePrevLocation,
+  useScrollEl,
   useSetState,
   useWindowEvent,
 };

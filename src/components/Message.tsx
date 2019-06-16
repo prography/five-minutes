@@ -17,10 +17,11 @@ const BaseMessage = styled.div`
   border-radius: 5px;
   margin: 1rem 0;
 
+  box-sizing: border-box;
   padding: 15px 20px;
 `;
 
-const ColorMessage = styled(BaseMessage)<{ type: MessageType }>`
+const ColorMessage = styled(BaseMessage) <{ type: MessageType }>`
   border: 1px solid ${({ type }) => colorByType[type][200]};
   background-color: ${({ type }) => colorByType[type][50]};
 `;
