@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { EditorFromTextArea } from 'codemirror';
-import { Codemirror } from '../../components';
+import { Codemirror, Message } from '../../components';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,6 +11,7 @@ import { correctComment } from '../../api/question';
 import { useDispatch, batch } from 'react-redux';
 import { updateComment, updateQuestion } from '../../actions/question';
 import { notifier } from '../../utils/renoti';
+import { codeSchema } from '../../utils/validation';
 
 interface ICorrectCodeProps {
   codeRef: EditorFromTextArea;
@@ -21,6 +22,7 @@ interface ICorrectCodeProps {
 
 const CorrectCode: React.SFC<ICorrectCodeProps> = ({ codeRef: originCodeRef, questionId, commentId, handleClose }) => {
   const [originRef] = useState(originCodeRef);
+  const [error, setError] = useState('');
   const [codeRef, setCodeRef] = useState<EditorFromTextArea | null>(null);
   const code = useMemo(() => originRef.getValue(), [originRef]);
   const mode = useMemo(() => originRef.getDoc().getMode().name, [originRef]);
@@ -28,8 +30,14 @@ const CorrectCode: React.SFC<ICorrectCodeProps> = ({ codeRef: originCodeRef, que
   const { api, status } = useApi(correctComment);
   const onCorrect = async () => {
     if (!codeRef) return null;
+    const code = codeRef.getValue();
     try {
-      const code = codeRef.getValue();
+      await codeSchema.validate(code);
+    }
+    catch (err) {
+      return setError(err.message);
+    }
+    try {
       const { result } = await api(questionId, commentId, code);
       batch(() => {
         dispatch(updateQuestion({ id: questionId, code }));
@@ -42,12 +50,14 @@ const CorrectCode: React.SFC<ICorrectCodeProps> = ({ codeRef: originCodeRef, que
     }
   };
   const isLoading = status === 'FETCHING';
+  const isError = !!error;
   return (
     <Dialog open onClose={isLoading ? undefined : handleClose} maxWidth="sm" fullWidth>
       <DialogTitle>
         리뷰에 따라 코드를 수정합니다.
       </DialogTitle>
       <DialogContent>
+        {isError && <Message type="error">{error}</Message>}
         <Codemirror autofocus value={code} mode={mode} setCodeEditor={setCodeRef} />
       </DialogContent>
       <DialogActions>

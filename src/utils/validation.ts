@@ -7,10 +7,14 @@ const MSG = {
   code: '코드를 반드시 적어주세요!'
 }
 
+export const subjectSchema = string().required(MSG.subject).min(2);
+export const contentSchema = string().required(MSG.content);
+export const codeSchema = string().required(MSG.code);
+
 const questionFormSchema = object({
-  subject: string().required(MSG.subject).min(2),
-  content: string().when('subject', (subject: boolean, schema: Schema<string>) => subject ? schema.required(MSG.content) : schema),
-  code: string().when(['subject', 'content'], (subject: boolean, content: boolean, schema: Schema<string>) => subject && content ? schema.required(MSG.code) : schema),
+  subject: subjectSchema,
+  content: string().when('subject', (subject: boolean, schema: Schema<string>) => subject ? contentSchema : schema),
+  code: string().when(['subject', 'content'], (subject: boolean, content: boolean, schema: Schema<string>) => subject && content ? codeSchema : schema),
 });
 export const validateQuestionForm = (question: Partial<IPostQuestion>) => {
   return questionFormSchema.validate(question, { stripUnknown: true, });
