@@ -2,8 +2,8 @@ pre {
   border-radius: 5px;
   padding: 5px 10px;
   background-color: #eff0f1;
-  width: 100%;
-  overflow: scroll;
+  width: auto;
+  overflow: auto;
   box-sizing: border-box;
 }
 

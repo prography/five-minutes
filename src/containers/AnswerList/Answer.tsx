@@ -2,7 +2,7 @@ import React, { useState, memo, useEffect } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-import ResolveIcon from '@material-ui/icons/Done';
+import ResolveIcon from '@material-ui/icons/DoneOutlineRounded';
 import {
   Codemirror,
   ProfilePhoto,
@@ -51,7 +51,7 @@ const Answer: React.SFC<IAnswerProps> = ({
   dislikedUsers = [],
   createdAt,
   isMyQuestion = false,
-  handleResolve = () => {},
+  handleResolve = () => { },
 }) => {
   // 답변의 코드라인 설정
   const [code, setCode] = useState(codestring || '');
