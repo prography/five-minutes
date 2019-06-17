@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 import { useInput, useImageUploader } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
-import { Button, ImageUploader } from '../../components';
+import { Button, ImageUploader, Message } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
 import Toolbar from '../Editor/Toolbar';
 import { CommandType } from '../../models/command';
@@ -32,12 +32,14 @@ export interface QuestionForm {
   handleSubmit: (form: IPostQuestion) => void;
   loading?: boolean;
   initialForm?: IPostQuestion;
+  isCodeEditable?: boolean;
 }
 
 const QuestionForm: React.SFC<QuestionForm> = ({
   initialForm = INITIAL_FORM,
   loading = false,
   handleSubmit,
+  isCodeEditable = true,
 }) => {
   // error handling
   const [errors, setErrors] = useState(INITIAL_ERROR);
@@ -166,11 +168,18 @@ const QuestionForm: React.SFC<QuestionForm> = ({
       </Question>
       <div ref={codePoint} />
       <Question title="2. 코드를 올려주세요" error={errors.code}>
+        {!isCodeEditable && (
+          <Message type="info">
+            이미 답변이 달려있는 경우 코드 수정이 불가능 합니다.
+            답변을 채택하여 코드를 수정하세요!
+          </Message>
+        )}
         <CodeEditor
           value={initialForm.code}
           mode={mode}
           setMode={setMode}
           setCodeEditor={setCodeEditor}
+          readOnly={!isCodeEditable}
         />
       </Question>
       <Question

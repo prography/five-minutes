@@ -23,6 +23,12 @@ const EditQuestion = () => {
       ]),
     isEqual,
   );
+  // comments가 하나라도 달려있을 경우 수정 불가.
+  const isCodeEditable = useSelector((state: IRootState) => {
+    const { question } = state.question.get;
+    if (!question) return true;
+    return question.comments.length === 0;
+  });
   const { id, content, subject, code, language, tags } = question;
   const editableQuestion = {
     content,
@@ -55,6 +61,7 @@ const EditQuestion = () => {
       initialForm={editableQuestion}
       handleSubmit={handleSubmit}
       loading={status === 'FETCHING'}
+      isCodeEditable={isCodeEditable}
     />
   );
 };
