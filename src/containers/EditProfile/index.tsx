@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import ProfileImage from './ProfileImage';
@@ -7,7 +8,6 @@ import { IUser } from '../../models/user';
 import { setUserProfile } from '../../actions/auth';
 import { updateUser } from '../../api/user';
 import { useSetState } from '../../hooks';
-import { Button } from '@material-ui/core';
 import { notifier } from '../../utils/renoti';
 import { history } from '../../utils/history';
 

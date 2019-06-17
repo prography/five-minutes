@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core/styles';
 import { DefaultTheme } from 'styled-components';
 
 const palette = {

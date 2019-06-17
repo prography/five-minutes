@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Paper, { PaperProps } from '@material-ui/core/Paper';
 import InputBase, { InputBaseProps } from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
+import { TiZoomOutline } from 'react-icons/ti';
 import { history, questionQueryHelper } from '../utils/history';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-const useStyles = makeStyles(
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: '2px 4px',
@@ -30,6 +30,9 @@ const useStyles = makeStyles(
     form: {
       width: '100%',
     },
+    icon: {
+      color: theme.palette.primary.main,
+    }
   }),
 );
 
@@ -70,7 +73,7 @@ const Search: React.SFC<IInputProps> = ({
       square
       {...paperProps}
     >
-      <SearchIcon />
+      <TiZoomOutline size={30} className={focused ? classes.icon : undefined} />
       <form className={classes.form} onSubmit={handleSearch}>
         <InputBase
           fullWidth

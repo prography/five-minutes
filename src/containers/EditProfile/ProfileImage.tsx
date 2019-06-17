@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import CameraIcon from '@material-ui/icons/CameraAltOutlined';
+import { TiCameraOutline } from 'react-icons/ti';
 import { useImageUploader } from '../../hooks';
 import { profileUploader } from '../../utils/cloudinary';
 import { IUser } from '../../models/user';
@@ -27,7 +27,7 @@ const ProfileImage: React.SFC<IProfileImageProps> = ({ handleUpdateUser, image }
       <ProfilePhoto width={100} src={image} />
       <ImageUploader ref={uploaderRef} onChange={handleImageChange} />
       <ImageEdit onClick={openImageUploader}>
-        <CameraIcon fontSize="large" />
+        <TiCameraOutline />
       </ImageEdit>
     </ImageWrapper>
   )

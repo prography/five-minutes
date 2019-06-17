@@ -2,7 +2,7 @@ import React, { useState, memo, useEffect } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-import ResolveIcon from '@material-ui/icons/DoneOutlineRounded';
+import { TiTick } from 'react-icons/ti';
 import {
   Codemirror,
   ProfilePhoto,
@@ -127,7 +127,7 @@ const Answer: React.SFC<IAnswerProps> = ({
             aria-label="Resolve"
           >
             <ResolveCheck resolve={isResolved} onClick={onResolveClick}>
-              <ResolveIcon />
+              <TiTick size={24} />
             </ResolveCheck>
           </Tooltip>
         )}

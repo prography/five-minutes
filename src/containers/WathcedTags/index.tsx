@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import BuildIcon from '@material-ui/icons/Build';
+import { TiEdit } from 'react-icons/ti';
 import Paper from '@material-ui/core/Paper';
 import { TagSelect } from '..';
 import { AntSwitch, Tag, Divider } from '../../components';
@@ -79,7 +79,7 @@ const WatchedTags = () => {
                   disabled={!isTagSearch}
                 >
                   <EditIcon isEditing={isEdit}>
-                    <BuildIcon fontSize="inherit" />
+                    <TiEdit fontSize="inherit" />
                   </EditIcon>
                 </IconButton>
               </div>

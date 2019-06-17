@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ThumbUp from '@material-ui/icons/ThumbUpOutlined';
-import ThumbDown from '@material-ui/icons/ThumbDownOutlined';
+import { TiThumbsUp, TiThumbsDown } from 'react-icons/ti';
 
 type LikeType = 'like' | 'dislike';
 const COLOR = {
@@ -23,7 +22,8 @@ const Button = styled.button`
   text-align: center;
 `;
 
-const LikeOrDislike = styled(Button)<{ likeType: LikeType; active?: boolean }>`
+const LikeOrDislike = styled(Button) <{ likeType: LikeType; active?: boolean }>`
+  font-size: 1em;
   ${props => props.active && `color: ${COLOR[props.likeType].active};`}
   &:hover {
     color: ${props => COLOR[props.likeType].hover};
@@ -46,10 +46,10 @@ const LikeButton: React.SFC<ILikeButtonProps> = ({
   return (
     <LikeOrDislike likeType={likeType} active={active} {...buttonProps}>
       {likeType === 'like' ? (
-        <ThumbUp fontSize="small" />
+        <TiThumbsUp size={30} />
       ) : (
-        <ThumbDown fontSize="small" />
-      )}
+          <TiThumbsDown size={30} />
+        )}
       {typeof count !== 'undefined' && <div>{count}</div>}
     </LikeOrDislike>
   );

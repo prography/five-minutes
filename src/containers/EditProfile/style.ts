@@ -14,6 +14,7 @@ export const ImageEdit = styled.button`
   border-radius: 100%;
   color: rgba(255,255,255,.65);
   background-color: rgba(0,0,0,.54);
+  font-size: 1.5rem;
 
   &:hover {
     cursor:pointer;

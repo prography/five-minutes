@@ -1,14 +1,13 @@
 import React, { memo, useMemo } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import ImageIcon from '@material-ui/icons/Image';
-import CodeIcon from '@material-ui/icons/Code';
+import { TiImageOutline, TiCodeOutline } from 'react-icons/ti';
 import { ToolbarContainer, ToolItem } from './styles';
 import { CommandType } from '../../models/command';
 import selectCommands from '../../constants/command';
 
 const ICONS = {
-  codeline: <CodeIcon />,
-  image: <ImageIcon />,
+  codeline: <TiCodeOutline size={20} />,
+  image: <TiImageOutline size={20} />,
 };
 
 interface IToolbarProps {

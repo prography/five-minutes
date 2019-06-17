@@ -5,10 +5,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
-import CheckIcon from '@material-ui/icons/Done';
+import { TiTick } from 'react-icons/ti';
 import { ITag } from '../../models/tag';
-import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../../reducers';
 import { addTag } from '../../api/user';
@@ -84,7 +83,7 @@ const TagInfo: SFC<ITagInfoProps> = ({ name, count }) => {
             {isLoggedIn && (
               <Grid item>
                 {
-                  hasTag ? <Chip color="secondary" avatar={<Avatar><CheckIcon /></Avatar>} label="내 관심태그" />
+                  hasTag ? <Chip color="secondary" avatar={<Avatar><TiTick /></Avatar>} label="내 관심태그" />
                     : (
                       <Button
                         color="secondary"

@@ -1,9 +1,6 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import red from '@material-ui/core/colors/red';
-import yellow from '@material-ui/core/colors/red';
-import green from '@material-ui/core/colors/red';
-import blue from '@material-ui/core/colors/blue';
+import { red, yellow, green, blue } from '@material-ui/core/colors';
 
 type MessageType = 'default' | 'error' | 'info' | 'success';
 const colorByType = {

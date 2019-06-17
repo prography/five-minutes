@@ -1,8 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import Divider from '@material-ui/core/Divider';
-import ThumbUp from '@material-ui/icons/ThumbUpOutlined';
-import ThumbDown from '@material-ui/icons/ThumbDownOutlined';
-import Comment from '@material-ui/icons/CommentOutlined';
+import { TiThumbsUp, TiThumbsDown, TiMessageTyping } from 'react-icons/ti';
 import {
   Question,
   Header,
@@ -60,15 +58,15 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
           </div>
           <CountContainer>
             <Count>
-              <ThumbUp fontSize="inherit" />
+              <TiThumbsUp fontSize="inherit" />
               &nbsp;{likeCount}
             </Count>
             <Count>
-              <ThumbDown fontSize="inherit" />
+              <TiThumbsDown fontSize="inherit" />
               &nbsp;{dislikeCount}
             </Count>
             <Count>
-              <Comment fontSize="inherit" />
+              <TiMessageTyping fontSize="inherit" />
               &nbsp;{comments_count}
             </Count>
           </CountContainer>
