@@ -121,16 +121,15 @@ const Answer: React.SFC<IAnswerProps> = ({
           </div>
           <Date>{date}</Date>
         </AnswerRight>
-        {isMyQuestion && (
-          <Tooltip
-            title={isResolved ? '채택된 답변입니다.' : '답변을 채택합니다.'}
-            aria-label="Resolve"
-          >
-            <ResolveCheck resolve={isResolved} onClick={onResolveClick}>
+        <Tooltip
+          title={isResolved ? '채택된 답변입니다.' : isMyQuestion ? '답변을 채택합니다.' : '아직 채택되지 않은 답변입니다.'}
+          aria-label="Resolve"
+        ><div>
+            <ResolveCheck resolve={isResolved} onClick={isMyQuestion ? onResolveClick : undefined} disabled={!isMyQuestion}>
               <TiTick size={24} />
             </ResolveCheck>
-          </Tooltip>
-        )}
+          </div>
+        </Tooltip>
       </UserInfo>
       <AnswerItem>
         <AnswerLeft>

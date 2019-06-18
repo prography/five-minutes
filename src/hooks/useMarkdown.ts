@@ -33,9 +33,12 @@ const useMarkdown = (value: string, option?: MarkedOptions) => {
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
   useEffect(() => {
+    // safely unmount
+    let isUnmounted = false;
     marked(value, (err, result) => {
-      setMarkdown(result);
+      !isUnmounted && setMarkdown(result);
     });
+    return () => { isUnmounted = true };
   }, [value]);
   return markdown;
 };

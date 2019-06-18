@@ -44,12 +44,17 @@ type CodelineState = {
 const COMMAND_TYPES = ['codeline' as const, 'image' as const];
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
-  // Error
-  const [error, setError] = useState('');
-
   // Answer 폼
   const [answer, setAnswer, setAnswerValue] = useInput('');
   const [editorRef, setEditorRef] = useState<HTMLTextAreaElement>();
+
+  // Error
+  const [error, setError] = useState('');
+  useEffect(() => {
+    if (!!error && answer.length > 0) {
+      setError('');
+    }
+  }, [error, answer]);
 
   // 이미지 커맨드
   const imageUploader = useRef<HTMLInputElement>(null);
