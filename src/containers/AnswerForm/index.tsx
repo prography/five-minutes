@@ -7,7 +7,7 @@ import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
 import { useInput, useSetState, useApi, useImageUploader } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
-import { Codemirror, ImageUploader } from '../../components';
+import { Codemirror, ImageUploader, Message } from '../../components';
 import { IQuestion } from '../../models/question';
 import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
@@ -44,6 +44,9 @@ type CodelineState = {
 const COMMAND_TYPES = ['codeline' as const, 'image' as const];
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
+  // Error
+  const [error, setError] = useState('');
+
   // Answer 폼
   const [answer, setAnswer, setAnswerValue] = useInput('');
   const [editorRef, setEditorRef] = useState<HTMLTextAreaElement>();
@@ -192,6 +195,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
 
   const clearAll = useCallback(() => {
     setAnswerValue('');
+    setError('');
     clearCodelineState();
     clearCommand();
   }, [setAnswerValue, clearCodelineState, clearCommand]);
@@ -199,6 +203,10 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   const dispatch = useDispatch();
   const { api } = useApi(postComment);
   const post = async () => {
+    if (!answer || !answer.trim()) {
+      editorRef && editorRef.focus();
+      return setError('답변 내용을 반드시 작성해주세요!');
+    }
     try {
       const { result } = await api({
         questionId: id,
@@ -241,6 +249,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
       )}
       <ImageUploader ref={imageUploader} onChange={handleImageChange} />
       <EditorWithToolbar>
+        {!!error && <Message type="error">{error}</Message>}
         <Toolbar commandTypes={COMMAND_TYPES} execCommand={execCommand} />
         <Editor
           value={answer}

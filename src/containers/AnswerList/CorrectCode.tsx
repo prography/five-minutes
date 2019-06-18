@@ -12,6 +12,7 @@ import { useDispatch, batch } from 'react-redux';
 import { updateComment, updateQuestion } from '../../actions/question';
 import { notifier } from '../../utils/renoti';
 import { codeSchema } from '../../utils/validation';
+import { getModeInfoByMime } from '../../utils/codemirror';
 
 interface ICorrectCodeProps {
   codeRef: EditorFromTextArea;
@@ -25,7 +26,10 @@ const CorrectCode: React.SFC<ICorrectCodeProps> = ({ codeRef: originCodeRef, que
   const [error, setError] = useState('');
   const [codeRef, setCodeRef] = useState<EditorFromTextArea | null>(null);
   const code = useMemo(() => originRef.getValue(), [originRef]);
-  const mode = useMemo(() => originRef.getDoc().getMode().name, [originRef]);
+  const mode = useMemo(() => {
+    const modeInfo = getModeInfoByMime(originRef.getDoc().getMode().helperType);
+    return modeInfo ? modeInfo.name : originRef.getDoc().getMode().name;
+  }, [originRef]);
   const dispatch = useDispatch();
   const { api, status } = useApi(correctComment);
   const onCorrect = async () => {
