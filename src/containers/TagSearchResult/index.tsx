@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { questionQueryHelper, history } from '../../utils/history';
 import { loadTaggedQuestions } from '../../actions/question';
 import { IRootState } from '../../reducers';

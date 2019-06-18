@@ -1,23 +1,43 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import marked, { MarkedOptions } from 'marked';
-import { highlight, highlightAuto, getLanguage } from 'highlight.js';
+import hljs from 'highlight.js/lib/highlight';
+import highlightLang from '../constants/highlight.json';
 
 marked.setOptions({
-  highlight: (code, lang) => {
-    return !!(lang && getLanguage(lang))
-      ? highlight(lang, code).value
-      : highlightAuto(code).value;
+  highlight: (code, lang, callback): any => {
+    if (lang && callback) {
+      const path = (highlightLang as any)[lang];
+      if (!path) {
+        return callback(null, code);
+      }
+      import(`highlight.js/lib/languages/${path}`).then(
+        module => {
+          hljs.registerLanguage(path, module.default);
+          return callback(null, hljs.highlight(path, code).value);
+        },
+        err => {
+          callback(err, hljs.highlightAuto(code).value);
+        },
+      );
+    }
+    return code;
   },
 });
 
 const useMarkdown = (value: string, option?: MarkedOptions) => {
+  const [markdown, setMarkdown] = useState(value);
   useEffect(() => {
     if (option) {
       marked.setOptions(option);
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
-  return useMemo(() => marked(value), [value]);
+  useEffect(() => {
+    marked(value, (err, result) => {
+      setMarkdown(result);
+    });
+  }, [value]);
+  return markdown;
 };
 
 export default useMarkdown;

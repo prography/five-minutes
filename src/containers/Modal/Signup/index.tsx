@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Formik, FastField, FormikProps } from 'formik';
 import Button from '@material-ui/core/Button';
 import { string, Schema } from 'yup';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import CustomMuiField from '../CustomMuiField';
 import { ModalType } from '../../../models/modal';
 import { Form, FakeLink, InputWrapper } from '../style';
