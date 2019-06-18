@@ -89,7 +89,7 @@ const Answer: React.SFC<IAnswerProps> = ({
       if (diffCode) {
         codelineRef.setOption(
           'firstLineNumber',
-          diffCode.split('\n').length / 2 + 1,
+          codeline + diffCode.split('\n').length / 2 - 1,
         );
         codelineRef.addLineClass(0, 'wrap', 'codemirror-removed');
         codelineRef.addLineClass(1, 'wrap', 'codemirror-added');
@@ -98,7 +98,7 @@ const Answer: React.SFC<IAnswerProps> = ({
         codelineRef.removeLineClass(1, ' wrap', 'codemirror-added');
       }
     }
-  }, [codelineRef, diffCode]);
+  }, [codelineRef, diffCode, codeline]);
   // 마크다운 content
   const mdContent = useMarkdown(content);
   const date = useDateFormat(createdAt);

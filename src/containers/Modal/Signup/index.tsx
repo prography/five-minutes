@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Formik, FastField, FormikProps } from 'formik';
 import Button from '@material-ui/core/Button';
-import { string, Schema } from 'yup';
+import { Schema } from 'yup';
 import isEmpty from 'lodash/isEmpty';
 import CustomMuiField from '../CustomMuiField';
 import { ModalType } from '../../../models/modal';
@@ -10,38 +10,12 @@ import { Title } from '../../../styles/common';
 import { ISignupUser } from '../../../models/user';
 import { signup } from '../../../api/auth';
 import { useApi } from '../../../hooks';
+import { isNickname, isEmail, isPassword, isPasswordConfirm, isGiturl } from '../../../utils/validation';
 
 interface SignupProps {
   openModal: (type: ModalType) => void;
   closeModal: () => void;
 }
-const isEmail = string()
-  .email('올바른 Email 형식을 입력해주세요.')
-  .required('필수 항목입니다.');
-const isPassword = string()
-  .matches(
-    /(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/,
-    '비밀번호는 6자 이상의 영문, 숫자, 특수문자가 필요합니다.',
-  )
-  .required('필수 항목입니다.');
-const isPasswordConfirm = (password: string) => {
-  return string()
-    .matches(new RegExp(`^${password}$`), '비밀번호와 같아야 합니다.')
-    .required('필수 항목입니다.');
-};
-const isNickname = string()
-  .matches(
-    /^[a-zA-Z0-9가-힣]{2,10}$/,
-    '닉네임은 특수문자 제외 2자 이상이어야 합니다.',
-  )
-  .required('필수 항목입니다.');
-
-const isGiturl = string()
-  .matches(
-    /http(s)?:\/\/(www\.)?github\.com\/[A-z0-9_-]+\/?/,
-    'github 프로필 url을 적어주세요.',
-  )
-  .required('필수 항목입니다.');
 
 const initialValues: ISignupUser = {
   nickname: '',

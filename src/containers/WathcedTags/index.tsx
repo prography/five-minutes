@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import { TiEdit } from 'react-icons/ti';
+import isEqual from 'lodash/isEqual';
 import Paper from '@material-ui/core/Paper';
 import { TagSelect } from '..';
 import { AntSwitch, Tag, Divider } from '../../components';
@@ -25,6 +26,7 @@ const WatchedTags = () => {
       tags: state.auth.me.user.tags,
       isTagSearch: state.question.search.isTagSearch,
     }),
+    isEqual
   );
   const dispatch = useDispatch();
 

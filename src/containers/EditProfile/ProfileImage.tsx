@@ -2,12 +2,12 @@ import React, { useRef, useCallback } from 'react';
 import { TiCameraOutline } from 'react-icons/ti';
 import { useImageUploader } from '../../hooks';
 import { profileUploader } from '../../utils/cloudinary';
-import { IUser } from '../../models/user';
+import { IUpdateUser } from '../../models/user';
 import { ProfilePhoto, ImageUploader } from '../../components';
 import { ImageWrapper, ImageEdit } from './style';
 
 interface IProfileImageProps {
-  handleUpdateUser: (user: Partial<IUser>) => void;
+  handleUpdateUser: (user: IUpdateUser) => void;
   image: string;
 }
 

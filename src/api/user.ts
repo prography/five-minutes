@@ -1,6 +1,6 @@
 import instance from '.';
 import qs from 'query-string';
-import { IUser } from '../models/user';
+import { IUser, IUpdateUser } from '../models/user';
 import { IQuestion } from '../models/question';
 import { IComment } from '../models/comment';
 import { IBaseListQuery } from '../models/api';
@@ -13,7 +13,7 @@ export const getUser = async (userId: string) => {
 
 export const updateUser = async (
   userId: string,
-  updateUser: Partial<IUser>,
+  updateUser: IUpdateUser,
 ) => {
   const { data } = await instance.put<ApiResponse<IUser>>(
     `/users/${userId}`,

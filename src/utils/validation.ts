@@ -19,3 +19,31 @@ const questionFormSchema = object({
 export const validateQuestionForm = (question: Partial<IPostQuestion>) => {
   return questionFormSchema.validate(question, { stripUnknown: true, });
 }
+
+export const isEmail = string()
+  .email('올바른 Email 형식을 입력해주세요.')
+  .required('필수 항목입니다.');
+export const isPassword = string()
+  .matches(
+    /(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/,
+    '비밀번호는 6자 이상의 영문, 숫자, 특수문자가 필요합니다.',
+  )
+  .required('필수 항목입니다.');
+export const isPasswordConfirm = (password: string) => {
+  return string()
+    .matches(new RegExp(`^${password}$`), '비밀번호와 같아야 합니다.')
+    .required('필수 항목입니다.');
+};
+export const isNickname = string()
+  .matches(
+    /^[a-zA-Z0-9가-힣]{2,10}$/,
+    '닉네임은 특수문자 제외 2자 이상이어야 합니다.',
+  )
+  .required('필수 항목입니다.');
+
+export const isGiturl = string()
+  .matches(
+    /http(s)?:\/\/(www\.)?github\.com\/[A-z0-9_-]+\/?/,
+    'github 프로필 url을 적어주세요.',
+  )
+  .required('필수 항목입니다.');

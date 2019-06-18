@@ -54,12 +54,14 @@ const Info: React.SFC<RouteComponentProps> = ({ location }) => {
         <Grid item>
           <TagList tags={tags} />
         </Grid>
-        <Grid item container justify="flex-end">
-          {githubUrl && (
-            <a href={githubUrl}>
-              <img alt="profile" src={GithubImg} width={32} />
-            </a>
-          )}
+        <Grid item container justify="flex-end" alignItems="center">
+          <Grid item>
+            {githubUrl && (
+              <a href={githubUrl}>
+                <img alt="profile" src={GithubImg} width={32} />
+              </a>
+            )}
+          </Grid>
         </Grid>
       </Grid>
     </InfoContainer>

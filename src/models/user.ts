@@ -24,6 +24,7 @@ export type ISigninUser = Pick<IUser, 'email'> & IPrivateInfo;
 export type ISignupUser = Pick<IUser, 'email' | 'nickname' | 'githubUrl'> & {
   passwordConfirmation: string;
 } & IPrivateInfo;
+export type IUpdateUser = Partial<Omit<IUser, 'tags'>> & { tags?: string[] };
 export interface IUserTag extends ISchemaBase {
   tag: ITag;
   user: IUser;

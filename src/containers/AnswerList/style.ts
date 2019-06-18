@@ -21,7 +21,7 @@ export const ResolveCheck = styled.button<{ resolve?: boolean }>`
   color: ${props => props.resolve ? props.theme.palette.primary.main : props.theme.palette.gray};
 
   &:hover {
-    cursor: pointer;
+    ${props => !props.disabled && 'cursor: pointer;'}
   }
 `
 export const Date = styled.div`
