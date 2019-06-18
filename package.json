@@ -36,7 +36,7 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-    "react-select": "^2.4.4",
+    "react-select": "^3.0.4",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
     "renoti": "^1.2.0",
@@ -44,7 +44,7 @@
     "yup": "^0.27.0"
   },
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js' --html ./analyze/result.html",
+    "analyze": "rm -rf ./analyze && source-map-explorer 'build/static/js/*.js' --html ./analyze/result.html",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
+import AsyncCreatableSelect from 'react-select/async-creatable';
 import { ValueType } from 'react-select/lib/types';
 import { SelectComponentsProps } from 'react-select/lib/Select';
 import debounce from 'lodash/debounce';
