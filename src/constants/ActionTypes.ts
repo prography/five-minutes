@@ -64,9 +64,3 @@ export const SEARCH_QUESTIONS_FAILURE = 'SEARCH_QUESTIONS_FAILURE' as const;
 
 export const ADD_COMMENT = 'ADD_COMMENT' as const;
 export const UPDATE_COMMENT = 'UPDATE_COMMENT' as const;
-
-/* Tag */
-
-export const GET_TAGS = 'GET_TAGS' as const;
-export const GET_TAGS_SUCCESS = 'GET_TAGS_SUCCESS' as const;
-export const GET_TAGS_FAILURE = 'GET_TAGS_FAILURE' as const;

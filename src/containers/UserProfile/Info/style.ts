@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const InfoContainer = styled.div`
   width: 100%;
   min-height: 220px;
-`
+`;
 
 export const Container = styled.div`
   max-width: 300px;
@@ -31,7 +31,4 @@ export const TagWrapper = styled.span`
     }
     vertical-align: middle;
   }
-`;
-export const TagSelectWrapper = styled.div`
-  margin-bottom: 3rem;
 `;

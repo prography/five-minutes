@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
-import { format, distanceInWordsToNow, differenceInWeeks } from 'date-fns';
+import format from 'date-fns/format';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import differenceInWeeks from 'date-fns/difference_in_weeks';
 import ko from 'date-fns/locale/ko';
 
 type UseDateFormat = (date: string | number | Date, format?: string) => string;

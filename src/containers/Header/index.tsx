@@ -11,11 +11,6 @@ import { IRootState } from '../../reducers';
 import { IUser } from '../../models/user';
 import { logout } from '../../actions/auth';
 
-// searchbox가 필요한 route
-// const withSearchPath: { [key: string]: boolean } = {
-//   '/ask': true,
-// };
-
 export interface IHeaderProps extends RouteComponentProps {
   dispatch: Dispatch;
   user: IUser;
@@ -35,7 +30,14 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
             </CustomLink>
           </LogoAdjust>
         </Grid>
-        <Grid item container xs={9} spacing={2} justify="flex-end" alignItems="center">
+        <Grid
+          item
+          container
+          xs={9}
+          spacing={2}
+          justify="flex-end"
+          alignItems="center"
+        >
           <Grid item>
             <Search paperProps={{ style: { width: '100%' } }} />
           </Grid>
@@ -45,21 +47,21 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
                 <ProfileMenu {...user} logout={handleLogout} />
               </Menu>
             ) : (
-                <>
-                  <Button onClick={() => dispatch(openModal('signin'))}>
-                    로그인
+              <>
+                <Button onClick={() => dispatch(openModal('signin'))}>
+                  로그인
                 </Button>
-                  <Button onClick={() => dispatch(openModal('signup'))}>
-                    회원가입
+                <Button onClick={() => dispatch(openModal('signup'))}>
+                  회원가입
                 </Button>
-                </>
-              )}
+              </>
+            )}
           </Grid>
           <Grid item>
             <CustomLink to="/ask">
               <Button fullWidth variant="contained" color="primary">
                 코드 올리기
-            </Button>
+              </Button>
             </CustomLink>
           </Grid>
         </Grid>
