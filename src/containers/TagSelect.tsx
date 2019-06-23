@@ -56,14 +56,31 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
     },
     [debouncedSearch],
   );
+
+  // 태그 생성시 라벨
+  const formatCreateLabel = useCallback((input: string) => {
+    return `"${input}" 태그를 생성합니다.`;
+  }, []);
+  // 로딩 메시지
+  const loadingMessage = useCallback(() => {
+    return '검색 중...';
+  }, []);
+  // 불일치 메시지
+  const noOptionsMessage = useCallback(() => {
+    return '해당하는 태그가 없습니다.';
+  }, []);
   return (
     <AsyncCreatableSelect
       isMulti
+      placeholder="태그를 검색해보세요."
       cacheOptions
       defaultValue={defaultValue}
       defaultOptions={[]}
       onChange={handleCreate}
       loadOptions={loadOptions}
+      loadingMessage={loadingMessage}
+      noOptionsMessage={noOptionsMessage}
+      formatCreateLabel={formatCreateLabel}
       {...props}
     />
   );

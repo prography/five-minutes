@@ -5,7 +5,7 @@ import { questionQueryHelper, history } from '../../utils/history';
 import { loadTaggedQuestions } from '../../actions/question';
 import { IRootState } from '../../reducers';
 import { PaginationList, TagInfo } from '..';
-import { LoadingBar } from '../../components';
+import { LoadingBar, NoResult } from '../../components';
 import { RouteComponentProps } from 'react-router';
 
 interface ITagSearchResultProps extends Pick<RouteComponentProps, 'location'> {
@@ -48,6 +48,9 @@ const TagSearchResult: React.SFC<ITagSearchResultProps> = ({
   // Ensure component mounted before show spinner
   if (!mounted) return null;
   if (status === 'FETCHING') return <LoadingBar />;
+  if (status === 'SUCCESS' && (!items || items.length === 0)) {
+    return <NoResult><p>다른 태그를 검색해보세요.</p></NoResult>
+  }
   return (
     <div>
       <TagInfo name={tag} count={totalCount} />

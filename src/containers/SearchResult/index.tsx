@@ -5,7 +5,7 @@ import { questionQueryHelper, history } from '../../utils/history';
 import { loadSearchedQuestions } from '../../actions/question';
 import { IRootState } from '../../reducers';
 import { PaginationList } from '..';
-import { LoadingBar } from '../../components';
+import { LoadingBar, NoResult } from '../../components';
 import { RouteComponentProps } from 'react-router';
 
 const SearchResult: React.SFC<RouteComponentProps> = ({ location }) => {
@@ -30,7 +30,12 @@ const SearchResult: React.SFC<RouteComponentProps> = ({ location }) => {
       `/search?${questionQueryHelper.mergeQuery({ page: `${page}` })}`,
     );
   }, []);
-
+  if (status === 'SUCCESS' && (!items || items.length === 0))
+    return (
+      <NoResult header="검색 결과가 없습니다.">
+        <p>검색어 또는 관심태그를 수정해주세요.</p>
+      </NoResult>
+    );
   if (status === 'FETCHING') return <LoadingBar />;
   return (
     <div>

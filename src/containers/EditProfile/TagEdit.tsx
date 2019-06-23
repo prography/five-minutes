@@ -1,7 +1,7 @@
 import React from 'react';
 import uniq from 'lodash/uniq';
 import { IUpdateUser } from '../../models/user';
-import { Tag } from '../../components';
+import { Tag, Divider } from '../../components';
 import { TagSelect } from '..';
 
 interface ITagEditProps {
@@ -19,6 +19,7 @@ const TagEdit: React.SFC<ITagEditProps> = ({ tags, handleUpdateUser }) => {
   return (
     <div>
       <TagSelect tags={[]} value={[]} setTags={handleTagAdd} />
+      <Divider withMargin />
       {
         tags.map(tag => <Tag key={tag} name={tag} onDelete={handleTagDelete(tag)} />)
       }

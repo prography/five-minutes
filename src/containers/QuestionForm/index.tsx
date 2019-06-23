@@ -1,11 +1,12 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { EditorFromTextArea } from 'codemirror';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import isEqual from 'lodash/isEqual';
 import { useInput, useImageUploader } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
-import { Button, ImageUploader, Message } from '../../components';
+import { ImageUploader, Message } from '../../components';
 import { CodeEditor, Editor, Question, TagSelect } from '..';
 import Toolbar from '../Editor/Toolbar';
 import { CommandType } from '../../models/command';
@@ -189,14 +190,16 @@ const QuestionForm: React.SFC<QuestionForm> = ({
         <TagSelect
           tags={tags}
           setTags={setTags}
-          placeholder="태그를 입력해주세요."
         />
       </Question>
       <ButtonWrapper>
         <Button
+          color="primary"
+          size="large"
+          variant="contained"
+          fullWidth
           onClick={handleFormSubmit}
-          style={{ width: 200 }}
-          loading={loading}
+          disabled={loading}
         >
           질문 {titleMessage}
         </Button>
