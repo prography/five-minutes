@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { TiTimesOutline } from 'react-icons/ti';
 import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
+import Tip from './Tip';
 import { useInput, useSetState, useApi, useImageUploader } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror, ImageUploader, Message } from '../../components';
@@ -13,13 +14,13 @@ import getCursorXY from '../../utils/caret';
 import { KEYMAP } from '../../utils/keyboard';
 import { CommandType } from '../../models/command';
 import Toolbar from '../Editor/Toolbar';
-import { EditorWithToolbar } from './styles';
+import { EditorWithToolbar, Header } from './styles';
 import { postComment } from '../../api/question';
 import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion { }
+interface IAnswerFormProps extends IQuestion {}
 
 const initialCommand = {
   command: '',
@@ -71,11 +72,11 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
     },
     [editorRef, setAnswerValue],
   );
-  const [openImageUploader, handleImageChange, isImageLoading] = useImageUploader(
-    imageUploader,
-    answerUploader,
-    handleImageUpload,
-  );
+  const [
+    openImageUploader,
+    handleImageChange,
+    isImageLoading,
+  ] = useImageUploader(imageUploader, answerUploader, handleImageUpload);
   // 코드 라인 커맨드
   const [codelineState, setCodelineState] = useSetState<CodelineState>(
     initialCodelineState,
@@ -234,7 +235,10 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   const { show, code: codelineCode } = codelineState;
   return (
     <>
-      <h3>답변 작성</h3>
+      <Header>
+        <h3>답변 작성</h3>
+        <Tip />
+      </Header>
       {codelineCode && (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
