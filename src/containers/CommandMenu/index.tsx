@@ -114,7 +114,7 @@ const CommandMenu: React.SFC<ICommandProps> = ({
               </ListItem>
             ))}
           </>
-        ) : (
+        ) : command === '5분팀' ? <ListItem>화이팅!</ListItem> : (
           <ListItem>결과가 없습니다.</ListItem>
         )}
       </List>

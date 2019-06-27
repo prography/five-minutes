@@ -1,13 +1,16 @@
 import React, { memo, useMemo } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import { TiImageOutline, TiCodeOutline } from 'react-icons/ti';
+import { MdFormatBold, MdFormatItalic, MdCode, MdImage, MdLink } from 'react-icons/md';
 import { ToolbarContainer, ToolItem } from './styles';
 import { CommandType } from '../../models/command';
 import selectCommands from '../../constants/command';
 
 const ICONS = {
-  codeline: <TiCodeOutline size={20} />,
-  image: <TiImageOutline size={20} />,
+  bold: <MdFormatBold size={20} />,
+  italic: <MdFormatItalic size={20} />,
+  codeline: <MdCode size={20} />,
+  image: <MdImage size={20} />,
+  link: <MdLink size={20} />
 };
 
 interface IToolbarProps {

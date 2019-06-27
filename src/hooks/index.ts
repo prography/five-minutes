@@ -1,4 +1,5 @@
 import useApi from './useApi';
+import useCommand from './useCommand';
 import useDateFormat from './useDateFormat';
 import useImageUploader from './useImageUploader';
 import useInitialFetch from './useInitialFetch';
@@ -16,6 +17,7 @@ import useWindowEvent from './useWindowEvent';
 
 export {
   useApi,
+  useCommand,
   useDateFormat,
   useImageUploader,
   useInitialFetch,

@@ -6,7 +6,7 @@ import { TiTimesOutline } from 'react-icons/ti';
 import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
 import Tip from './Tip';
-import { useInput, useSetState, useApi, useImageUploader } from '../../hooks';
+import { useInput, useSetState, useApi, useImageUploader, useCommand } from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror, ImageUploader, Message } from '../../components';
 import { IQuestion } from '../../models/question';
@@ -20,7 +20,13 @@ import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion {}
+interface IAnswerFormProps extends IQuestion { }
+
+const getCurrentSelection = (ref: HTMLTextAreaElement) => {
+  return ref.selectionEnd
+    ? ref.selectionEnd
+    : ref.value.length;
+}
 
 const initialCommand = {
   command: '',
@@ -42,7 +48,7 @@ type CodelineState = {
   show: boolean;
 };
 
-const COMMAND_TYPES = ['codeline' as const, 'image' as const];
+const COMMAND_TYPES = ['bold' as const, 'italic' as const, 'codeline' as const, 'image' as const, 'link' as const];
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   // Answer 폼
@@ -57,26 +63,30 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
     }
   }, [error, answer]);
 
+  // 헤더, 이탤릭, 볼드, 링크 등 포맷 커맨드
+  const { handleFormat, handleLink, setSelection } = useCommand(editorRef, setAnswerValue);
+
   // 이미지 커맨드
   const imageUploader = useRef<HTMLInputElement>(null);
   const handleImageUpload = useCallback(
     (err, url?: string) => {
       if (url && editorRef) {
-        const pos = editorRef.selectionEnd
-          ? editorRef.selectionEnd
-          : editorRef.value.length + 1;
+        const pos = getCurrentSelection(editorRef);
+        const format = 'image';
         setAnswerValue(
-          prev => `${prev.slice(0, pos)} ![image](${url}) ${prev.slice(pos)}`,
+          prev => `${prev.slice(0, pos)}![${format}](${url}) ${prev.slice(pos)}`,
         );
+        setSelection([pos + 2, pos + format.length + 2]);
       }
     },
-    [editorRef, setAnswerValue],
+    [editorRef, setAnswerValue, setSelection],
   );
   const [
     openImageUploader,
     handleImageChange,
     isImageLoading,
   ] = useImageUploader(imageUploader, answerUploader, handleImageUpload);
+
   // 코드 라인 커맨드
   const [codelineState, setCodelineState] = useSetState<CodelineState>(
     initialCodelineState,
@@ -97,8 +107,9 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   const onCodeSelect = useCallback(
     (code, line) => {
       setCodelineState({ code: code, codeline: line, show: false });
+      editorRef && editorRef.focus();
     },
-    [setCodelineState],
+    [editorRef, setCodelineState],
   );
   useEffect(() => {
     const { code, codelineRef, codeline } = codelineState;
@@ -184,7 +195,17 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   // Command 실행
   const execCommand = useCallback(
     (command: CommandType) => {
+      clearCommand(true);
       switch (command) {
+        case 'bold':
+        case 'italic': {
+          handleFormat(command);
+          break;
+        }
+        case 'link': {
+          handleLink();
+          break;
+        }
         case 'codeline': {
           setCodelineState({ show: true });
           break;
@@ -194,11 +215,9 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           break;
         }
       }
-      clearCommand(true);
     },
-    [openImageUploader, setCodelineState, clearCommand],
+    [openImageUploader, setCodelineState, handleLink, handleFormat, clearCommand],
   );
-
   const clearAll = useCallback(() => {
     setAnswerValue('');
     setError('');
@@ -286,6 +305,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           },
         }}
         disablePortal={false}
+        style={{ zIndex: 999 }}
       >
         <CommandMenu
           commandTypes={COMMAND_TYPES}

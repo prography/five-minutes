@@ -3,7 +3,7 @@ import { EditorFromTextArea } from 'codemirror';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import isEqual from 'lodash/isEqual';
-import { useInput, useImageUploader } from '../../hooks';
+import { useInput, useImageUploader, useCommand } from '../../hooks';
 import { Title } from '../../styles/common';
 import { ButtonWrapper } from './styles';
 import { ImageUploader, Message } from '../../components';
@@ -16,7 +16,7 @@ import { validateQuestionForm } from '../../utils/validation';
 import { useScrollEl } from '../../hooks';
 
 const INIT_MODE = 'Plain Text';
-const COMMAND_TYPES = ['image' as const];
+const COMMAND_TYPES = ['bold' as const, 'italic' as const, 'link' as const, 'image' as const];
 
 const INITIAL_FORM: IPostQuestion = {
   code: '',
@@ -88,20 +88,19 @@ const QuestionForm: React.SFC<QuestionForm> = ({
   // 질문 content
   const uploaderRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLInputElement>(null);
+  const { handleFormat, handleLink, setSelection, getCurrentSelection } = useCommand(contentRef.current, setContent);
   const handleImageUpload = useCallback(
     async (err, url?: string) => {
       if (contentRef.current && url) {
-        const pos = contentRef
-          ? contentRef.current.selectionEnd
-            ? contentRef.current.selectionEnd
-            : contentRef.current.value.length + 1
-          : 0;
+        const pos = getCurrentSelection(contentRef.current);
+        const format = 'image';
         setContent(
-          prev => `${prev.slice(0, pos)} ![image](${url}) ${prev.slice(pos)}`,
+          prev => `${prev.slice(0, pos)}![${format}](${url}) ${prev.slice(pos)}`,
         );
+        setSelection([pos + 2, pos + format.length + 2]);
       }
     },
-    [setContent],
+    [setContent, setSelection, getCurrentSelection],
   );
   const [openImageUploader, handleImageChange, isLoading] = useImageUploader(
     uploaderRef,
@@ -110,11 +109,26 @@ const QuestionForm: React.SFC<QuestionForm> = ({
   );
   const handleCommand = useCallback(
     (command: CommandType) => {
+      switch (command) {
+        case 'bold':
+        case 'italic': {
+          handleFormat(command);
+          break;
+        }
+        case 'link': {
+          handleLink();
+          break;
+        }
+        case 'image': {
+          openImageUploader();
+          break;
+        }
+      }
       if (command === 'image') {
         openImageUploader();
       }
     },
-    [openImageUploader],
+    [openImageUploader, handleFormat, handleLink],
   );
   // 질문등록
   const handleFormSubmit = async () => {
