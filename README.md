@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0ef062da-4336-420c-89f0-61eb309120d5/deploy-status)](https://app.netlify.com/sites/lucid-lichterman-1717da/deploys)
 <div align="center">
 
   [![Correctcode](./logo.png)](https://lucid-lichterman-1717da.netlify.com)
