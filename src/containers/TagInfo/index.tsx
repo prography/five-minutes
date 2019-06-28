@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
+import TagSearchBox from '../../assets/images/TagSearchBox.png'
 import { TiTick } from 'react-icons/ti';
 import { ITag } from '../../models/tag';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -26,7 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3, 3),
       marginBottom: theme.spacing(2),
       color: theme.palette.primary.contrastText,
-      backgroundColor: theme.palette.primary.main,
+      backgroundImage: `url(${TagSearchBox})`,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
     },
   }),
 );
