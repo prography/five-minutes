@@ -39,11 +39,8 @@ export const Subject = styled.h3`
   flex: 1 1;
 `;
 export const Info = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-export const Date = styled.span`
   font-size: 0.85em;
   color: ${props => props.theme.palette.darkGray};
+`;
+export const Date = styled.div`
 `;

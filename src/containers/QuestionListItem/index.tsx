@@ -6,7 +6,6 @@ import {
   Header,
   Subject,
   Info,
-  Date,
   Footer,
   FooterRight,
   TagContainer,
@@ -27,6 +26,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   createdAt,
   tags,
   user,
+  hits,
   likedUsers = [],
   dislikedUsers = [],
   comments_count = 0,
@@ -45,7 +45,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
           <CustomLink to={`/question/${id}`}>{subject}</CustomLink>
         </Subject>
         <Info>
-          <Date>{formattedDate}</Date>
+          {formattedDate}
         </Info>
       </Header>
       <Divider light />
