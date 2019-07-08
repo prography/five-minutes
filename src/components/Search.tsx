@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 8,
       left: 5,
       color: theme.palette.grey[500],
+      zIndex: 2,
     },
   }),
 );
