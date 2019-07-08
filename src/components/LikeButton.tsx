@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { TiThumbsUp, TiThumbsDown } from 'react-icons/ti';
+import { MdThumbUp, MdThumbDown } from 'react-icons/md';
 
 type LikeType = 'like' | 'dislike';
 const COLOR = {
@@ -46,9 +46,9 @@ const LikeButton: React.SFC<ILikeButtonProps> = ({
   return (
     <LikeOrDislike likeType={likeType} active={active} {...buttonProps}>
       {likeType === 'like' ? (
-        <TiThumbsUp size={30} />
+        <MdThumbUp size={24} />
       ) : (
-          <TiThumbsDown size={30} />
+          <MdThumbDown size={24} />
         )}
       {typeof count !== 'undefined' && <div>{count}</div>}
     </LikeOrDislike>

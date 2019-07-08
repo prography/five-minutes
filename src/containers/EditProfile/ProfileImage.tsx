@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { TiCameraOutline } from 'react-icons/ti';
+import { MdCameraAlt } from 'react-icons/md';
 import { useImageUploader } from '../../hooks';
 import { profileUploader } from '../../utils/cloudinary';
 import { IUpdateUser } from '../../models/user';
@@ -27,7 +27,7 @@ const ProfileImage: React.SFC<IProfileImageProps> = ({ handleUpdateUser, image }
       <ProfilePhoto width={100} src={image} />
       <ImageUploader ref={uploaderRef} onChange={handleImageChange} />
       <ImageEdit onClick={openImageUploader}>
-        <TiCameraOutline />
+        <MdCameraAlt />
       </ImageEdit>
     </ImageWrapper>
   )

@@ -18,7 +18,7 @@ export const AnswerRight = styled.div`
 export const ResolveCheck = styled.button<{ resolve?: boolean }>`
   flex: 0 0 80px;
   text-align: center;
-  color: ${props => props.resolve ? props.theme.palette.primary.main : props.theme.palette.gray};
+  color: ${props => props.resolve ? props.theme.palette.secondary.main : props.theme.palette.gray};
 
   &:hover {
     ${props => !props.disabled && 'cursor: pointer;'}

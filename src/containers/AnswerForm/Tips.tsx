@@ -1,13 +1,13 @@
 import React from 'react';
-import { TiImageOutline, TiCodeOutline } from 'react-icons/ti';
+import { MdCode, MdImage } from 'react-icons/md';
 
 const TIPS = {
   writing: () => (
     <div>
       <h3>작성 팁</h3>
       <div>
-        <p><TiCodeOutline /> 를 클릭하여 바꾸고 싶은 <strong>코드</strong>를 선택하세요.</p>
-        <p><TiImageOutline /> 를 클릭하면 <strong>이미지</strong>를 삽입할 수 있어요.</p>
+        <p><MdCode /> 를 클릭하여 바꾸고 싶은 <strong>코드</strong>를 선택하세요.</p>
+        <p><MdImage /> 를 클릭하면 <strong>이미지</strong>를 삽입할 수 있어요.</p>
         <p>/ 를 입력하면 <strong>커맨드</strong>를 사용할 수 있습니다.</p>
       </div>
     </div>

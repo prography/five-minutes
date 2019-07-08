@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import { TiEdit } from 'react-icons/ti';
+import { MdEdit } from 'react-icons/md';
 import isEqual from 'lodash/isEqual';
 import Paper from '@material-ui/core/Paper';
 import { TagSelect } from '..';
@@ -81,7 +81,7 @@ const WatchedTags = () => {
                   disabled={!isTagSearch}
                 >
                   <EditIcon isEditing={isEdit}>
-                    <TiEdit fontSize="inherit" />
+                    <MdEdit fontSize="inherit" />
                   </EditIcon>
                 </IconButton>
               </div>

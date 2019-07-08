@@ -2,7 +2,7 @@ import React, { useState, memo, useEffect } from 'react';
 import { EditorFromTextArea } from 'codemirror';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-import { TiTick } from 'react-icons/ti';
+import { MdCheckCircle } from 'react-icons/md';
 import {
   Codemirror,
   ProfilePhoto,
@@ -113,7 +113,7 @@ const Answer: React.SFC<IAnswerProps> = ({
     <Paper className={classes.root} elevation={1}>
       <UserInfo>
         <AnswerLeft>
-          <ProfilePhoto src={user.image} />
+          <ProfilePhoto src={user.image} userId={user.id} />
         </AnswerLeft>
         <AnswerRight>
           <div>
@@ -126,7 +126,7 @@ const Answer: React.SFC<IAnswerProps> = ({
           aria-label="Resolve"
         ><div>
             <ResolveCheck resolve={isResolved} onClick={isMyQuestion ? onResolveClick : undefined} disabled={!isMyQuestion}>
-              <TiTick size={24} />
+              <MdCheckCircle size={30} />
             </ResolveCheck>
           </div>
         </Tooltip>

@@ -1,21 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 import profilephoto from '../assets/ic_profilephoto.png';
+import { Link } from 'react-router-dom';
 
 const Photo = styled.img`
   border-radius: 100%;
 `;
 
-const ProfilePhoto: React.SFC<React.ImgHTMLAttributes<HTMLImageElement>> = ({
+interface ProfilePhotoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  userId?: string;
+}
+
+const ProfilePhoto: React.SFC<ProfilePhotoProps> = ({
   width = 36,
   src = profilephoto,
+  userId,
   ...props
 }) => {
   const handleError = (e: React.ChangeEvent<HTMLImageElement>) => {
     e.target.src = profilephoto;
     (e.target as any).error = null;
   };
-  return (
+
+  const Image = () => (
     <Photo
       src={src}
       alt="프로필사진"
@@ -24,6 +31,16 @@ const ProfilePhoto: React.SFC<React.ImgHTMLAttributes<HTMLImageElement>> = ({
       {...props}
       onError={handleError}
     />
+  )
+  if (userId) {
+    return (
+      <Link to={`/profile/${userId}`}>
+        <Image />
+      </Link>
+    )
+  }
+  return (
+    <Image />
   );
 };
 

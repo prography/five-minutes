@@ -37,7 +37,7 @@ const ProfileBox: React.SFC<ProfileBoxProps> = ({ id, nickname, image }) => {
           </div>
         </Grid>
         <Grid item className={classes.right}>
-          <ProfilePhoto src={image} />
+          <ProfilePhoto src={image} userId={id} />
         </Grid>
       </Grid>
     </Paper>

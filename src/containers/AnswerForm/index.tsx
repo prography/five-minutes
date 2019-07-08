@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Popper from '@material-ui/core/Popper';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import { TiTimesOutline } from 'react-icons/ti';
+import { MdRemoveCircle } from 'react-icons/md';
 import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
 import Tip from './Tip';
@@ -270,7 +270,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
           </div>
           <div>
             <IconButton aria-label="Delete" onClick={clearCodelineState}>
-              <TiTimesOutline />
+              <MdRemoveCircle />
             </IconButton>
           </div>
         </div>

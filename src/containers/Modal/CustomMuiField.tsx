@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldProps } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import TextField, { TextFieldProps } from '@material-ui/core/TextField';
-import { TiInfoOutline } from 'react-icons/ti';
+import { MdInfoOutline } from 'react-icons/md';
 
 const CustomMuiField: React.SFC<FieldProps & TextFieldProps> = ({
   field,
@@ -28,7 +28,7 @@ const CustomMuiField: React.SFC<FieldProps & TextFieldProps> = ({
           >
             {hasError && (
               <>
-                <TiInfoOutline fontSize="inherit" /> {errors[field.name]}
+                <MdInfoOutline fontSize="inherit" /> {errors[field.name]}
               </>
             )}
           </Typography>
