@@ -20,7 +20,9 @@ marked.setOptions({
         },
       );
     }
-    return code;
+    else {
+      return callback && callback(null, code);
+    }
   },
 });
 
