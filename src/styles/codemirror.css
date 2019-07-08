@@ -2,6 +2,8 @@
   width: 100%;
   height: auto;
   padding: 15px 0;
+
+  font-family: 'Roboto Mono', Monaco, monospace;
 }
 .CodeMirror-linenumbers {
   background-color: white;
@@ -17,8 +19,6 @@
 }
 .CodeMirror-line {
   padding: 5px 0;
-}
-.CodeMirror pre {
 }
 /* .CodeMirror pre:hover {
   background-color: rgba(0, 0, 0, 0.1);

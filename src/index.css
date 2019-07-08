@@ -3,3 +3,11 @@ body {
   background-color: #fdfdfd;
   font-family: 'Roboto', 'Noto Sans KR', sans-serif;
 }
+
+pre, code, kbd, samp {
+  font-family: 'Roboto Mono', Monaco, monospace;
+}
+
+p {
+  line-height: 1.7rem;
+}
