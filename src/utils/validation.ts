@@ -36,7 +36,7 @@ export const isPasswordConfirm = (password: string) => {
 };
 export const isNickname = string()
   .matches(
-    /^[a-zA-Z0-9가-힣]{2,10}$/,
+    /^[a-zA-Z0-9가-힣]{2,}$/,
     '닉네임은 특수문자 제외 2자 이상이어야 합니다.',
   )
   .required('필수 항목입니다.');
