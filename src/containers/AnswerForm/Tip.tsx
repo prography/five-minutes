@@ -33,9 +33,13 @@ const Tip = () => {
   const open = !!type;
   return (
     <div>
-      <Button color="primary" onClick={handleClick('writing')}>작성 팁</Button>
-      <Button color="primary" onClick={handleClick('markdown')}>마크다운 사용법</Button>
-      <Popper open={open} anchorEl={tipEl}>
+      <Button color="primary" onClick={handleClick('writing')}>
+        작성 팁
+      </Button>
+      <Button color="primary" onClick={handleClick('markdown')}>
+        마크다운 사용법
+      </Button>
+      <Popper open={open} anchorEl={tipEl} style={{ zIndex: 5 }}>
         <Paper className={classes.paper}>
           {type && (
             <ClickAwayListener onClickAway={handleClose}>

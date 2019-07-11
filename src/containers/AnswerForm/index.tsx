@@ -6,7 +6,13 @@ import { MdRemoveCircle } from 'react-icons/md';
 import { EditorFromTextArea } from 'codemirror';
 import { useDispatch } from 'react-redux';
 import Tip from './Tip';
-import { useInput, useSetState, useApi, useImageUploader, useCommand } from '../../hooks';
+import {
+  useInput,
+  useSetState,
+  useApi,
+  useImageUploader,
+  useCommand,
+} from '../../hooks';
 import { CodeSelect, CommandMenu, Editor } from '../';
 import { Codemirror, ImageUploader, Message } from '../../components';
 import { IQuestion } from '../../models/question';
@@ -20,13 +26,11 @@ import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion { }
+interface IAnswerFormProps extends IQuestion {}
 
 const getCurrentSelection = (ref: HTMLTextAreaElement) => {
-  return ref.selectionEnd
-    ? ref.selectionEnd
-    : ref.value.length;
-}
+  return ref.selectionEnd ? ref.selectionEnd : ref.value.length;
+};
 
 const initialCommand = {
   command: '',
@@ -48,7 +52,13 @@ type CodelineState = {
   show: boolean;
 };
 
-const COMMAND_TYPES = ['bold' as const, 'italic' as const, 'codeline' as const, 'image' as const, 'link' as const];
+const COMMAND_TYPES = [
+  'bold' as const,
+  'italic' as const,
+  'codeline' as const,
+  'image' as const,
+  'link' as const,
+];
 
 const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   // Answer 폼
@@ -64,7 +74,10 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
   }, [error, answer]);
 
   // 헤더, 이탤릭, 볼드, 링크 등 포맷 커맨드
-  const { handleFormat, handleLink, setSelection } = useCommand(editorRef, setAnswerValue);
+  const { handleFormat, handleLink, setSelection } = useCommand(
+    editorRef,
+    setAnswerValue,
+  );
 
   // 이미지 커맨드
   const imageUploader = useRef<HTMLInputElement>(null);
@@ -74,7 +87,8 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         const pos = getCurrentSelection(editorRef);
         const format = 'image';
         setAnswerValue(
-          prev => `${prev.slice(0, pos)}![${format}](${url}) ${prev.slice(pos)}`,
+          prev =>
+            `${prev.slice(0, pos)}![${format}](${url}) ${prev.slice(pos)}`,
         );
         setSelection([pos + 2, pos + format.length + 2]);
       }
@@ -216,7 +230,13 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
         }
       }
     },
-    [openImageUploader, setCodelineState, handleLink, handleFormat, clearCommand],
+    [
+      openImageUploader,
+      setCodelineState,
+      handleLink,
+      handleFormat,
+      clearCommand,
+    ],
   );
   const clearAll = useCallback(() => {
     setAnswerValue('');
@@ -304,8 +324,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
             boundariesElement: 'viewport',
           },
         }}
-        disablePortal={false}
-        style={{ zIndex: 999 }}
+        style={{ zIndex: 5 }}
       >
         <CommandMenu
           commandTypes={COMMAND_TYPES}
