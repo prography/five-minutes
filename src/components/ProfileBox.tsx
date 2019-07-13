@@ -10,16 +10,16 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '15rem',
-      padding: theme.spacing(1),
-      boxShadow: '0 0 0 0'
+      padding: `${theme.spacing(1)}px 0px`,
+      boxShadow: '0 0 0 0',
     },
     left: {
       flex: '1 0',
       textAlign: 'right',
     },
     right: {
-      minWidth: 80,
       textAlign: 'center',
+      marginLeft: 10,
     },
   }),
 );
