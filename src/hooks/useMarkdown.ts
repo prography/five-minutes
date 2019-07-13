@@ -4,6 +4,7 @@ import hljs from 'highlight.js/lib/highlight';
 import highlightLang from '../constants/highlight.json';
 
 marked.setOptions({
+  breaks: true,
   highlight: (code, lang, callback): any => {
     if (lang && callback) {
       const path = (highlightLang as any)[lang];
