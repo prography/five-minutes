@@ -44,7 +44,8 @@ export const isPassword = string()
   .required('필수 항목입니다.');
 export const isPasswordConfirm = (password: string) => {
   return string()
-    .matches(new RegExp(`^${password}$`), '비밀번호와 같아야 합니다.')
+    .trim()
+    .oneOf([password], '비밀번호와 같아야 합니다.')
     .required('필수 항목입니다.');
 };
 export const isNickname = string()
