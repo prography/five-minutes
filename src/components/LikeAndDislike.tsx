@@ -10,6 +10,7 @@ type LikeApi = ApiCall<
 
 interface ILikeAndDislikeProps {
   id: string;
+  authorId: string;
   likedUsers: IUser[];
   dislikedUsers: IUser[];
   likeApi: LikeApi;
@@ -17,6 +18,7 @@ interface ILikeAndDislikeProps {
 }
 const LikeAndDislike: React.SFC<ILikeAndDislikeProps> = ({
   id,
+  authorId,
   likedUsers,
   dislikedUsers,
   likeApi,
@@ -29,7 +31,7 @@ const LikeAndDislike: React.SFC<ILikeAndDislikeProps> = ({
     dislikeCount,
     handleDislike,
     hasDisliked,
-  } = useLike(id, likeApi, dislikeApi, likedUsers, dislikedUsers);
+  } = useLike(id, authorId, likeApi, dislikeApi, likedUsers, dislikedUsers);
 
   return (
     <>

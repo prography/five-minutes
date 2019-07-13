@@ -1,6 +1,9 @@
 .Renoti__noti {
   border-radius: 5px;
 }
+.Renoti__noti_factory {
+  z-index: 5;
+}
 .Renoti__noti_default {
   background-color: white;
   border: 1px solid #065dec;

@@ -83,6 +83,7 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
         <BodySide>
           <LikeAndDislike
             id={id}
+            authorId={user.id}
             likedUsers={likedUsers}
             dislikedUsers={dislikedUsers}
             likeApi={likeQuestion}
