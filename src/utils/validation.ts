@@ -10,7 +10,7 @@ const MSG = {
 export const subjectSchema = string()
   .trim()
   .required(MSG.subject)
-  .min(2);
+  .min(2, '제목은 두 글자 이상이어야 합니다.');
 export const contentSchema = string().required(MSG.content);
 export const codeSchema = string().required(MSG.code);
 
