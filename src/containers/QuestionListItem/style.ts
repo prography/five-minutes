@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { ShadowBox } from '../../styles/common';
 
 export const Question = styled(ShadowBox)`
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0 1rem 1rem 1rem; 
 `;
 export const Header = styled.div`
   width: 100%;

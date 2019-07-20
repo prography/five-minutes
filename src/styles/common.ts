@@ -6,7 +6,7 @@ export const WithBackground = styled.div`
 
 export const PageLayout = styled.div`
   width: 100%;
-  padding: 3rem 10px;
+  padding: 1rem 10px;
 
   box-sizing: border-box;
 `;
@@ -54,7 +54,7 @@ export const ShadowBox = styled(Box)`
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: 12px;
   color: ${props => props.theme.palette.primary.main};
 
   border-left: 3.5px solid ${props => props.theme.palette.primary.main};

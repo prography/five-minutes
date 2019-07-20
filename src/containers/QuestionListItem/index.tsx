@@ -48,7 +48,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
           {formattedDate}
         </Info>
       </Header>
-      <Divider light />
+      {/* <Divider light /> <hr> */}
       <p>{truncated}</p>
       <Footer>
         <TagContainer>{tags && <TagList tags={tags} />}</TagContainer>
