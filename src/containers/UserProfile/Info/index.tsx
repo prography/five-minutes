@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { RouteComponentProps, withRouter } from 'react-router';
 import { InfoContainer } from './style';
 import GithubImg from '../../../assets/icon/github.png';
 import { IRootState } from '../../../reducers';
 import { ProfilePhoto, CustomLink, TagList } from '../../../components';
 
-const Info: React.SFC<RouteComponentProps> = ({ location }) => {
+interface IInfoProps {
+  currentPath: string;
+}
+const Info: React.SFC<IInfoProps> = ({ currentPath }) => {
   // TODO: Shallow Equality check 적용
   const myId = useSelector((state: IRootState) => state.auth.me.user.id);
   const { user, status, questionCount, commentCount } = useSelector(
@@ -42,7 +44,7 @@ const Info: React.SFC<RouteComponentProps> = ({ location }) => {
           </Grid>
           <Grid item xs={3}>
             {isMe && (
-              <CustomLink to={`${location.pathname}/edit`}>
+              <CustomLink to={`${currentPath}/edit`}>
                 <Button color="primary" variant="outlined" fullWidth>
                   프로필 수정
                 </Button>
@@ -68,4 +70,4 @@ const Info: React.SFC<RouteComponentProps> = ({ location }) => {
   );
 };
 
-export default withRouter(Info);
+export default memo(Info);

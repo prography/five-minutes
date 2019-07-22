@@ -4,12 +4,13 @@ import Contents from './Contents';
 import { Divider } from '../../components';
 
 interface IProfileProps {
+  currentPath: string;
   currentTab: string;
 }
-const Profile: React.SFC<IProfileProps> = ({ currentTab }) => {
+const Profile: React.SFC<IProfileProps> = ({ currentTab, currentPath }) => {
   return (
     <div>
-      <Info />
+      <Info currentPath={currentPath} />
       <Divider withMargin />
       <Contents currentTab={currentTab} />
     </div>

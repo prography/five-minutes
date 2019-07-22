@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -11,7 +10,7 @@ import { IRootState } from '../../reducers';
 import { IUser } from '../../models/user';
 import { logout } from '../../actions/auth';
 
-export interface IHeaderProps extends RouteComponentProps {
+export interface IHeaderProps {
   dispatch: Dispatch;
   user: IUser;
   isLoggedIn: boolean;
@@ -47,15 +46,15 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
                 <ProfileMenu {...user} logout={handleLogout} />
               </Menu>
             ) : (
-              <>
-                <Button onClick={() => dispatch(openModal('signin'))}>
-                  로그인
+                <>
+                  <Button onClick={() => dispatch(openModal('signin'))}>
+                    로그인
                 </Button>
-                <Button onClick={() => dispatch(openModal('signup'))}>
-                  회원가입
+                  <Button onClick={() => dispatch(openModal('signup'))}>
+                    회원가입
                 </Button>
-              </>
-            )}
+                </>
+              )}
           </Grid>
           <Grid item>
             <CustomLink to="/ask">
@@ -74,4 +73,4 @@ const mapStateToProps = (state: IRootState) => ({
   isLoggedIn: state.auth.me.isLoggedIn,
   user: state.auth.me.user,
 });
-export default withRouter(connect(mapStateToProps)(Header));
+export default connect(mapStateToProps)(Header);
