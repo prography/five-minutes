@@ -4,7 +4,7 @@ import { Divider } from '../../components';
 import Answer from './Answer';
 import CorrectCode from './CorrectCode';
 import { IQuestion } from '../../models/question';
-import { ListHeader, ListCount, ListActions } from './style';
+import { ListHeader, ListCount } from './style';
 
 interface IAnswerListProps
   extends Pick<IQuestion, 'comments' | 'language' | 'id'> {

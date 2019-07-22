@@ -32,13 +32,16 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   dislikedUsers = [],
   comments_count = 0,
 }) => {
-  const handleBoxClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const tagname = (e.target as HTMLElement).tagName;
-    if (['A', 'SPAN'].some(linkable => linkable === tagname)) {
-      return false;
-    }
-    history.push(`/question/${id}`);
-  }, []);
+  const handleBoxClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const tagname = (e.target as HTMLElement).tagName;
+      if (['A', 'SPAN'].some(linkable => linkable === tagname)) {
+        return false;
+      }
+      history.push(`/question/${id}`);
+    },
+    [id],
+  );
   const truncated = useMemo(
     () => (content.length >= MAX_TRUNCATE_LEN ? `${content}...` : content),
     [content],
