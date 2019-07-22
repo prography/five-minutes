@@ -1,5 +1,4 @@
 import React, { memo, useMemo, useCallback } from 'react';
-import Divider from '@material-ui/core/Divider';
 import { MdThumbUp, MdThumbDown, MdComment } from 'react-icons/md';
 import {
   Question,
@@ -57,7 +56,6 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
         </Subject>
         <Info>{formattedDate}</Info>
       </Header>
-      <Divider light />
       <p>{truncated}</p>
       <Footer>
         <TagContainer>{tags && <TagList tags={tags} />}</TagContainer>

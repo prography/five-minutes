@@ -3,7 +3,7 @@ import { ShadowBox } from '../../styles/common';
 
 export const Question = styled(ShadowBox)`
   cursor: pointer;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 `;
 export const Header = styled.div`
   width: 100%;
