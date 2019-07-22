@@ -13,16 +13,25 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
 const Tag: React.SFC<Pick<ITag, 'name'> & ChipProps> = ({ name, ...props }) => {
   const classes = useStyles();
   const withoutLink = props.onClick || props.onDelete;
-  const TagChip = <Chip className={classes.chip} color="secondary" clickable label={name} {...props} />;
+  const TagChip = (
+    <Chip
+      className={classes.chip}
+      color="secondary"
+      clickable
+      label={name}
+      {...props}
+    />
+  );
   return (
     <>
-      {
-        withoutLink ? TagChip : <CustomLink to={`/tagged/${name}`}>{TagChip}</CustomLink>
-      }
+      {withoutLink ? (
+        TagChip
+      ) : (
+        <CustomLink to={`/tagged/${name}`}>{TagChip}</CustomLink>
+      )}
     </>
   );
 };
