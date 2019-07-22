@@ -6,20 +6,38 @@ import debounce from 'lodash/debounce';
 import { IOptionValue } from '../models/select';
 import { makeSelectable } from '../utils/select';
 import { searchTags } from '../api/tag';
+import { isTag } from '../utils/validation';
+import { notifier } from '../utils/renoti';
 export interface ITagSelectProps extends SelectComponentsProps {
   tags: string[];
   setTags: (tags: string[]) => void;
 }
 const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
-  const [defaultValue] = useState(() => makeSelectable(tags));
+  const selectableTags = useMemo(() => makeSelectable(tags), [tags]);
   const handleCreate = useCallback(
     (newValue: ValueType<IOptionValue>) => {
       if (!newValue || !Array.isArray(newValue)) {
         return;
       }
+      let error = '';
       const newTags: string[] = newValue.map(
         (value: IOptionValue) => value.value,
-      );
+      ).filter(tag => {
+        try {
+          isTag.validateSync(tag);
+          return true;
+        } catch (err) {
+          error = err.message;
+          return false;
+        }
+      });
+      if (error) {
+        notifier.notify({
+          type: 'error',
+          position: 'top-center',
+          message: error,
+        });
+      }
       setTags(newTags);
     },
     [setTags],
@@ -74,13 +92,12 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
       isMulti
       placeholder="태그를 검색해보세요."
       cacheOptions
-      defaultValue={defaultValue}
-      defaultOptions={[]}
       onChange={handleCreate}
       loadOptions={loadOptions}
       loadingMessage={loadingMessage}
       noOptionsMessage={noOptionsMessage}
       formatCreateLabel={formatCreateLabel}
+      value={selectableTags}
       {...props}
     />
   );

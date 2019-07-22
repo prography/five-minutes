@@ -18,7 +18,7 @@ const TagEdit: React.SFC<ITagEditProps> = ({ tags, handleUpdateUser }) => {
   };
   return (
     <div>
-      <TagSelect tags={[]} value={[]} setTags={handleTagAdd} />
+      <TagSelect tags={[]} setTags={handleTagAdd} />
       <Divider withMargin />
       {
         tags.map(tag => <Tag key={tag} name={tag} onDelete={handleTagDelete(tag)} />)

@@ -91,7 +91,7 @@ const WatchedTags = () => {
           <ContainerContents isActive={isTagSearch}>
             {isEdit && (
               <TagSelectWrapper>
-                <TagSelect tags={[]} value={[]} setTags={onTagSelect} />
+                <TagSelect tags={[]} setTags={onTagSelect} />
               </TagSelectWrapper>
             )}
             {tags.map(tag => (

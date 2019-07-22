@@ -61,3 +61,5 @@ export const isGiturl = string()
     'github 프로필 url을 적어주세요.',
   )
   .required('필수 항목입니다.');
+
+export const isTag = string().trim().min(2, '태그는 2자 이상 10자 이하여야 합니다.').max(10, '태그는 2자 이상 10자 이하여야 합니다.');
