@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import { ValueType } from 'react-select/lib/types';
 import { SelectComponentsProps } from 'react-select/lib/Select';

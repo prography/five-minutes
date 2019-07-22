@@ -32,7 +32,7 @@ export const Sidebar = styled.div<{ left?: boolean }>`
   flex: 0 1 300px;
   margin: 0 20px;
   @media screen and (max-width: ${props =>
-      props.left ? '1400px' : '1100px'}) {
+    props.left ? '1400px' : '1100px'}) {
     display: none;
   }
 `;
@@ -53,8 +53,7 @@ export const ShadowBox = styled(Box)`
   }
 `;
 
-export const Title = styled.h1`
-  font-size: 12px;
+export const Title = styled.h2`
   color: ${props => props.theme.palette.primary.main};
 
   border-left: 3.5px solid ${props => props.theme.palette.primary.main};

@@ -31,15 +31,12 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
   dislikedUsers = [],
   comments_count = 0,
 }) => {
+  const originPath = useMemo(() => history.location.pathname, []);
   const handleBoxClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      const tagname = (e.target as HTMLElement).tagName;
-      if (['A', 'SPAN'].some(linkable => linkable === tagname)) {
-        return false;
-      }
-      history.push(`/question/${id}`);
+      originPath === history.location.pathname && history.push(`/question/${id}`);
     },
-    [id],
+    [id, originPath],
   );
   const truncated = useMemo(
     () => (content.length >= MAX_TRUNCATE_LEN ? `${content}...` : content),
