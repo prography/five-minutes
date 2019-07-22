@@ -38,6 +38,10 @@ export const updateQuestion = async (
   const { data } = await instance.put(`/questions/${id}`, question);
   return data;
 };
+export const deleteQuestion = async (id: IQuestion['id']) => {
+  const { data } = await instance.delete(`/questions/${id}`);
+  return data;
+};
 export const likeQuestion = async (id: string) => {
   const { data } = await instance.put<ApiResponse<IQuestion>>(
     `/questions/${id}/like`,
@@ -51,10 +55,17 @@ export const dislikeQuestion = async (id: string) => {
   return data;
 };
 
-export const correctComment = async (questionId: string, commentId: string, code: string) => {
-  const { data } = await instance.put<ApiResponse<IComment>>(`/questions/${questionId}/comments/${commentId}/correct`, { code });
+export const correctComment = async (
+  questionId: string,
+  commentId: string,
+  code: string,
+) => {
+  const { data } = await instance.put<ApiResponse<IComment>>(
+    `/questions/${questionId}/comments/${commentId}/correct`,
+    { code },
+  );
   return data;
-}
+};
 /* 답변 */
 
 export const postComment: ApiCall<

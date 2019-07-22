@@ -40,6 +40,9 @@ export const Footer = styled.div`
 `;
 export const ActionWrapper = styled.div`
   display: flex;
+  a {
+    padding: 0 3px 2px;
+  }
 `;
 export const Code = styled.div`
   font-size: 0.95em;

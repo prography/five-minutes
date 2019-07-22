@@ -19,12 +19,19 @@ import {
   SET_QUESTION_SEARCH_MODE,
   UPDATE_QUESTION,
   UPDATE_COMMENT,
+  DELETE_QUESTION_SUCCESS,
+  DELETE_QUESTION_REQUEST,
+  DELETE_QUESTION_FAILURE,
 } from '../constants/ActionTypes';
 import { ISearchQuestionQuery } from '../models/api';
 
 export interface IPostQuestionState {
   status: Status;
   question?: IQuestion;
+  error: string;
+}
+export interface IDeleteQuestionState {
+  status: Status;
   error: string;
 }
 export interface IGetQuestionState {
@@ -49,6 +56,7 @@ export interface ISearchQuestionsState
 }
 export interface IQuestionState {
   post: IPostQuestionState;
+  delete: IDeleteQuestionState;
   get: IGetQuestionState;
   getList: IGetQuestionsState;
   search: ISearchQuestionsState;
@@ -69,6 +77,10 @@ const initialState: IQuestionState = {
     questions: [],
     page: 0,
     hasNext: true,
+    error: '',
+  },
+  delete: {
+    status: 'INIT',
     error: '',
   },
   search: {
@@ -142,7 +154,9 @@ export default function reducer(
       case UPDATE_COMMENT: {
         if (!draft.get.question) return draft;
 
-        const targetIdx = draft.get.question.comments.findIndex(comment => comment.id === action.payload.id);
+        const targetIdx = draft.get.question.comments.findIndex(
+          comment => comment.id === action.payload.id,
+        );
         if (targetIdx >= 0) {
           draft.get.question.comments[targetIdx] = {
             ...draft.get.question.comments[targetIdx],
@@ -172,8 +186,26 @@ export default function reducer(
           draft.get.question = {
             ...draft.get.question,
             ...action.payload,
-          }
+          };
         }
+        return draft;
+      }
+      case DELETE_QUESTION_REQUEST: {
+        draft.delete.status = 'FETCHING';
+        return draft;
+      }
+      case DELETE_QUESTION_SUCCESS: {
+        draft.delete.status = 'SUCCESS';
+        if (draft.get.question && draft.get.question.id === action.payload) {
+          draft.get.question = undefined;
+        }
+        draft.getList.questions = draft.getList.questions.filter(
+          question => question.id !== action.payload,
+        );
+        return draft;
+      }
+      case DELETE_QUESTION_FAILURE: {
+        draft.delete.status = 'FAILURE';
         return draft;
       }
       case SEARCH_QUESTIONS: {

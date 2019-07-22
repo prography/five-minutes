@@ -2,6 +2,7 @@ import AntSwitch from './AntSwitch';
 import AuthBlock from './AuthBlock';
 import Button from './Button';
 import Codemirror from './Codemirror';
+import Confirm from './Confirm';
 import CustomLink from './CustomLink';
 import Dimmer from './Dimmer';
 import Divider from './Divider';
@@ -30,6 +31,7 @@ export {
   AuthBlock,
   Button,
   Codemirror,
+  Confirm,
   CustomLink,
   Dimmer,
   Divider,

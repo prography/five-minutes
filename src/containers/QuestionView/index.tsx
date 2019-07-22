@@ -1,4 +1,5 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useCallback, useMemo, useState } from 'react';
+import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import { EditorFromTextArea } from 'codemirror';
 import {
@@ -7,6 +8,7 @@ import {
   TagList,
   LikeAndDislike,
   ProfileBox,
+  Confirm,
 } from '../../components';
 import { IQuestion } from '../../models/question';
 import { useDateFormat, useMarkdown } from '../../hooks';
@@ -26,6 +28,8 @@ import {
 import { notifier } from '../../utils/renoti';
 import { history } from '../../utils/history';
 import { likeQuestion, dislikeQuestion } from '../../api/question';
+import { useDispatch } from 'react-redux';
+import { deleteQuestion } from '../../actions/question';
 
 export interface IQuestionViewProps extends IQuestion {
   codeRef: EditorFromTextArea | undefined;
@@ -40,6 +44,7 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
   user,
   subject,
   content,
+  comments,
   tags,
   createdAt,
   code,
@@ -50,8 +55,26 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
   dislikedUsers = [],
   isMyQuestion = false,
 }) => {
+  const [confirm, setConfirm] = useState(false);
   const fmContent = useMarkdown(content);
   const fmDate = useDateFormat(createdAt);
+  /* 컨펌 모달 */
+  const openConfirm = useCallback(() => setConfirm(true), []);
+  const closeConfirm = useCallback(() => setConfirm(false), []);
+  /* 글 삭제 */
+  const isDeleteAble = useMemo(() => comments.length === 0, [comments]);
+  const dispatch = useDispatch();
+  const handleDeleteQuestion = useCallback(() => {
+    closeConfirm();
+    if (isDeleteAble) {
+      return dispatch(deleteQuestion(id));
+    }
+    return notifier.notify({
+      type: 'error',
+      message: '이미 답변이 달린 게시물은 삭제할 수 없습니다.',
+    });
+  }, [closeConfirm, dispatch, id, isDeleteAble]);
+  /* 글 등록으로 부터 들어온 경우 */
   useEffect(() => {
     const { pathname, state = {} } = history.location;
     if (state.new) {
@@ -100,20 +123,33 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
               setCodeEditor={setCodeRef}
             />
           </Code>
-
           <TagWrapper>
             <TagList tags={tags} />
           </TagWrapper>
           <Footer>
             <ActionWrapper>
               {isMyQuestion && (
-                <CustomLink to={`/question/${id}/edit`}>수정</CustomLink>
+                <div>
+                  <CustomLink to={`/question/${id}/edit`}>수정</CustomLink>
+                  <CustomLink to="#" role="button" onClick={openConfirm}>
+                    삭제
+                  </CustomLink>
+                </div>
               )}
             </ActionWrapper>
             <ProfileBox {...user} />
           </Footer>
         </BodyMain>
       </Body>
+      <Confirm
+        open={confirm}
+        title="정말 삭제하시겠습니까?"
+        message="이 요청은 되돌릴 수 없습니다. 영구적으로 이 질문을 삭제합니다."
+        agreeLabel="네. 삭제하겠습니다."
+        onClose={closeConfirm}
+        onAgree={handleDeleteQuestion}
+        onDisagree={closeConfirm}
+      />
     </Container>
   );
 };

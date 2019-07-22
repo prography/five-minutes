@@ -19,6 +19,10 @@ import {
   UPDATE_SEARCH_QUERY,
   LOAD_TAGGED_QUESTIONS,
   UPDATE_COMMENT,
+  DELETE_QUESTION,
+  DELETE_QUESTION_SUCCESS,
+  DELETE_QUESTION_FAILURE,
+  DELETE_QUESTION_REQUEST,
 } from '../constants/ActionTypes';
 import { IComment } from '../models/comment';
 
@@ -69,7 +73,9 @@ export const addComment = createActionCreator(ADD_COMMENT)<IComment>();
 
 export type AddComment = ReturnType<typeof addComment>;
 /* 현재 view question comment 수정 */
-export const updateComment = (comment: Partial<IComment> & Pick<IComment, 'id'>) => ({
+export const updateComment = (
+  comment: Partial<IComment> & Pick<IComment, 'id'>,
+) => ({
   type: UPDATE_COMMENT,
   payload: comment,
 });
@@ -77,12 +83,28 @@ export const updateComment = (comment: Partial<IComment> & Pick<IComment, 'id'>)
 export type UpdateComment = ReturnType<typeof updateComment>;
 
 /* store에 매치되는 질문 업데이트 */
-export const updateQuestion = (question: Partial<IQuestion> & Pick<IQuestion, 'id'>) => ({
+export const updateQuestion = (
+  question: Partial<IQuestion> & Pick<IQuestion, 'id'>,
+) => ({
   type: UPDATE_QUESTION,
   payload: question,
 });
 
 export type UpdateQuestion = ReturnType<typeof updateQuestion>;
+
+/* store에 매치되는 질문 삭제 */
+export const deleteQuestionActions = createEntity(
+  DELETE_QUESTION_REQUEST,
+  DELETE_QUESTION_SUCCESS,
+  DELETE_QUESTION_FAILURE,
+)(questionApi.deleteQuestion);
+
+export const deleteQuestion = (questionId: IQuestion['id']) => ({
+  type: DELETE_QUESTION,
+  payload: questionId,
+});
+export type DeleteQuestion = ReturnType<typeof deleteQuestion>;
+
 /* 질문 검색 */
 
 export const searchQuestionsActions = createEntity(
@@ -159,6 +181,7 @@ export type QuestionAction =
   | ActionTypes<typeof getQuestionsActions>
   | ActionTypes<typeof getQuestionActions>
   | ActionTypes<typeof searchQuestionsActions>
+  | ActionTypes<typeof deleteQuestionActions>
   | UpdateQuestion
   | LoadTaggedQuestions
   | SetQuestionSearchMode

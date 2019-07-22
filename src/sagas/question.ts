@@ -13,6 +13,9 @@ import {
   SET_QUESTION_SEARCH_MODE,
   UPDATE_LIST_QUERY,
   LOAD_TAGGED_QUESTIONS,
+  DELETE_QUESTION,
+  DELETE_QUESTION_SUCCESS,
+  DELETE_QUESTION_FAILURE,
 } from '../constants/ActionTypes';
 import {
   PostQuestion,
@@ -26,15 +29,23 @@ import {
   setQuestionSearchMode,
   updateListQuery,
   LoadTaggedQuestions,
+  deleteQuestionActions,
+  DeleteQuestion,
 } from '../actions/question';
 import * as questionApi from '../api/question';
 import { IRootState } from '../reducers';
 import { history } from '../utils/history';
 import { fetchEntity } from '../utils/saga';
 import { ISearchQuestionQuery, IBaseListQuery } from '../models/api';
+import { notifier } from '../utils/renoti';
 
 const selectQuestionList = (state: IRootState) =>
   state.question.getList.questions;
+
+const fetchDeleteUser = fetchEntity(
+  deleteQuestionActions,
+  questionApi.deleteQuestion,
+);
 
 const fetchSearchedQuestions = fetchEntity(
   searchQuestionsActions,
@@ -113,6 +124,27 @@ function* watchPost() {
     yield call(post, action);
   }
 }
+function* watchDelete() {
+  while (true) {
+    const action: DeleteQuestion = yield take(DELETE_QUESTION);
+    yield fork(fetchDeleteUser, action.payload);
+    const { type } = yield take([
+      DELETE_QUESTION_SUCCESS,
+      DELETE_QUESTION_FAILURE,
+    ]);
+    if (type === DELETE_QUESTION_SUCCESS) {
+      notifier.notify({
+        type: 'success',
+        message: '성공적으로 삭제되었습니다.',
+      });
+    } else {
+      notifier.notify({
+        type: 'error',
+        message: '삭제에 실패하였습니다. 다시 시도해주세요.',
+      });
+    }
+  }
+}
 function* watchSearch() {
   while (true) {
     const {
@@ -173,6 +205,7 @@ export default function* root() {
     fork(watchGet),
     fork(watchGetList),
     fork(watchPost),
+    fork(watchDelete),
     fork(watchSearch),
     fork(watchTagSearch),
     fork(watchWatchedTags),
