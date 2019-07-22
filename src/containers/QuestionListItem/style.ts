@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ShadowBox } from '../../styles/common';
 
 export const Question = styled(ShadowBox)`
+  cursor: pointer;
   margin-bottom: 1.5rem;
 `;
 export const Header = styled.div`
@@ -42,5 +43,4 @@ export const Info = styled.div`
   font-size: 0.85em;
   color: ${props => props.theme.palette.darkGray};
 `;
-export const Date = styled.div`
-`;
+export const Date = styled.div``;
