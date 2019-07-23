@@ -43,4 +43,3 @@ export const Info = styled.div`
   font-size: 0.85em;
   color: ${props => props.theme.palette.darkGray};
 `;
-export const Date = styled.div``;

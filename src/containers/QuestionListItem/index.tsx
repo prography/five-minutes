@@ -51,7 +51,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
         <Subject>
           <CustomLink to={`/question/${id}`}>{subject}</CustomLink>
         </Subject>
-        <Info>{formattedDate}</Info>
+        <Info>조회수: {hits}</Info>
       </Header>
       <p>{truncated}</p>
       <Footer>
@@ -59,6 +59,7 @@ const QuestionListItem: React.SFC<IQuestionListItemProps> = ({
         <FooterRight>
           <div>
             <ProfileLink {...user}>{user && user.nickname}</ProfileLink>
+            <Info>{formattedDate}</Info>
           </div>
           <CountContainer>
             <Count>

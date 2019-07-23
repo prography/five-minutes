@@ -11,7 +11,7 @@ import {
 } from '../../components';
 import { IQuestion } from '../../models/question';
 import { useDateFormat, useMarkdown } from '../../hooks';
-import { Header, Info, Date } from '../../containers/QuestionListItem/style';
+import { Header, Info } from '../../containers/QuestionListItem/style';
 import {
   Container,
   Subject,
@@ -45,6 +45,7 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
   content,
   comments,
   tags,
+  hits,
   createdAt,
   code,
   language,
@@ -96,9 +97,7 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
     <Container>
       <Header>
         <Subject>{subject}</Subject>
-        <Info>
-          <Date>{fmDate}</Date>
-        </Info>
+        <Info>조회수: {hits}</Info>
       </Header>
       <Divider light />
       <Body>
@@ -136,7 +135,8 @@ const QuestionView: React.SFC<IQuestionViewProps> = ({
                 </div>
               )}
             </ActionWrapper>
-            <ProfileBox {...user} />
+            <ProfileBox {...user} activeTime={fmDate} />
+
           </Footer>
         </BodyMain>
       </Body>

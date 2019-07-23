@@ -12,7 +12,7 @@ interface ProfilePhotoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const ProfilePhoto: React.SFC<ProfilePhotoProps> = ({
-  width = 36,
+  width = 40,
   src = profilephoto,
   userId,
   ...props
