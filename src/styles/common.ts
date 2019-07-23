@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { maxDevice, size } from '../utils/device';
 
 export const WithBackground = styled.div`
   width: 100%;
@@ -6,9 +7,12 @@ export const WithBackground = styled.div`
 
 export const PageLayout = styled.div`
   width: 100%;
-  padding: 1rem 10px;
+  padding: 1rem 5px;
 
   box-sizing: border-box;
+  @media ${maxDevice.tablet} {
+    padding: 0;
+  }
 `;
 export const LayoutWithSidebar = styled.div`
   width: 1400px;
@@ -19,13 +23,15 @@ export const LayoutWithSidebar = styled.div`
   justify-content: space-between;
 `;
 export const MainLayout = styled.div`
-  flex: 1 1 800px;
-  width: 800px;
-  min-width: 800px;
+  flex: 1 1 ${size.tablet}px;
+  width: ${size.tablet}px;
+  min-width: ${size.tablet}px;
   margin: auto;
-  @media screen and (max-width: 800px) {
-    width: 95%;
+  box-sizing: border-box;
+  @media ${maxDevice.tablet} {
+    width: 100%;
     min-width: 300px;
+    padding: 5px;
   }
 `;
 export const Sidebar = styled.div<{ left?: boolean }>`
@@ -60,3 +66,23 @@ export const Title = styled.h2`
 
   padding-left: 20px;
 `;
+
+export const MenuList = styled.ul`
+  min-width: 200px;
+  font-size: 16px;
+  list-style: none;
+  padding: 1rem 0px;
+`
+
+export const MenuItem = styled.li<{ isDivider?: boolean }>`
+  box-sizing: border-box;
+  width: 100%;
+  padding: 7px 25px;
+  ${props => !props.isDivider && (
+    `&:hover {
+      cursor: pointer;
+      color: ${props.theme.palette.primary.main};
+      transition: color 0.1s;
+    }`
+  )}
+`

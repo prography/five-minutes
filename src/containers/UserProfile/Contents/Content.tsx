@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import isEqual from 'lodash/isEqual';
 import uniqBy from 'lodash/uniqBy';
 import ContentList from './ContentList';
-import { List, Tab } from './style';
 import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../../../reducers';
 import { loadUserQuestions, loadUserComments } from '../../../actions/user';
@@ -51,12 +50,12 @@ const Content: React.SFC<IContentProps> = ({ currentTab }) => {
     comments_count: item.comments ? item.comments.length : 0,
   }));
   return (
-    <List>
+    <div>
       <div>
         <div>
-          <Tab selected>
+          <h2>
             {currentTab}: {count}
-          </Tab>
+          </h2>
         </div>
         <ContentList
           status={status}
@@ -65,7 +64,7 @@ const Content: React.SFC<IContentProps> = ({ currentTab }) => {
           hasNext={hasNext}
         />
       </div>
-    </List>
+    </div>
   );
 };
 

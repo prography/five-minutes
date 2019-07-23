@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { maxDevice } from '../../utils/device';
 
 export const Inner = styled.div`
   padding: 20px 30px;
@@ -7,8 +8,12 @@ export const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
 
-  max-width: 500px;
+  width: 500px;
   margin: auto;
+
+  @media ${maxDevice.laptop} {
+    width: 95%;
+  }
 `;
 // input 2개를 centering
 export const InputWrapper = styled.div<{ isLeft?: boolean }>`

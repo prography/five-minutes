@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import profilephoto from '../assets/ic_profilephoto.png';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ interface ProfilePhotoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const ProfilePhoto: React.SFC<ProfilePhotoProps> = ({
-  width = 40,
+  width = 32,
   src = profilephoto,
   userId,
   ...props
@@ -44,4 +44,4 @@ const ProfilePhoto: React.SFC<ProfilePhotoProps> = ({
   );
 };
 
-export default ProfilePhoto;
+export default memo(ProfilePhoto);

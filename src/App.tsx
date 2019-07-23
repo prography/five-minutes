@@ -9,6 +9,7 @@ import {
   ProtectedRoute,
   PrevLocation,
   LoadingBar,
+  ViewportChecker,
 } from './components';
 import { notifier } from './utils/renoti';
 import { IRootState } from './reducers';
@@ -35,36 +36,38 @@ class App extends Component<IAppProps> {
     }
     return (
       <Router history={history}>
-        <Header />
-        <PrevLocation>
-          <ScrollChecker history={history}>
-            <Suspense fallback={<LoadingBar />}>
-              <PageLayout>
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <ProtectedRoute exact path="/ask" component={Ask} />
-                  <ProtectedRoute
-                    exact
-                    path="/question/:questionId/edit"
-                    component={QuestionEdit}
-                  />
-                  <Route
-                    exact
-                    path="/question/:questionId"
-                    component={Question}
-                  />
-                  <ProtectedRoute
-                    path="/profile/:userId/edit"
-                    component={ProfileEdit}
-                  />
-                  <Route path="/profile/:userId" component={Profile} />
-                  <Route path="/search" component={Search} />
-                  <Route path="/tagged/:tag" component={TagSearch} />
-                </Switch>
-              </PageLayout>
-            </Suspense>
-          </ScrollChecker>
-        </PrevLocation>
+        <ViewportChecker>
+          <Header />
+          <PrevLocation>
+            <ScrollChecker history={history}>
+              <Suspense fallback={<LoadingBar />}>
+                <PageLayout>
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <ProtectedRoute exact path="/ask" component={Ask} />
+                    <ProtectedRoute
+                      exact
+                      path="/question/:questionId/edit"
+                      component={QuestionEdit}
+                    />
+                    <Route
+                      exact
+                      path="/question/:questionId"
+                      component={Question}
+                    />
+                    <ProtectedRoute
+                      path="/profile/:userId/edit"
+                      component={ProfileEdit}
+                    />
+                    <Route path="/profile/:userId" component={Profile} />
+                    <Route path="/search" component={Search} />
+                    <Route path="/tagged/:tag" component={TagSearch} />
+                  </Switch>
+                </PageLayout>
+              </Suspense>
+            </ScrollChecker>
+          </PrevLocation>
+        </ViewportChecker>
         <Modal />
         <NotiPortal notifier={notifier} />
       </Router>

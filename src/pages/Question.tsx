@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2),
       padding: theme.spacing(3),
       boxShadow: '1px 1px 3px 1px rgba(0, 0, 0, .1)',
-  
+
     },
     box: {
       width: '100%',
       boxSizing: 'border-box',
       backgroundColor: '#fff',
-      padding: '30px',
+      padding: theme.spacing(1.5),
     },
   }),
 );

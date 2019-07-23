@@ -9,7 +9,7 @@ import TIPS from './Tips';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
-      width: 380,
+      maxWidth: '100%',
       padding: theme.spacing(2),
     },
   }),

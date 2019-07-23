@@ -25,6 +25,7 @@ import ScrollChecker from './ScrollChecker';
 import Search from './Search';
 import Tag from './Tag';
 import TagList from './TagList';
+import ViewportChecker from './ViewportChecker';
 
 export {
   AntSwitch,
@@ -54,4 +55,5 @@ export {
   Search,
   Tag,
   TagList,
+  ViewportChecker
 };

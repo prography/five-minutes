@@ -1,22 +1,22 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Paper, { PaperProps } from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper';
 import InputBase, { InputBaseProps } from '@material-ui/core/InputBase';
 import { MdSearch } from 'react-icons/md';
-import { history, questionQueryHelper } from '../utils/history';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: '2px 4px',
+      width: '100%',
+      fontSize: '1rem',
       alignItems: 'center',
       boxSizing: 'border-box',
       boxShadow: '0 0 0 0',
     },
     input: {
+      fontSize: 'inherit',
       borderRadius: 5,
-      padding: '5px 10px',
+      padding: '0.25rem 0.75rem',
       paddingLeft: 35,
       width: '100%',
       transition: 'background-color 0.1s ease-in-out',
@@ -38,66 +38,42 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     icon: {
       position: 'absolute',
-      top: 8,
+      top: '50%',
       left: 5,
+      transform: 'translateY(-55%)',
       color: theme.palette.grey[500],
       zIndex: 2,
     },
   }),
 );
-
-interface IInputProps extends RouteComponentProps {
-  paperProps?: PaperProps;
-  inputProps?: InputBaseProps;
+type IDesktopSearchProps = InputBaseProps & {
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
-const Search: React.SFC<IInputProps> = ({
-  location,
-  paperProps = {},
-  inputProps = {},
+const DesktopSearch: React.SFC<IDesktopSearchProps> = ({
+  handleSubmit,
+  ...props
 }) => {
   const classes = useStyles();
   const [focused, setFocused] = useState(false);
-  const [search, setSearch] = useState(
-    questionQueryHelper.searchQuery.subject || '',
-  );
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
-    [],
-  );
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    history.push(
-      `/search?${questionQueryHelper.makeQuery({ subject: search })}`,
-    );
-  };
-
-  useEffect(() => {
-    setSearch(questionQueryHelper.searchQuery.subject || '');
-  }, [location.search]);
-
   return (
     <Paper
       className={classes.root}
       elevation={focused ? 4 : 1}
       square
-      {...paperProps}
     >
-      <form className={classes.form} onSubmit={handleSearch}>
-        <MdSearch size={25} className={classes.icon} />
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <MdSearch size={20} className={classes.icon} />
         <InputBase
           fullWidth
-          value={search}
-          onChange={handleChange}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className={`${classes.input} ${focused && classes.focusedinput}`}
           placeholder="질문을 검색해주세요."
-          {...inputProps}
+          {...props}
         />
       </form>
     </Paper>
   );
 };
 
-export default withRouter(Search);
+export default DesktopSearch;

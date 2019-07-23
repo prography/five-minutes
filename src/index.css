@@ -12,3 +12,11 @@ pre, code, kbd, samp {
 p {
   line-height: 1.7rem;
 }
+
+a:hover {
+  cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
+}

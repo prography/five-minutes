@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { maxDevice } from '../../utils/device';
 export const Container = styled.div`
   font-size: 1rem;
   line-height: 1.5;
@@ -16,10 +17,13 @@ export const BodySide = styled.div`
   text-align: center;
 
   flex: 0 0 80px;
+  @media ${maxDevice.laptop} {
+    flex: 0 0 50px;
+  }
 `;
 export const BodyMain = styled.div`
   flex: 1;
-  max-width: calc(100% - 80px);
+  min-width: calc(100% - 80px);
 `;
 export const Content = styled.div`
   p {

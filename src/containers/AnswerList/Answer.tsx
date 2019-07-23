@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2),
       padding: theme.spacing(3, 0.5),
       boxShadow: '0 0 0 0',
+      boxSizing: 'border-box',
     },
   }),
 );
@@ -51,7 +52,7 @@ const Answer: React.SFC<IAnswerProps> = ({
   dislikedUsers = [],
   createdAt,
   isMyQuestion = false,
-  handleResolve = () => {},
+  handleResolve = () => { },
 }) => {
   // 답변의 코드라인 설정
   const [code, setCode] = useState(codestring || '');
@@ -126,20 +127,18 @@ const Answer: React.SFC<IAnswerProps> = ({
             isResolved
               ? '채택된 답변입니다.'
               : isMyQuestion
-              ? '답변을 채택합니다.'
-              : '아직 채택되지 않은 답변입니다.'
+                ? '답변을 채택합니다.'
+                : '아직 채택되지 않은 답변입니다.'
           }
           aria-label="Resolve"
         >
-          <div>
-            <ResolveCheck
-              resolve={isResolved}
-              onClick={isMyQuestion ? onResolveClick : undefined}
-              disabled={!isMyQuestion}
-            >
-              <MdCheckCircle size={30} />
-            </ResolveCheck>
-          </div>
+          <ResolveCheck
+            resolve={isResolved}
+            onClick={isMyQuestion ? onResolveClick : undefined}
+            disabled={!isMyQuestion}
+          >
+            <MdCheckCircle size={30} />
+          </ResolveCheck>
         </Tooltip>
       </UserInfo>
       <AnswerItem>

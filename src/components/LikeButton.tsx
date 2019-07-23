@@ -23,7 +23,7 @@ const Button = styled.button`
 `;
 
 const LikeOrDislike = styled(Button) <{ likeType: LikeType; active?: boolean }>`
-  font-size: 1em;
+  font-size: 1.2rem;
   ${props => props.active && `color: ${COLOR[props.likeType].active};`}
   &:hover {
     color: ${props => COLOR[props.likeType].hover};
@@ -46,9 +46,9 @@ const LikeButton: React.SFC<ILikeButtonProps> = ({
   return (
     <LikeOrDislike likeType={likeType} active={active} {...buttonProps}>
       {likeType === 'like' ? (
-        <MdThumbUp size={24} />
+        <MdThumbUp fontSize="inherit" />
       ) : (
-          <MdThumbDown size={24} />
+          <MdThumbDown fontSize="inherit" />
         )}
       {typeof count !== 'undefined' && <div>{count}</div>}
     </LikeOrDislike>

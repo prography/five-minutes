@@ -8,6 +8,7 @@ import { openModal, closeModal } from '../../actions/modal';
 import { ModalType } from '../../models/modal';
 import { IRootState } from '../../reducers';
 import { Inner } from './style';
+import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
 
 const MODAL_TYPES = {
   signin: Signin,
@@ -19,7 +20,16 @@ interface IModalProps {
   modalType: ModalType | null;
 }
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    paper: {
+      margin: 0,
+    },
+  }),
+);
+
 const Modal: React.SFC<IModalProps> = ({ dispatch, modalType }) => {
+  const classes = useStyles();
   const CurrentModal = modalType ? MODAL_TYPES[modalType] : null;
   const onOpen = useCallback(
     (type: ModalType) => {
@@ -34,7 +44,7 @@ const Modal: React.SFC<IModalProps> = ({ dispatch, modalType }) => {
     return null;
   }
   return (
-    <Dialog open={true} onClose={onClose}>
+    <Dialog open={true} onClose={onClose} maxWidth="lg" classes={{ paper: classes.paper }}>
       <Inner>
         <CurrentModal openModal={onOpen} closeModal={onClose} />
       </Inner>

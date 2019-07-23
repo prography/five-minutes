@@ -25,7 +25,7 @@ const Contents: React.SFC<IContentsProps> = ({ currentTab }) => {
   }, []);
   return (
     <St.Container>
-      <St.Side>
+      <St.Nav>
         <St.Tabs>
           {TABS.map(tab => (
             <St.Tab
@@ -37,10 +37,10 @@ const Contents: React.SFC<IContentsProps> = ({ currentTab }) => {
             </St.Tab>
           ))}
         </St.Tabs>
-      </St.Side>
-      <St.Content>
+      </St.Nav>
+      <div>
         <Content currentTab={validTab} />
-      </St.Content>
+      </div>
     </St.Container>
   );
 };

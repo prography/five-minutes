@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BodySide, BodyMain } from '../QuestionView/style';
 
 /* Answer와 User의 간격 맞춰야함 */
 
@@ -6,18 +7,16 @@ export const UserInfo = styled.div`
   display: flex;
   align-items: center;
 `;
-export const AnswerLeft = styled.div`
-  flex: 0 0 80px;
-  text-align: center;
-`;
-export const AnswerRight = styled.div`
-  flex: 1 1;
-  padding: 0 10px;
-  max-width: calc(100% - 100px);
+export const AnswerLeft = styled(BodySide)``;
+export const AnswerRight = styled(BodyMain)`
+  flex: 1 1 calc(100% - 160px);
+  min-width: calc(100% - 160px);
+  box-sizing: border-box;
 `;
 export const ResolveCheck = styled.button<{ resolve?: boolean }>`
-  flex: 0 0 80px;
-  text-align: center;
+  width: 80px;
+  padding: 0;
+  text-align: right;
   color: ${props => props.resolve ? props.theme.palette.secondary.main : props.theme.palette.gray};
 
   &:hover {

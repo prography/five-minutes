@@ -1,44 +1,46 @@
-import React, { useCallback } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import React, { memo, useCallback, useContext, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import isEqual from 'lodash/isEqual';
+import ViewportContext from '../../context/ViewportChecker';
 import { CustomLink, Search, Logo, ProfileMenu } from '../../components';
 import { openModal } from '../../actions/modal';
 import { Container, LogoAdjust, Menu } from './style';
 import { IRootState } from '../../reducers';
-import { IUser } from '../../models/user';
 import { logout } from '../../actions/auth';
 
-export interface IHeaderProps {
-  dispatch: Dispatch;
-  user: IUser;
-  isLoggedIn: boolean;
-}
-const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
+const Header: React.SFC = () => {
+  const viewport = useContext(ViewportContext);
+
+  const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector((state: IRootState) => ({
+    isLoggedIn: state.auth.me.isLoggedIn,
+    user: state.auth.me.user,
+  }), isEqual);
+
   const handleLogout = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
+
+  const isMobile = useMemo(() => viewport !== 'laptop', [viewport]);
   return (
     <Container>
-      <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <LogoAdjust>
-            <CustomLink to="/">
-              <Logo />
-            </CustomLink>
-          </LogoAdjust>
-        </Grid>
+      <LogoAdjust>
+        <CustomLink to="/">
+          <Logo width={isMobile ? 120 : 200} />
+        </CustomLink>
+      </LogoAdjust>
+      <Grid container alignItems="center">
         <Grid
           item
           container
-          xs={9}
-          spacing={2}
+          xs="auto"
           justify="flex-end"
           alignItems="center"
         >
           <Grid item>
-            <Search paperProps={{ style: { width: '100%' } }} />
+            <Search isMobile={isMobile} />
           </Grid>
           <Grid item>
             {isLoggedIn ? (
@@ -56,21 +58,21 @@ const Header: React.SFC<IHeaderProps> = ({ dispatch, user, isLoggedIn }) => {
                 </>
               )}
           </Grid>
-          <Grid item>
-            <CustomLink to="/ask">
-              <Button fullWidth variant="contained" color="primary">
-                코드 올리기
-              </Button>
-            </CustomLink>
-          </Grid>
+          {
+            isLoggedIn && !isMobile && (
+              <Grid item>
+                <CustomLink to="/ask">
+                  <Button fullWidth variant="contained" color="primary">
+                    코드 올리기
+                  </Button>
+                </CustomLink>
+              </Grid>
+            )
+          }
         </Grid>
       </Grid>
     </Container>
   );
 };
 
-const mapStateToProps = (state: IRootState) => ({
-  isLoggedIn: state.auth.me.isLoggedIn,
-  user: state.auth.me.user,
-});
-export default connect(mapStateToProps)(Header);
+export default memo(Header);
