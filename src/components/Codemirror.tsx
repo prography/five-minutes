@@ -45,8 +45,8 @@ const Codemirror: React.SFC<ICodemirrorProps> = ({
       const modeOption = info.mime
         ? info.mime
         : Array.isArray(info.mimes)
-          ? info.mimes[0]
-          : '';
+        ? info.mimes[0]
+        : '';
       if (!info.mode || info.mode === 'null') return; // Plain Text
       import(`codemirror/mode/${info.mode}/${info.mode}`).then(() => {
         if (mirror.current) {
@@ -61,7 +61,7 @@ const Codemirror: React.SFC<ICodemirrorProps> = ({
     if (mirror.current) {
       mirror.current.setValue(options.value);
     }
-  }, [options.value])
+  }, [options.value]);
   return (
     <Wrapper>
       <Textarea ref={textarea} value={options.value} readOnly />
