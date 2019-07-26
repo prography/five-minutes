@@ -1,10 +1,10 @@
 import { IOptionValue } from '../models/select';
 
-export const makeSelectable = (
+export const makeSelectable = <T = string>(
   items: any[],
-  value?: string,
+  value?: T,
   label = value,
-): IOptionValue[] => {
+): IOptionValue<T>[] => {
   const selectable = items.map(item => {
     if (value && label) {
       return {

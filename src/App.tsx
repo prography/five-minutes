@@ -24,6 +24,7 @@ const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
 const Search = lazy(() => import('./pages/Search'));
 const TagSearch = lazy(() => import('./pages/TagSearch'));
 const Event = lazy(() => import('./pages/Event'));
+const Honor = lazy(() => import('./pages/Honor'));
 
 export interface IAppProps {
   meStatus: Status;
@@ -46,6 +47,7 @@ class App extends Component<IAppProps> {
                   <Switch>
                     <Route exact path="/" component={Home} />
                     <ProtectedRoute exact path="/event" component={Event} />
+                    <Route exact path="/honor" component={Honor} />
                     <ProtectedRoute exact path="/ask" component={Ask} />
                     <ProtectedRoute
                       exact

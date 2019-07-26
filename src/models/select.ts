@@ -1,5 +1,5 @@
-export interface IOptionValue {
-  label: string;
-  value: string;
+export interface IOptionValue<T = string> {
+  label: T;
+  value: T;
   index?: number;
 }
