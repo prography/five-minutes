@@ -17,20 +17,20 @@ const TagSelect: React.SFC<ITagSelectProps> = ({ tags, setTags, ...props }) => {
   const handleCreate = useCallback(
     (newValue: ValueType<IOptionValue>) => {
       if (!newValue || !Array.isArray(newValue)) {
-        return;
+        return setTags([]);
       }
       let error = '';
-      const newTags: string[] = newValue.map(
-        (value: IOptionValue) => value.value,
-      ).filter(tag => {
-        try {
-          isTag.validateSync(tag);
-          return true;
-        } catch (err) {
-          error = err.message;
-          return false;
-        }
-      });
+      const newTags: string[] = newValue
+        .map((value: IOptionValue) => value.value)
+        .filter(tag => {
+          try {
+            isTag.validateSync(tag);
+            return true;
+          } catch (err) {
+            error = err.message;
+            return false;
+          }
+        });
       if (error) {
         notifier.notify({
           type: 'error',
