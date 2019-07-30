@@ -3,7 +3,7 @@ import TextField, { TextFieldProps } from '@material-ui/core/TextField';
 import Spinner from '@material-ui/core/CircularProgress';
 import { Divider } from '../../components';
 import useMarkdown from '../../hooks/useMarkdown';
-import { EditorContainer, Loading } from './styles';
+import { EditorContainer, Loading, Preview } from './styles';
 import { usePrevious } from '../../hooks';
 
 type EditorProps = TextFieldProps & { isLoading?: boolean };
@@ -31,9 +31,9 @@ const Editor: React.SFC<EditorProps> = ({ value = '', variant, isLoading = false
         />
       </EditorContainer>
       <Divider withMargin />
-      <div>
+      <Preview>
         <div dangerouslySetInnerHTML={{ __html: markdownValue }} />
-      </div>
+      </Preview>
     </>
   );
 };

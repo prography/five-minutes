@@ -37,6 +37,10 @@ export const EditorContainer = styled.div`
   }
 `;
 
+export const Preview = styled.div`
+  font-weight: normal;
+`
+
 export const Loading = styled.div`
   position: absolute;
   top: 0;
