@@ -8,7 +8,7 @@ import { openModal, closeModal } from '../../actions/modal';
 import { ModalType } from '../../models/modal';
 import { IRootState } from '../../reducers';
 import { Inner } from './style';
-import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 const MODAL_TYPES = {
   signin: Signin,

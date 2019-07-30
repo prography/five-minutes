@@ -26,7 +26,7 @@ import { addComment } from '../../actions/question';
 import { answerUploader } from '../../utils/cloudinary';
 import { notifier } from '../../utils/renoti';
 
-interface IAnswerFormProps extends IQuestion {}
+interface IAnswerFormProps extends IQuestion { }
 
 const getCurrentSelection = (ref: HTMLTextAreaElement) => {
   return ref.selectionEnd ? ref.selectionEnd : ref.value.length;
@@ -298,7 +298,7 @@ const AnswerForm: React.SFC<IAnswerFormProps> = ({ id, code, language }) => {
       <ImageUploader ref={imageUploader} onChange={handleImageChange} />
       <EditorWithToolbar>
         {!!error && <Message type="error">{error}</Message>}
-        <Toolbar commandTypes={COMMAND_TYPES} execCommand={execCommand} />
+        <Toolbar commandTypes={COMMAND_TYPES} execCommand={execCommand} editor={editorRef} />
         <Editor
           value={answer}
           inputRef={setEditorRef}

@@ -87,12 +87,12 @@ const QuestionForm: React.SFC<QuestionForm> = ({
 
   // 질문 content
   const uploaderRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLInputElement>(null);
-  const { handleFormat, handleLink, setSelection, getCurrentSelection } = useCommand(contentRef.current, setContent);
+  const [contentRef, setContentRef] = useState<HTMLTextAreaElement>();
+  const { handleFormat, handleLink, setSelection, getCurrentSelection } = useCommand(contentRef, setContent);
   const handleImageUpload = useCallback(
     async (err, url?: string) => {
-      if (contentRef.current && url) {
-        const pos = getCurrentSelection(contentRef.current);
+      if (contentRef && url) {
+        const pos = getCurrentSelection(contentRef);
         const format = 'image';
         setContent(
           prev => `${prev.slice(0, pos)}![${format}](${url}) ${prev.slice(pos)}`,
@@ -100,7 +100,7 @@ const QuestionForm: React.SFC<QuestionForm> = ({
         setSelection([pos + 2, pos + format.length + 2]);
       }
     },
-    [setContent, setSelection, getCurrentSelection],
+    [contentRef, setContent, setSelection, getCurrentSelection],
   );
   const [openImageUploader, handleImageChange, isLoading] = useImageUploader(
     uploaderRef,
@@ -172,13 +172,13 @@ const QuestionForm: React.SFC<QuestionForm> = ({
         error={errors.content}
       >
         <ImageUploader ref={uploaderRef} onChange={handleImageChange} />
-        <Toolbar commandTypes={COMMAND_TYPES} execCommand={handleCommand} />
+        <Toolbar commandTypes={COMMAND_TYPES} execCommand={handleCommand} editor={contentRef} />
         <Editor
           value={content}
           onChange={handleContentChange}
           onFocus={initError}
           isLoading={isLoading}
-          inputRef={contentRef}
+          inputRef={setContentRef}
         />
       </Question>
       <div ref={codePoint} />

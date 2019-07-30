@@ -5,4 +5,6 @@ export const KEYMAP: { [key: number]: string } = {
   38: 'UP',
   40: 'DOWN',
   191: 'SLASH',
+  66: 'B',
+  73: 'I'
 };
